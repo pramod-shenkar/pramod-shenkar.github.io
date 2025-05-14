@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pramod Shenkar - Golang & Blockchain Developer</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <!-- AOS (Animate On Scroll) CDN -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a0f1f; /* Deep dark blue */
+            --secondary-bg: #101830; /* Slightly lighter dark blue for cards */
+            --accent-color1: #00e0ff; /* Bright cyan/electric blue */
+            --accent-color2: #2cff98; /* Vibrant green */
+            --text-color: #e0e0e0; /* Light grey for text */
+            --text-muted-color: #a0a0b0; /* Muted text */
+            --border-color: #2a3045; /* Border color for elements */
+            --font-primary: 'Roboto', sans-serif;
+            --font-display: 'Orbitron', sans-serif; /* For headings, techy feel */
+            --font-code: 'Source Code Pro', monospace;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            font-family: var(--font-primary);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll from AOS */
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: rgba(10, 15, 31, 0.85); /* Semi-transparent dark bg */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.3s ease;
+        }
+        .navbar-brand, .nav-link {
+            color: var(--accent-color1) !important;
+            font-family: var(--font-display);
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover, .navbar-brand:hover {
+            color: var(--accent-color2) !important;
+        }
+        .navbar-toggler {
+            border-color: var(--accent-color1);
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 224, 255, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
+        /* --- Hero Section --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, #0d152a 100%);
+        }
+        #hero::before { /* Subtle animated background lines */
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                linear-gradient(45deg, var(--border-color) 25%, transparent 25%),
+                linear-gradient(-45deg, var(--border-color) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, var(--border-color) 75%),
+                linear-gradient(-45deg, transparent 75%, var(--border-color) 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            opacity: 0.1;
+            animation: moveLines 60s linear infinite;
+        }
+        @keyframes moveLines {
+            0% { background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
+            100% { background-position: 400px 400px, 400px 410px, 410px 390px, 390px 400px; }
+        }
+
+        .hero-content {
+            z-index: 1;
+            position: relative;
+        }
+        #hero h1 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--accent-color1);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px var(--accent-color1);
+        }
+        #hero h2 {
+            font-size: 1.8rem;
+            color: var(--accent-color2);
+            margin-bottom: 1.5rem;
+            font-family: var(--font-primary);
+            font-weight: 300;
+        }
+        #hero .lead {
+            font-size: 1.1rem;
+            color: var(--text-muted-color);
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+        }
+        .social-icons a {
+            color: var(--text-color);
+            font-size: 1.8rem;
+            margin: 0 0.75rem;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+        .social-icons a:hover {
+            color: var(--accent-color1);
+            transform: scale(1.2);
+        }
+
+        /* --- Section Styling --- */
+        section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            color: var(--accent-color1);
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .section-title::after { /* Underline effect */
+            content: '';
+            position: absolute;
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color2);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* --- About Section --- */
+        #about p {
+            font-size: 1.1rem;
+            color: var(--text-muted-color);
+            text-align: justify;
+        }
+
+        /* --- Skills Section --- */
+        .skill-category {
+            margin-bottom: 30px;
+        }
+        .skill-category h4 {
+            color: var(--accent-color2);
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            border-left: 3px solid var(--accent-color2);
+            padding-left: 10px;
+        }
+        .skill-tag {
+            background-color: var(--secondary-bg);
+            color: var(--text-color);
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px; /* Pill shape */
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            display: inline-block;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        }
+        .skill-tag:hover {
+            background-color: var(--accent-color1);
+            color: var(--primary-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 224, 255, 0.3);
+        }
+
+        /* --- Experience & Projects Section --- */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline::before { /* Central timeline bar */
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--border-color);
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+        }
+        .timeline-item::after { /* Clearfix */
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent-color1);
+            color: var(--primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(-50%);
+            z-index: 1;
+            font-size: 1.5rem;
+            border: 3px solid var(--primary-bg);
+        }
+        .timeline-content {
+            width: 45%;
+            padding: 25px;
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+            float: left;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            float: right;
+            text-align: left;
+        }
+        .timeline-content h3 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+        .timeline-content h4 {
+            color: var(--accent-color2);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .timeline-content .date {
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+        .timeline-content p, .timeline-content ul {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            margin-bottom: 10px;
+        }
+        .timeline-content ul {
+            padding-left: 20px;
+        }
+        .timeline-content ul li::marker {
+            color: var(--accent-color1);
+        }
+        .tech-stack-list {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted-color);
+        }
+        .tech-stack-list strong {
+            color: var(--accent-color2);
+        }
+
+        /* --- Education & Certifications --- */
+        .card-custom {
+            background-color: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 224, 255, 0.1);
+        }
+        .card-custom h5 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+        }
+        .card-custom p {
+            color: var(--text-muted-color);
+            font-size: 0.95rem;
+        }
+
+        /* --- Contact Section --- */
+        #contact .contact-info i {
+            color: var(--accent-color1);
+            font-size: 1.5rem;
+            margin-right: 15px;
+            width: 30px; /* Align icons */
+            text-align: center;
+        }
+        #contact .contact-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        #contact .contact-info a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        #contact .contact-info a:hover {
+            color: var(--accent-color1);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-muted-color);
+            padding: 30px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+        footer .social-icons a {
+            font-size: 1.5rem;
+        }
+
+        /* --- Responsive Adjustments for Timeline --- */
+        @media (max-width: 768px) {
+            #hero h1 { font-size: 2.5rem; }
+            #hero h2 { font-size: 1.5rem; }
+
+            .timeline::before {
+                left: 25px; /* Move line to the left */
+            }
+            .timeline-item .timeline-content {
+                width: calc(100% - 70px); /* Adjust width */
+                float: right; /* All content to the right */
+                text-align: left; /* Align text left */
+            }
+            .timeline-item:nth-child(odd) .timeline-content {
+                float: right;
+                text-align: left;
+            }
+            .timeline-icon {
+                left: 25px; /* Align icon with the line */
+            }
+        }
+
+        /* Scrollbar styling (optional, for a more themed look) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color1);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color2);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#">{{ personalInfo.name }}</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section id="hero">
+            <div class="container hero-content">
+                <h1 data-aos="fade-down" data-aos-delay="200">{{ personalInfo.name }}</h1>
+                <h2 data-aos="fade-up" data-aos-delay="400">{{ personalInfo.title }}</h2>
+                <p class="lead" data-aos="fade-up" data-aos-delay="600">{{ personalInfo.tagline }}</p>
+                <div class="social-icons" data-aos="fade-up" data-aos-delay="800">
+                    <a :href="personalInfo.linkedin" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a :href="'mailto:' + personalInfo.email" title="Email"><i class="fas fa-envelope"></i></a>
+                    <!-- Add GitHub if available -->
+                    <!-- <a href="#" target="_blank" title="GitHub"><i class="fab fa-github"></i></a> -->
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="container">
+            <h2 class="section-title" data-aos="fade-up">About Me</h2>
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <p data-aos="fade-up" data-aos-delay="200" v-html="aboutMe"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="container">
+            <h2 class="section-title" data-aos="fade-up">Skills</h2>
+            <div v-for="(category, index) in skills" :key="index" class="skill-category" data-aos="fade-up" :data-aos-delay="100 * index">
+                <h4>{{ category.name }}</h4>
+                <div>
+                    <span v-for="skill in category.items" :key="skill" class="skill-tag">{{ skill }}</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="container">
+            <h2 class="section-title" data-aos="fade-up">Experience</h2>
+            <div class="timeline">
+                <div v-for="(job, index) in experience" :key="index" class="timeline-item" data-aos="fade-up" :data-aos-delay="100 * index">
+                    <div class="timeline-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>{{ job.title }}</h3>
+                        <h4>{{ job.company }}</h4>
+                        <span class="date">{{ job.period }}</span>
+                        <p v-if="job.project" class="font-weight-bold">Project: {{ job.project }}</p>
+                        <ul>
+                            <li v-for="point in job.responsibilities" :key="point">{{ point }}</li>
+                        </ul>
+                        <div v-if="job.achievements && job.achievements.length > 0" class="mt-3">
+                            <strong>Key Achievements:</strong>
+                            <ul>
+                                <li v-for="achievement in job.achievements" :key="achievement">{{ achievement }}</li>
+                            </ul>
+                        </div>
+                        <div v-if="job.technologies" class="tech-stack-list">
+                            <strong>Technologies:</strong> {{ job.technologies.join(', ') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="container">
+            <h2 class="section-title" data-aos="fade-up">Personal Projects</h2>
+            <div class="timeline">
+                 <div v-for="(project, index) in projects" :key="index" class="timeline-item" data-aos="fade-up" :data-aos-delay="100 * index">
+                    <div class="timeline-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h3>{{ project.name }}</h3>
+                        <span class="date">{{ project.period }}</span>
+                        <ul>
+                            <li v-for="detail in project.details" :key="detail">{{ detail }}</li>
+                        </ul>
+                         <div v-if="project.technologies" class="tech-stack-list">
+                            <strong>Technologies:</strong> {{ project.technologies.join(', ') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="container">
+            <h2 class="section-title" data-aos="fade-up">Education</h2>
+            <div class="row">
+                <div v-for="(edu, index) in education" :key="index" class="col-md-6 mx-auto" data-aos="fade-up" :data-aos-delay="100 * index">
+                    <div class="card-custom">
+                        <h5>{{ edu.degree }}</h5>
+                        <p class="font-weight-bold">{{ edu.institution }}</p>
+                        <p>{{ edu.period }}</p>
+                        <p><strong>Result:</strong> {{ edu.result }}</p>
+                        <ul>
+                            <li v-for="point in edu.highlights" :key="point">{{ point }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section id="certifications" class="container">
+            <h2 class="section-title" data-aos="fade-up">Certifications</h2>
+            <div class="row">
+                <div v-for="(cert, index) in certifications" :key="index" class="col-md-6" data-aos="fade-up" :data-aos-delay="100 * index">
+                     <div class="card-custom">
+                        <h5>{{ cert.name }}</h5>
+                        <p><em>{{ cert.issuer }}</em></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container">
+            <h2 class="section-title" data-aos="fade-up">Get In Touch</h2>
+            <div class="row">
+                <div class="col-md-8 mx-auto text-center">
+                    <p data-aos="fade-up" data-aos-delay="100">I'm always open to discussing new projects, creative ideas, or opportunities to be part of something exciting. Feel free to reach out!</p>
+                    <div class="contact-info mt-4">
+                        <p data-aos="fade-up" data-aos-delay="200"><i class="fas fa-map-marker-alt"></i> {{ personalInfo.address }}</p>
+                        <p data-aos="fade-up" data-aos-delay="300"><i class="fas fa-phone"></i> <a :href="'tel:' + personalInfo.phone">{{ personalInfo.phone }}</a></p>
+                        <p data-aos="fade-up" data-aos-delay="400"><i class="fas fa-envelope"></i> <a :href="'mailto:' + personalInfo.email">{{ personalInfo.email }}</a></p>
+                        <p data-aos="fade-up" data-aos-delay="500"><i class="fab fa-linkedin"></i> <a :href="personalInfo.linkedin" target="_blank">{{ personalInfo.linkedin.replace('https://www.','') }}</a></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="social-icons mb-2">
+                    <a :href="personalInfo.linkedin" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a :href="'mailto:' + personalInfo.email" title="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+                <p>&copy; {{ new Date().getFullYear() }} {{ personalInfo.name }}. All Rights Reserved.</p>
+                <p><em>"{{ personalInfo.hobbyQuote }}"</em></p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Vue.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <!-- jQuery and Popper.js, then Bootstrap JS (for Navbar toggle) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- AOS JS CDN -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                personalInfo: {
+                    name: "Pramod Shenkar",
+                    title: "Golang & Blockchain Developer",
+                    tagline: "Experienced software developer specializing in distributed systems, Golang, and Blockchain technologies, passionate about scalability, performance, and innovation.",
+                    address: "At Post Akole, Ahmadnagar, Maharashtra, 422601",
+                    phone: "+91 9139555224",
+                    email: "pramodshenkar2210@gmail.com",
+                    linkedin: "https://www.linkedin.com/in/pramod-shenkar-golang-dev",
+                    hobbyQuote: "An artistic introvert who likes to spend time with nature & novels." // From Hobbies
+                },
+                aboutMe: `I am an experienced software developer with over <strong>4+ years of experience</strong> designing and developing distributed systems while
+                          keeping scalability and performance in mind. I love to contribute to all phases of the development lifecycle.
+                          I am eager to maximize my knowledge while learning new technologies and contributing to an organization's success.
+                          My core expertise lies in <strong>Golang development</strong>, with a strong focus on <strong>Blockchain technologies</strong> including Ethereum and Hyperledger Fabric,
+                          as well as building robust <strong>microservices</strong> and <strong>REST/gRPC APIs</strong>.`,
+                skills: [
+                    {
+                        name: "Core & Languages",
+                        items: ["Golang"]
+                    },
+                    {
+                        name: "Blockchain & Tokenization",
+                        items: ["Ethereum", "Hyperledger Fabric", "Solidity", "Tokenization", "Go-ethereum", "HD-Wallet", "Fabric-gateway", "Truffle", "Ganache"]
+                    },
+                    {
+                        name: "Backend & Microservices",
+                        items: ["Microservices", "Distributed Systems", "REST-API", "gRPC", "GinGonic", "GoFiber", "GORM"]
+                    },
+                    {
+                        name: "Databases & Caching",
+                        items: ["MariaDB", "KeyDB", "CouchDB"]
+                    },
+                    {
+                        name: "Messaging & Streaming",
+                        items: ["Kafka", "IBM-Sarama"]
+                    },
+                    {
+                        name: "DevOps & Tools",
+                        items: ["Docker", "Kubernetes", "Helm", "MiniFabric", "TaskFiles", "Skaffold", "Cloud Code", "Kompose", "DevContainer"]
+                    },
+                    {
+                        name: "Protocols & Formats",
+                        items: ["Protocol Buffers", "JSON"]
+                    }
+                ],
+                experience: [
+                    {
+                        title: "Senior Associate Golang Developer",
+                        company: "National Payments Corporation of India (NPCI)",
+                        period: "March 2023 - Present",
+                        project: "eRupee (Retail-CBDC)",
+                        responsibilities: [
+                            "Contributed to the design and development of eRupee, a national-scale digital currency initiative by the Reserve Bank of India (RBI), impacting 5M users and 420K merchants.",
+                            "Implemented core modules such as indent, token issuance, and token redemption using a hexagonal architecture with modular, layered components and distributed tracing/logging capabilities.",
+                            "Engineered and optimized robust backend services using Golang, working extensively with frameworks like Gin-Gonic and Go-Fiber, integrated with gRPC and Kafka for inter-service communication.",
+                            "Leveraged Protocol Buffers, JSON, GORM for DB access, go-redis for KeyDB interactions, and IBM Sarama for Kafka producer/consumer group management.",
+                            "Developed smart contracts using Hyperledger Fabric's ContractAPI in Golang, configuring peer nodes, CouchDB, and Private Data Collections (PDC) via Minifabric.",
+                            "Extended GatewayClient with multi-peer support and exponential retry mechanisms to reduce transaction failure rates and improve network resilience.",
+                            "Led UAT and production deployment coordination with RBI and 10+ partner banks.",
+                            "Contributed to sanity testing, containerized local development using Docker, Kubernetes, DevContainer, Skaffold, Cloud Code, and Kompose.",
+                            "Mentored a pod of junior developers across the full SDLC on best practices in coding, testing, and system design."
+                        ],
+                        achievements: [
+                            "Increased system efficiency by 75% through concurrent processing and non-blocking request handling.",
+                            "Stabilized platform reliability by reducing L1-L2 support overhead and cutting production bugs by 40% through idempotency and rollback-safe flows."
+                        ],
+                        technologies: ["Golang", "Gin-Gonic", "Go-Fiber", "gRPC", "Kafka", "Protocol Buffers", "GORM", "KeyDB", "IBM Sarama", "Hyperledger Fabric", "CouchDB", "Minifabric", "Docker", "Kubernetes"]
+                    },
+                    {
+                        title: "Associate Backend Developer",
+                        company: "Maharashtra Knowledge Corporation Ltd (MKCL)",
+                        period: "April 2021 - February 2023",
+                        project: "ERA E-learning Platform",
+                        responsibilities: [
+                            "Contributed to the architecture and development of a scalable E-learning platform ERA serving over 1 million learners annually, using Golang, custom file system operations, and MariaDB.",
+                            "Focused on system performance, maintainability, and high-availability in real-world usage.",
+                            "Enhanced the framework by designing and integrating concurrent reporting modules, improving data processing and enabling faster, more reliable analytics.",
+                            "Introduced new capabilities across the platform to support feature-rich learning workflows.",
+                            "Developed a full-fledged simulation module from scratch, implementing REST APIs, structured logging, file storage handling, and caching logic."
+                        ],
+                        achievements: [
+                            "Achieved a 30% performance gain through targeted server-side cache optimization and reduced I/O overhead."
+                        ],
+                        technologies: ["Golang", "MariaDB", "REST APIs", "Custom File System Operations"]
+                    }
+                ],
+                projects: [
+                    {
+                        name: "Decentralized NFT Platform (Personal Project)",
+                        period: "Self-Initiated", // Or "March 2025 - Present" if that's accurate, though it's a future date. Assuming it's an ongoing or past personal project.
+                        details: [
+                            "Developed a Decentralized NFT platform with ERC-721 standards utilizing go-ethereum for Ethereum client interactions and IPFS for secure, immutable storage of NFT metadata and digital assets.",
+                            "Designed the system to enable efficient minting, transfer, and management of NFTs on the Ethereum blockchain.",
+                            "Built and deployed Solidity smart contracts for NFT minting and transaction logic using the Truffle framework.",
+                            "Deployed contracts to a local test network powered by Ganache, and utilized abigen to automatically generate Go client code for seamless interaction with the smart contracts.",
+                            "Implemented RestAPI as well as gRPC for communication between the backend and planned frontend, ensuring scalable and high-performance data transfer."
+                        ],
+                        technologies: ["Golang", "Ethereum", "ERC-721", "go-ethereum", "IPFS", "Solidity", "Truffle", "Ganache", "abigen", "REST APIs", "gRPC"]
+                    }
+                ],
+                education: [
+                    {
+                        degree: "Bachelor of Computer Engineering",
+                        institution: "Amrutvahini College of Engineering, Sangamner (Pune University)",
+                        period: "JULY 2016 - MAY 2020",
+                        result: "First Class with Distinction (SGPA: 7.99)",
+                        highlights: [
+                            "Along with academic, done exploration & seminars in the Blockchain domain.",
+                            "Completed major project in private blockchain on Government fund allocation and distribution system."
+                        ]
+                    }
+                ],
+                certifications: [
+                    {
+                        name: "Certified Hyperledger Fabric Developer",
+                        issuer: "Kerala Blockchain Academy"
+                    },
+                    {
+                        name: "Certified Kubernetes Application Developer",
+                        issuer: "Udemy"
+                    }
+                ]
+            },
+            mounted() {
+                AOS.init({
+                    duration: 800, // values from 0 to 3000, with step 50ms
+                    easing: 'ease-in-out-quad', // default easing for AOS animations
+                    once: true, // whether animation should happen only once - while scrolling down
+                });
+
+                // Smooth scrolling for navbar links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 70, // Adjust for fixed navbar height
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
