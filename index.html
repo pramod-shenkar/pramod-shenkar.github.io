@@ -11,7 +11,7 @@
     <!-- AOS (Animate On Scroll) CDN -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Roboto:wght@300;400;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-bg: #0a0f1f; /* Deep dark blue */
@@ -21,8 +21,9 @@
             --text-color: #e0e0e0; /* Light grey for text */
             --text-muted-color: #a0a0b0; /* Muted text */
             --border-color: #2a3045; /* Border color for elements */
-            --font-primary: 'Roboto', sans-serif;
-            --font-display: 'Orbitron', sans-serif; /* For headings, techy feel */
+            --font-primary: 'Roboto', sans-serif; /* Keep Roboto for body */
+            --font-secondary: 'Rajdhani', sans-serif; /* For less prominent headings/subtitles */
+            --font-display: 'Rajdhani', sans-serif; /* Changed font for headings */
             --font-code: 'Source Code Pro', monospace;
         }
 
@@ -66,23 +67,61 @@
             position: relative;
             overflow: hidden;
             padding: 2rem;
-            background: linear-gradient(135deg, var(--primary-bg) 0%, #0d152a 100%);
+            background: radial-gradient(ellipse at center, var(--secondary-bg) 0%, var(--primary-bg) 70%);
         }
-        #hero::before { /* Subtle animated background lines */
+
+        /* Digital rain / Matrix effect */
+        .matrix-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .matrix-bg span {
+            position: absolute;
+            font-family: var(--font-code);
+            color: var(--accent-color2);
+            opacity: 0;
+            animation: fall 10s linear infinite;
+            font-size: 0.8em; /* Smaller characters */
+        }
+        @keyframes fall {
+            0% { transform: translateY(-100px); opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        /* Subtle Hexagon Grid Overlay */
+        #hero::before {
             content: '';
             position: absolute;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background-image:
-                linear-gradient(45deg, var(--border-color) 25%, transparent 25%),
-                linear-gradient(-45deg, var(--border-color) 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, var(--border-color) 75%),
-                linear-gradient(-45deg, transparent 75%, var(--border-color) 75%);
-            background-size: 20px 20px;
-            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-            opacity: 0.1;
-            animation: moveLines 60s linear infinite;
+                repeating-linear-gradient(60deg, transparent, transparent 19px, var(--border-color) 19px, var(--border-color) 20px),
+                repeating-linear-gradient(120deg, transparent, transparent 19px, var(--border-color) 19px, var(--border-color) 20px);
+            background-size: 40px 40px;
+            opacity: 0.07;
+            z-index: 0;
+            animation: moveHexGrid 120s linear infinite;
         }
+        @keyframes moveHexGrid {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 200px; }
+        }
+
+        /* Floating Blocks/Nodes */
+        .floating-node {
+            position: absolute;
+            background-color: var(--accent-color1);
+            border-radius: 50%; /* Or square: border-radius: 3px; */
+            opacity: 0;
+            animation: floatNode 15s infinite ease-in-out;
+            box-shadow: 0 0 10px var(--accent-color1), 0 0 20px var(--accent-color1);
+        }
+        @keyframes floatNode { /* Complex animation for floating nodes */ /* ... (implementation below) ... */ }
+
         @keyframes moveLines {
             0% { background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
             100% { background-position: 400px 400px, 400px 410px, 410px 390px, 390px 400px; }
@@ -94,7 +133,7 @@
         }
         #hero h1 {
             font-family: var(--font-display);
-            font-size: 3rem;
+            font-size: 3.2rem; /* Adjusted size */
             color: var(--accent-color1);
             margin-bottom: 0.5rem;
             text-shadow: 0 0 10px var(--accent-color1);
@@ -103,8 +142,8 @@
             font-size: 1.8rem;
             color: var(--accent-color2);
             margin-bottom: 1.5rem;
-            font-family: var(--font-primary);
-            font-weight: 300;
+            font-family: var(--font-secondary); /* Use Rajdhani */
+            font-weight: 500;
         }
         #hero .lead {
             font-size: 1.1rem;
@@ -126,7 +165,20 @@
         /* --- Section Styling --- */
         section {
             padding: 80px 0;
-            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            /* "Blockchain" style border */
+            border-bottom: none; /* Remove simple border */
+        }
+        section:not(#hero):not(:last-of-type)::after { /* Section divider */
+            content: '';
+            position: absolute;
+            bottom: -2px; /* Overlap slightly if needed */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-color1), var(--accent-color2), var(--accent-color1), transparent);
+            opacity: 0.5;
         }
         section:last-of-type {
             border-bottom: none;
@@ -134,9 +186,13 @@
         .section-title {
             font-family: var(--font-display);
             color: var(--accent-color1);
-            text-align: center;
+            text-align: center; /* Keep centered */
             margin-bottom: 50px;
             font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase; /* Optional: Add uppercase for tech feel */
+            letter-spacing: 1px;
+
             position: relative;
             padding-bottom: 10px;
         }
@@ -150,6 +206,16 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--accent-color2);
+        }
+
+        /* Subtle background pattern for sections */
+        section:not(#hero) { /* Apply to all sections except hero */
+             background-image:
+                linear-gradient(to right, rgba(42, 48, 69, 0.2) 1px, transparent 1px), /* Fainter grid lines */
+                linear-gradient(to bottom, rgba(42, 48, 69, 0.2) 1px, transparent 1px);
+             background-size: 30px 30px; /* Larger grid */
+             z-index: 1;
         }
 
         /* --- About Section --- */
@@ -163,10 +229,11 @@
         .skill-category {
             margin-bottom: 30px;
         }
-        .skill-category h4 {
+        .skill-category h4 { /* Skill category titles */
             color: var(--accent-color2);
             font-family: var(--font-display);
             font-size: 1.3rem;
+            font-weight: 600; /* Keep weight */
             margin-bottom: 15px;
             border-left: 3px solid var(--accent-color2);
             padding-left: 10px;
@@ -176,18 +243,27 @@
             color: var(--text-color);
             padding: 8px 15px;
             margin: 5px;
-            border-radius: 20px; /* Pill shape */
+            border-radius: 4px; /* More angular, like a chip/token */
             font-family: var(--font-code);
-            font-size: 0.9rem;
-            display: inline-block;
+            font-size: 0.85rem; /* Slightly smaller for density */
+            display: inline-flex; align-items: center; /* For potential icons */
             border: 1px solid var(--border-color);
             transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
         }
-        .skill-tag:hover {
+        .skill-tag:hover { /* Hover effect for skills */
             background-color: var(--accent-color1);
             color: var(--primary-bg);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 224, 255, 0.3);
+        }
+        /* Special styling for blockchain skill tags */
+        .skill-category.blockchain-skills .skill-tag {
+            border-color: var(--accent-color1);
+            box-shadow: inset 0 0 5px rgba(0, 224, 255, 0.3);
+        }
+        .skill-category.blockchain-skills .skill-tag:hover {
+            background-color: var(--accent-color1);
+            box-shadow: 0 0 10px var(--accent-color1);
         }
 
         /* --- Experience & Projects Section --- */
@@ -202,7 +278,8 @@
             top: 0;
             bottom: 0;
             width: 4px;
-            background: var(--border-color);
+            /* "Chain link" style for timeline */
+            background: repeating-linear-gradient(var(--primary-bg), var(--primary-bg) 5px, var(--accent-color1) 5px, var(--accent-color1) 10px, var(--border-color) 10px, var(--border-color) 15px);
             transform: translateX(-50%);
         }
         .timeline-item {
@@ -220,28 +297,57 @@
             top: 0;
             width: 50px;
             height: 50px;
-            border-radius: 50%;
+            /* Hexagonal node shape */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
             background: var(--accent-color1);
             color: var(--primary-bg);
             display: flex;
             align-items: center;
             justify-content: center;
             transform: translateX(-50%);
-            z-index: 1;
-            font-size: 1.5rem;
-            border: 3px solid var(--primary-bg);
+            z-index: 2; /* Above timeline line */
+            font-size: 1.3rem;
+            border: 2px solid var(--primary-bg); /* Thinner border for clip-path */
+            box-shadow: 0 0 15px var(--accent-color1); /* Glow effect */
+            animation: pulseGlow 2s infinite ease-in-out; /* Subtle pulse */
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px var(--accent-color1); }
+            50% { box-shadow: 0 0 25px var(--accent-color1), 0 0 30px rgba(0, 224, 255, 0.5); }
+            100% { box-shadow: 0 0 15px var(--accent-color1); } /* Keep glow */
+        }
+        @keyframes pulseGlowAlt { /* For even items */
+            0% { box-shadow: 0 0 15px var(--accent-color2); }
+            50% { box-shadow: 0 0 25px var(--accent-color2), 0 0 30px rgba(44, 255, 152, 0.5); }
+            100% { box-shadow: 0 0 15px var(--accent-color2); }
+        }
+        .timeline-item:nth-child(even) .timeline-icon {
+            background: var(--accent-color2);
+        }
+        .timeline-item:nth-child(even) .timeline-icon { /* Alternate icon color/glow */ /* Keep alternate glow */
+             background: var(--accent-color2); border-color: var(--primary-bg); box-shadow: 0 0 15px var(--accent-color2); animation: pulseGlowAlt 2s infinite ease-in-out;
         }
         .timeline-content {
             width: 45%;
             padding: 25px;
             background: var(--secondary-bg);
-            border-radius: 8px;
+            /* "Data block" / "Wallet" style card */
+            border-radius: 6px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
+            border: 1px solid transparent; /* Base for gradient border */
+            position: relative;
+            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
+            background-clip: padding-box; /* Important for border-image */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .timeline-content::before { /* Inner glow / "active" feel */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.15);
+            pointer-events: none;
+        }
         .timeline-content:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02); /* Slight scale on hover */
             box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
         }
         .timeline-item:nth-child(odd) .timeline-content {
@@ -253,7 +359,7 @@
             text-align: left;
         }
         .timeline-content h3 {
-            color: var(--accent-color1);
+            color: var(--accent-color1); /* Job/Project Title */
             font-family: var(--font-display);
             margin-top: 0;
             font-size: 1.6rem;
@@ -280,7 +386,7 @@
         .timeline-content ul li::marker {
             color: var(--accent-color1);
         }
-        .tech-stack-list {
+        .tech-stack-list { /* List of technologies */
             margin-top: 15px;
             font-size: 0.85rem;
             color: var(--text-muted-color);
@@ -292,14 +398,23 @@
         /* --- Education & Certifications --- */
         .card-custom {
             background-color: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border: 1px solid transparent; /* Base for gradient border */
+            border-radius: 6px;
             padding: 25px;
             margin-bottom: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
+            background-clip: padding-box;
+        }
+        .card-custom::before { /* Inner glow */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.1);
+            pointer-events: none;
         }
         .card-custom:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             box-shadow: 0 6px 20px rgba(0, 224, 255, 0.1);
         }
         .card-custom h5 {
@@ -349,10 +464,10 @@
         @media (max-width: 768px) {
             #hero h1 { font-size: 2.5rem; }
             #hero h2 { font-size: 1.5rem; }
-
+            .section-title { font-size: 2rem; }
             .timeline::before {
-                left: 25px; /* Move line to the left */
-            }
+                left: 25px;
+            } /* Keep responsive adjustments */
             .timeline-item .timeline-content {
                 width: calc(100% - 70px); /* Adjust width */
                 float: right; /* All content to the right */
@@ -380,6 +495,22 @@
         }
         ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-color2);
+        }
+
+        /* Specific style for blockchain skills */
+        .skill-category.blockchain-skills h4 {
+            color: var(--accent-color1); /* Use accent color 1 for blockchain category */
+            font-weight: 700; /* Make it bolder */
+            border-color: var(--accent-color1);
+        }
+
+        @keyframes floatNode {
+            0%, 100% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
+            10% { opacity: 0.3; }
+            25% { transform: translateY(-20vh) translateX(10vw) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-40vh) translateX(-15vw) scale(1.2); opacity: 0.4; }
+            75% { transform: translateY(-60vh) translateX(5vw) scale(0.9); opacity: 0.2; }
+            90% { opacity: 0.1; }
         }
 
     </style>
@@ -410,6 +541,8 @@
 
         <!-- Hero Section -->
         <section id="hero">
+            <div class="matrix-bg" id="matrix"></div>
+            <!-- Floating nodes will be added via JS -->
             <div class="container hero-content">
                 <h1 data-aos="fade-down" data-aos-delay="200">{{ personalInfo.name }}</h1>
                 <h2 data-aos="fade-up" data-aos-delay="400">{{ personalInfo.title }}</h2>
@@ -437,7 +570,7 @@
         <section id="skills" class="container">
             <h2 class="section-title" data-aos="fade-up">Skills</h2>
             <div v-for="(category, index) in skills" :key="index" class="skill-category" data-aos="fade-up" :data-aos-delay="100 * index">
-                <h4>{{ category.name }}</h4>
+                <h4 :class="{'blockchain-skills': category.name.includes('Blockchain')}">{{ category.name }}</h4>
                 <div>
                     <span v-for="skill in category.items" :key="skill" class="skill-tag">{{ skill }}</span>
                 </div>
@@ -566,7 +699,7 @@
     <!-- AOS JS CDN -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-    <script>
+    <script> /* Vue.js and custom script */
         new Vue({
             el: '#app',
             data: {
@@ -587,7 +720,7 @@
                           as well as building robust <strong>microservices</strong> and <strong>REST/gRPC APIs</strong>.`,
                 skills: [
                     {
-                        name: "Core & Languages",
+                        name: "Core & Language", /* Singular */
                         items: ["Golang"]
                     },
                     {
@@ -696,7 +829,7 @@
             mounted() {
                 AOS.init({
                     duration: 800, // values from 0 to 3000, with step 50ms
-                    easing: 'ease-in-out-quad', // default easing for AOS animations
+                    easing: 'ease-in-out-quad',
                     once: true, // whether animation should happen only once - while scrolling down
                 });
 
@@ -714,6 +847,45 @@
                         }
                     });
                 });
+
+                // Matrix effect
+                const matrixContainer = document.getElementById('matrix');
+                if (matrixContainer) {
+                    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
+                    const numChars = 100; // Number of falling characters
+                    for (let i = 0; i < numChars; i++) {
+                        let span = document.createElement('span');
+                        span.textContent = chars[Math.floor(Math.random() * chars.length)];
+                        span.style.left = Math.random() * 100 + 'vw';
+                        span.style.animationDelay = Math.random() * 10 + 's';
+                        span.style.animationDuration = 5 + Math.random() * 10 + 's'; // Vary duration
+                        span.style.fontSize = (0.5 + Math.random() * 0.5) + 'em'; // Vary size
+                        matrixContainer.appendChild(span);
+                    }
+                }
+
+                // Floating nodes in hero
+                const heroSection = document.getElementById('hero');
+                if (heroSection) {
+                    const numNodes = 10;
+                    for (let i = 0; i < numNodes; i++) {
+                        let node = document.createElement('div');
+                        node.classList.add('floating-node');
+                        node.style.width = (5 + Math.random() * 10) + 'px';
+                        node.style.height = node.style.width;
+                        node.style.left = Math.random() * 90 + 'vw'; // Avoid edges
+                        node.style.top = Math.random() * 90 + 'vh';
+                        node.style.animationDelay = Math.random() * 15 + 's';
+                        node.style.animationDuration = (10 + Math.random() * 10) + 's';
+                        if (Math.random() > 0.6) node.style.backgroundColor = 'var(--accent-color2)'; // Some green nodes
+                        heroSection.appendChild(node);
+                    }
+                }
+
+                // Optional: Add a class to body when scrolled for potential future styling
+                // window.addEventListener('scroll', () => {
+                //     document.body.classList.toggle('scrolled', window.scrollY > 50);
+                // });
             }
         });
     </script>
