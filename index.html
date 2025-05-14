@@ -67,30 +67,31 @@
             position: relative;
             overflow: hidden;
             padding: 2rem;
-            background: radial-gradient(ellipse at center, var(--secondary-bg) 0%, var(--primary-bg) 70%);
+            background: radial-gradient(ellipse at center, var(--secondary-bg) 0%, var(--primary-bg) 70%); /* Keep radial gradient */
         }
 
         /* Digital rain / Matrix effect */
-        .matrix-bg {
+        /*.matrix-bg {
             position: absolute;
             top: 0; left: 0;
-            width: 100%; height: 100%;
+            width: 100%; height: 100%; /* Full coverage */
             overflow: hidden;
             z-index: 0;
+            pointer-events: none; /* Ensure clicks pass through */
         }
         .matrix-bg span {
             position: absolute;
             font-family: var(--font-code);
             color: var(--accent-color2);
             opacity: 0;
-            animation: fall 10s linear infinite;
+            animation: fall 15s linear infinite; /* Slower fall */
             font-size: 0.8em; /* Smaller characters */
         }
         @keyframes fall {
             0% { transform: translateY(-100px); opacity: 1; }
             80% { opacity: 0.8; }
-            100% { transform: translateY(100vh); opacity: 0; }
-        }
+            100% { transform: translateY(calc(100vh + 100px)); opacity: 0; } /* Fall off screen */
+        }*/
 
         /* Subtle Hexagon Grid Overlay */
         #hero::before {
@@ -105,6 +106,7 @@
             opacity: 0.07;
             z-index: 0;
             animation: moveHexGrid 120s linear infinite;
+            pointer-events: none;
         }
         @keyframes moveHexGrid {
             0% { background-position: 0 0; }
@@ -119,17 +121,41 @@
             opacity: 0;
             animation: floatNode 15s infinite ease-in-out;
             box-shadow: 0 0 10px var(--accent-color1), 0 0 20px var(--accent-color1);
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image:
+                repeating-linear-gradient(60deg, transparent, transparent 19px, var(--border-color) 19px, var(--border-color) 20px),
+                repeating-linear-gradient(120deg, transparent, transparent 19px, var(--border-color) 19px, var(--border-color) 20px);
+            background-size: 40px 40px;
+            opacity: 0.07;
+            z-index: 0;
+            animation: moveHexGrid 120s linear infinite;
+            pointer-events: none;
         }
-        @keyframes floatNode { /* Complex animation for floating nodes */ /* ... (implementation below) ... */ }
 
-        @keyframes moveLines {
-            0% { background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
-            100% { background-position: 400px 400px, 400px 410px, 410px 390px, 390px 400px; }
+        @keyframes floatNode {
+            0%, 100% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
+            10% { opacity: 0.3; }
+            25% { transform: translateY(-20vh) translateX(10vw) scale(1); opacity: 0.6; }
+            50% { transform: translateY(-40vh) translateX(-15vw) scale(1.2); opacity: 0.4; }
+            75% { transform: translateY(-60vh) translateX(5vw) scale(0.9); opacity: 0.2; }
+            90% { opacity: 0.1; }
+        }
+
+        /* Small Chain Animations */
+        .chain-animation {
+            position: absolute;
+            width: 20px; height: 40px; /* Size of the chain segment */
+            background: repeating-linear-gradient(to bottom, var(--accent-color1) 0, var(--accent-color1) 5px, transparent 5px, transparent 10px);
+            opacity: 0;
+            animation: animateChain 10s linear infinite;
+            pointer-events: none;
         }
 
         .hero-content {
-            z-index: 1;
-            position: relative;
+            z-index: 1; position: relative; /* Ensure content is above background */
         }
         #hero h1 {
             font-family: var(--font-display);
@@ -142,8 +168,8 @@
             font-size: 1.8rem;
             color: var(--accent-color2);
             margin-bottom: 1.5rem;
-            font-family: var(--font-secondary); /* Use Rajdhani */
-            font-weight: 500;
+            font-family: var(--font-secondary);
+            font-weight: 500; /* Keep weight */
         }
         #hero .lead {
             font-size: 1.1rem;
@@ -165,10 +191,10 @@
         /* --- Section Styling --- */
         section {
             padding: 80px 0;
-            position: relative;
+            position: relative; /* Needed for connectors */
             /* "Blockchain" style border */
             border-bottom: none; /* Remove simple border */
-        }
+        } /* Keep section padding */
         section:not(#hero):not(:last-of-type)::after { /* Section divider */
             content: '';
             position: absolute;
@@ -179,7 +205,7 @@
             height: 4px;
             background: linear-gradient(90deg, transparent, var(--accent-color1), var(--accent-color2), var(--accent-color1), transparent);
             opacity: 0.5;
-        }
+        } /* Keep section divider */
         section:last-of-type {
             border-bottom: none;
         }
@@ -189,7 +215,7 @@
             text-align: center; /* Keep centered */
             margin-bottom: 50px;
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 700; /* Keep weight */
             text-transform: uppercase; /* Optional: Add uppercase for tech feel */
             letter-spacing: 1px;
 
@@ -206,17 +232,61 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 0 10px var(--accent-color2);
+            box-shadow: 0 0 10px var(--accent-color2); /* Subtle glow */
         }
 
         /* Subtle background pattern for sections */
         section:not(#hero) { /* Apply to all sections except hero */
-             background-image:
-                linear-gradient(to right, rgba(42, 48, 69, 0.2) 1px, transparent 1px), /* Fainter grid lines */
-                linear-gradient(to bottom, rgba(42, 48, 69, 0.2) 1px, transparent 1px);
-             background-size: 30px 30px; /* Larger grid */
-             z-index: 1;
+            background-image:
+               linear-gradient(to right, rgba(42, 48, 69, 0.2) 1px, transparent 1px), /* Fainter grid lines */
+               linear-gradient(to bottom, rgba(42, 48, 69, 0.2) 1px, transparent 1px);
+            background-size: 30px 30px; /* Larger grid */
+            z-index: 1;
+        } /* Keep section background grid */
+
+        /* --- Blockchain Block Structure --- */
+        .blockchain-block {
+            background-color: var(--secondary-bg);
+            border: 1px solid transparent;
+            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
+            background-clip: padding-box;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 60px auto; /* Space between blocks */
+            max-width: 900px; /* Max width for blocks */
+            position: relative;
+            z-index: 1; /* Ensure blocks are above background effects */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+        .blockchain-block:hover {
+             transform: translateY(-5px);
+             box-shadow: 0 12px 30px rgba(0, 224, 255, 0.15);
+        }
+
+        .block-header {
+            background-color: rgba(0, 224, 255, 0.1);
+            border-bottom: 1px solid var(--accent-color1);
+            padding: 10px 20px;
+            margin: -30px -30px 20px -30px; /* Extend to edges of block padding */
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            color: var(--accent-color1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .block-header span {
+            word-break: break-all; /* Break long hashes */
+        }
+
+        .block-meta {
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: var(--text-muted-color);
+            margin-bottom: 20px;
+        }
+        .block-meta span { margin-right: 20px; }
 
         /* --- About Section --- */
         #about p {
@@ -224,7 +294,7 @@
             color: var(--text-muted-color);
             text-align: justify;
         }
-
+        /* About section content is now inside .block-content */
         /* --- Skills Section --- */
         .skill-category {
             margin-bottom: 30px;
@@ -233,7 +303,7 @@
             color: var(--accent-color2);
             font-family: var(--font-display);
             font-size: 1.3rem;
-            font-weight: 600; /* Keep weight */
+            font-weight: 600;
             margin-bottom: 15px;
             border-left: 3px solid var(--accent-color2);
             padding-left: 10px;
@@ -245,10 +315,10 @@
             margin: 5px;
             border-radius: 4px; /* More angular, like a chip/token */
             font-family: var(--font-code);
-            font-size: 0.85rem; /* Slightly smaller for density */
+            font-size: 0.85rem;
             display: inline-flex; align-items: center; /* For potential icons */
             border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
         }
         .skill-tag:hover { /* Hover effect for skills */
             background-color: var(--accent-color1);
@@ -269,13 +339,13 @@
         /* --- Experience & Projects Section --- */
         .timeline {
             position: relative;
-            padding: 20px 0;
+            padding: 0; /* Remove padding, it's on the block */
         }
         .timeline::before { /* Central timeline bar */
-            content: '';
+            content: none; /* Remove the central timeline bar */
             position: absolute;
             left: 50%;
-            top: 0;
+            top: 0; /* Keep positioning */
             bottom: 0;
             width: 4px;
             /* "Chain link" style for timeline */
@@ -284,7 +354,7 @@
         }
         .timeline-item {
             margin-bottom: 50px;
-            position: relative;
+            position: relative; /* Keep relative positioning */
         }
         .timeline-item::after { /* Clearfix */
             content: "";
@@ -298,7 +368,7 @@
             width: 50px;
             height: 50px;
             /* Hexagonal node shape */
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Keep hexagonal shape */
             background: var(--accent-color1);
             color: var(--primary-bg);
             display: flex;
@@ -313,7 +383,7 @@
         }
         @keyframes pulseGlow {
             0% { box-shadow: 0 0 15px var(--accent-color1); }
-            50% { box-shadow: 0 0 25px var(--accent-color1), 0 0 30px rgba(0, 224, 255, 0.5); }
+            50% { box-shadow: 0 0 20px var(--accent-color1), 0 0 25px rgba(0, 224, 255, 0.5); } /* Adjusted glow intensity */
             100% { box-shadow: 0 0 15px var(--accent-color1); } /* Keep glow */
         }
         @keyframes pulseGlowAlt { /* For even items */
@@ -323,13 +393,13 @@
         }
         .timeline-item:nth-child(even) .timeline-icon {
             background: var(--accent-color2);
-        }
-        .timeline-item:nth-child(even) .timeline-icon { /* Alternate icon color/glow */ /* Keep alternate glow */
-             background: var(--accent-color2); border-color: var(--primary-bg); box-shadow: 0 0 15px var(--accent-color2); animation: pulseGlowAlt 2s infinite ease-in-out;
+             border-color: var(--primary-bg); /* Keep border color */
+             box-shadow: 0 0 15px var(--accent-color2); /* Keep glow */
+             animation: pulseGlowAlt 2s infinite ease-in-out; /* Keep animation */
         }
         .timeline-content {
             width: 45%;
-            padding: 25px;
+            padding: 20px; /* Slightly less padding */
             background: var(--secondary-bg);
             /* "Data block" / "Wallet" style card */
             border-radius: 6px;
@@ -347,7 +417,7 @@
             pointer-events: none;
         }
         .timeline-content:hover {
-            transform: translateY(-5px) scale(1.02); /* Slight scale on hover */
+            transform: translateY(-5px) scale(1.01); /* Slightly less scale */
             box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
         }
         .timeline-item:nth-child(odd) .timeline-content {
@@ -359,7 +429,7 @@
             text-align: left;
         }
         .timeline-content h3 {
-            color: var(--accent-color1); /* Job/Project Title */
+            color: var(--accent-color1);
             font-family: var(--font-display);
             margin-top: 0;
             font-size: 1.6rem;
@@ -381,7 +451,7 @@
             margin-bottom: 10px;
         }
         .timeline-content ul {
-            padding-left: 20px;
+            padding-left: 20px; /* Keep padding */
         }
         .timeline-content ul li::marker {
             color: var(--accent-color1);
@@ -398,13 +468,23 @@
         /* --- Education & Certifications --- */
         .card-custom {
             background-color: var(--secondary-bg);
-            border: 1px solid transparent; /* Base for gradient border */
+            border: 1px solid transparent;
             border-radius: 6px;
             padding: 25px;
             margin-bottom: 20px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
+            background-clip: padding-box;
+        }
+        /* Specific style for Certifications card */
+        #certifications .card-custom {
+             border-image: linear-gradient(to bottom right, var(--accent-color2), var(--accent-color1)) 1; /* Reverse gradient */
+        }
+         #certifications .card-custom::before { /* Inner glow */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(44, 255, 152, 0.1); /* Greenish glow */
             background-clip: padding-box;
         }
         .card-custom::before { /* Inner glow */
@@ -414,12 +494,12 @@
             pointer-events: none;
         }
         .card-custom:hover {
-            transform: translateY(-5px) scale(1.02);
+            transform: translateY(-5px) scale(1.01);
             box-shadow: 0 6px 20px rgba(0, 224, 255, 0.1);
         }
         .card-custom h5 {
             color: var(--accent-color1);
-            font-family: var(--font-display);
+            font-family: var(--font-display); /* Keep font */
         }
         .card-custom p {
             color: var(--text-muted-color);
@@ -427,7 +507,17 @@
         }
 
         /* --- Contact Section --- */
-        #contact .contact-info i {
+        #contact {
+            padding: 80px 0; /* Keep padding */
+            background-color: var(--secondary-bg); /* Wallet background */
+            border-radius: 15px; /* Rounded corners */
+            max-width: 600px; /* Smaller width */
+            margin: 80px auto; /* Center the wallet */
+            border: 2px solid var(--accent-color2); /* Wallet border */
+            box-shadow: 0 0 20px rgba(44, 255, 152, 0.2); /* Green glow */
+            position: relative;
+        }
+        #contact .contact-info i { /* Keep icon styling */
             color: var(--accent-color1);
             font-size: 1.5rem;
             margin-right: 15px;
@@ -435,17 +525,17 @@
             text-align: center;
         }
         #contact .contact-info p {
-            margin-bottom: 15px;
+            margin-bottom: 15px; /* Keep margin */
             font-size: 1.1rem;
         }
         #contact .contact-info a {
             color: var(--text-color);
             text-decoration: none;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease; /* Keep transition */
         }
         #contact .contact-info a:hover {
             color: var(--accent-color1);
-        }
+        } /* Keep link hover */
 
         /* --- Footer --- */
         footer {
@@ -457,7 +547,7 @@
             border-top: 1px solid var(--border-color);
         }
         footer .social-icons a {
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* Keep icon size */
         }
 
         /* --- Responsive Adjustments for Timeline --- */
@@ -465,7 +555,7 @@
             #hero h1 { font-size: 2.5rem; }
             #hero h2 { font-size: 1.5rem; }
             .section-title { font-size: 2rem; }
-            .timeline::before {
+            .timeline::before { /* Keep responsive adjustments */
                 left: 25px;
             } /* Keep responsive adjustments */
             .timeline-item .timeline-content {
@@ -478,7 +568,7 @@
                 text-align: left;
             }
             .timeline-icon {
-                left: 25px; /* Align icon with the line */
+                left: 25px; /* Align icon with the line */ /* Keep responsive icon alignment */
             }
         }
 
@@ -503,16 +593,26 @@
             font-weight: 700; /* Make it bolder */
             border-color: var(--accent-color1);
         }
-
-        @keyframes floatNode {
-            0%, 100% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
-            10% { opacity: 0.3; }
-            25% { transform: translateY(-20vh) translateX(10vw) scale(1); opacity: 0.6; }
-            50% { transform: translateY(-40vh) translateX(-15vw) scale(1.2); opacity: 0.4; }
-            75% { transform: translateY(-60vh) translateX(5vw) scale(0.9); opacity: 0.2; }
-            90% { opacity: 0.1; }
+        .skill-category.blockchain-skills {
+            position: relative;
+            z-index: 1;
         }
+        .skill-category.blockchain-skills::before { /* Add a subtle block/frame effect */
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 1px solid var(--accent-color1);
+            opacity: 0.2;
+            z-index: -1;
+        } /* Keep blockchain skills frame */
 
+        /* Keyframes for animations */
+        @keyframes animateChain {
+            0% { transform: translateY(0) scaleY(0); opacity: 0; }
+            20% { opacity: 1; scaleY(1); }
+            80% { opacity: 1; scaleY(1); }
+            100% { transform: translateY(100vh) scaleY(0); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -541,7 +641,8 @@
 
         <!-- Hero Section -->
         <section id="hero">
-            <div class="matrix-bg" id="matrix"></div>
+            <!-- <div class="matrix-bg" id="matrix"></div> -->
+            <div class="chain-animations-container" id="chain-animations"></div> <!-- Container for small chains -->
             <!-- Floating nodes will be added via JS -->
             <div class="container hero-content">
                 <h1 data-aos="fade-down" data-aos-delay="200">{{ personalInfo.name }}</h1>
@@ -558,16 +659,34 @@
 
         <!-- About Section -->
         <section id="about" class="container">
+            <div class="blockchain-block" data-aos="fade-up">
+                <div class="block-header">
+                    <span>Block #{{ aboutBlock.nonce }}</span>
+                    <span>Hash: {{ aboutBlock.hash }}</span>
+                </div>
+                <div class="block-meta">
+                    <span>Created At: {{ aboutBlock.createdAt }}</span>
+                </div>
+                <div class="block-content">
             <h2 class="section-title" data-aos="fade-up">About Me</h2>
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <p data-aos="fade-up" data-aos-delay="200" v-html="aboutMe"></p>
                 </div>
+                </div>
             </div>
         </section>
+            </div>
 
         <!-- Skills Section -->
         <section id="skills" class="container">
+            <div class="blockchain-block" data-aos="fade-up">
+                <div class="block-header">
+                    <span>Block #{{ skillsBlock.nonce }}</span>
+                    <span>Hash: {{ skillsBlock.hash }}</span>
+                </div>
+                <div class="block-meta"><span>Created At: {{ skillsBlock.createdAt }}</span></div>
+                <div class="block-content">
             <h2 class="section-title" data-aos="fade-up">Skills</h2>
             <div v-for="(category, index) in skills" :key="index" class="skill-category" data-aos="fade-up" :data-aos-delay="100 * index">
                 <h4 :class="{'blockchain-skills': category.name.includes('Blockchain')}">{{ category.name }}</h4>
@@ -575,10 +694,20 @@
                     <span v-for="skill in category.items" :key="skill" class="skill-tag">{{ skill }}</span>
                 </div>
             </div>
+                </div>
+            </div>
         </section>
+            </div>
 
         <!-- Experience Section -->
         <section id="experience" class="container">
+            <div class="blockchain-block" data-aos="fade-up">
+                <div class="block-header">
+                    <span>Block #{{ experienceBlock.nonce }}</span>
+                    <span>Hash: {{ experienceBlock.hash }}</span>
+                </div>
+                <div class="block-meta"><span>Created At: {{ experienceBlock.createdAt }}</span></div>
+                <div class="block-content">
             <h2 class="section-title" data-aos="fade-up">Experience</h2>
             <div class="timeline">
                 <div v-for="(job, index) in experience" :key="index" class="timeline-item" data-aos="fade-up" :data-aos-delay="100 * index">
@@ -605,10 +734,20 @@
                     </div>
                 </div>
             </div>
+                </div>
+            </div>
         </section>
+            </div>
 
         <!-- Projects Section -->
         <section id="projects" class="container">
+            <div class="blockchain-block" data-aos="fade-up">
+                <div class="block-header">
+                    <span>Block #{{ projectsBlock.nonce }}</span>
+                    <span>Hash: {{ projectsBlock.hash }}</span>
+                </div>
+                <div class="block-meta"><span>Created At: {{ projectsBlock.createdAt }}</span></div>
+                <div class="block-content">
             <h2 class="section-title" data-aos="fade-up">Personal Projects</h2>
             <div class="timeline">
                  <div v-for="(project, index) in projects" :key="index" class="timeline-item" data-aos="fade-up" :data-aos-delay="100 * index">
@@ -627,10 +766,20 @@
                     </div>
                 </div>
             </div>
+                </div>
+            </div>
         </section>
+            </div>
 
         <!-- Education Section -->
         <section id="education" class="container">
+            <div class="blockchain-block" data-aos="fade-up">
+                <div class="block-header">
+                    <span>Block #{{ educationBlock.nonce }}</span>
+                    <span>Hash: {{ educationBlock.hash }}</span>
+                </div>
+                <div class="block-meta"><span>Created At: {{ educationBlock.createdAt }}</span></div>
+                <div class="block-content">
             <h2 class="section-title" data-aos="fade-up">Education</h2>
             <div class="row">
                 <div v-for="(edu, index) in education" :key="index" class="col-md-6 mx-auto" data-aos="fade-up" :data-aos-delay="100 * index">
@@ -645,10 +794,20 @@
                     </div>
                 </div>
             </div>
+                </div>
+            </div>
         </section>
+            </div>
 
         <!-- Certifications Section -->
         <section id="certifications" class="container">
+            <div class="blockchain-block" data-aos="fade-up">
+                <div class="block-header">
+                    <span>Block #{{ certificationsBlock.nonce }}</span>
+                    <span>Hash: {{ certificationsBlock.hash }}</span>
+                </div>
+                <div class="block-meta"><span>Created At: {{ certificationsBlock.createdAt }}</span></div>
+                <div class="block-content">
             <h2 class="section-title" data-aos="fade-up">Certifications</h2>
             <div class="row">
                 <div v-for="(cert, index) in certifications" :key="index" class="col-md-6" data-aos="fade-up" :data-aos-delay="100 * index">
@@ -658,7 +817,8 @@
                     </div>
                 </div>
             </div>
-        </section>
+                </div>
+            </div>
 
         <!-- Contact Section -->
         <section id="contact" class="container">
@@ -700,6 +860,15 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <script> /* Vue.js and custom script */
+        // Helper function to generate a fake hash
+        function generateFakeHash(length = 64) {
+            const chars = 'abcdef0123456789';
+            let hash = '';
+            for (let i = 0; i < length; i++) {
+                hash += chars[Math.floor(Math.random() * chars.length)];
+            }
+            return hash;
+        }
         new Vue({
             el: '#app',
             data: {
@@ -712,6 +881,27 @@
                     email: "pramodshenkar2210@gmail.com",
                     linkedin: "https://www.linkedin.com/in/pramod-shenkar-golang-dev",
                     hobbyQuote: "An artistic introvert who likes to spend time with nature & novels." // From Hobbies
+                },
+                // Data structured for Blockchain Blocks
+                aboutBlock: {
+                    nonce: 1, // Genesis Block is Hero, so About is #1
+                    createdAt: "2020-05-20T10:00:00Z", // Placeholder date
+                    hash: generateFakeHash(),
+                },
+                skillsBlock: {
+                    nonce: 2,
+                    createdAt: "2020-05-20T10:05:00Z", // Placeholder date
+                    hash: generateFakeHash(),
+                },
+                experienceBlock: {
+                    nonce: 3,
+                    createdAt: "2021-04-01T09:00:00Z", // Placeholder date
+                    hash: generateFakeHash(),
+                },
+                projectsBlock: {
+                    nonce: 4,
+                    createdAt: "2025-03-01T14:00:00Z", // Placeholder date (using your project start date)
+                    hash: generateFakeHash(),
                 },
                 aboutMe: `I am an experienced software developer with over <strong>4+ years of experience</strong> designing and developing distributed systems while
                           keeping scalability and performance in mind. I love to contribute to all phases of the development lifecycle.
@@ -789,6 +979,16 @@
                         technologies: ["Golang", "MariaDB", "REST APIs", "Custom File System Operations"]
                     }
                 ],
+                educationBlock: {
+                    nonce: 5,
+                    createdAt: "2020-05-20T17:00:00Z", // Placeholder date
+                    hash: generateFakeHash(),
+                },
+                certificationsBlock: {
+                    nonce: 6,
+                    createdAt: "2023-06-15T11:00:00Z", // Placeholder date
+                    hash: generateFakeHash(),
+                },
                 projects: [
                     {
                         name: "Decentralized NFT Platform (Personal Project)",
@@ -848,7 +1048,7 @@
                     });
                 });
 
-                // Matrix effect
+                /* // Matrix effect (Keep existing)
                 const matrixContainer = document.getElementById('matrix');
                 if (matrixContainer) {
                     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
@@ -862,9 +1062,9 @@
                         span.style.fontSize = (0.5 + Math.random() * 0.5) + 'em'; // Vary size
                         matrixContainer.appendChild(span);
                     }
-                }
+                } */
 
-                // Floating nodes in hero
+                // Floating nodes in hero (Keep existing)
                 const heroSection = document.getElementById('hero');
                 if (heroSection) {
                     const numNodes = 10;
@@ -879,6 +1079,20 @@
                         node.style.animationDuration = (10 + Math.random() * 10) + 's';
                         if (Math.random() > 0.6) node.style.backgroundColor = 'var(--accent-color2)'; // Some green nodes
                         heroSection.appendChild(node);
+                    }
+                }
+
+                // Small Chain Animations
+                const chainContainer = document.getElementById('chain-animations');
+                if (chainContainer) {
+                    const numChains = 15; // Number of small chains
+                    for (let i = 0; i < numChains; i++) {
+                        let chain = document.createElement('div');
+                        chain.classList.add('chain-animation');
+                        chain.style.left = Math.random() * 100 + 'vw';
+                        chain.style.animationDelay = Math.random() * 10 + 's';
+                        chain.style.animationDuration = (8 + Math.random() * 7) + 's'; // Vary duration
+                        chainContainer.appendChild(chain);
                     }
                 }
 
