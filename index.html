@@ -146,12 +146,75 @@
             font-family: var(--font-secondary);
             font-weight: 500; /* Keep weight */
         }
-        #hero .lead {
-            font-size: 1.1rem;
-            color: var(--text-muted-color);
-            max-width: 700px;
-            margin: 0 auto 2rem auto;
+        /* Typing animation cursor */
+        .typing-cursor {
+            animation: blink 1s step-end infinite;
+            color: var(--accent-color2); /* Green cursor */
+            font-weight: bold;
+            margin-left: 2px;
         }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* VS Code Window Styles */
+        .vscode-window {
+            background-color: var(--primary-bg); /* Darker background for the window body */
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4); /* Slightly softer shadow */
+            max-width: 700px;
+            margin: 2rem auto;
+            overflow: hidden;
+            border: 1px solid rgba(0, 224, 255, 0.3); /* Subtle cyan border */
+        }
+        .vscode-header {
+            background-color: var(--secondary-bg); /* Slightly lighter header */
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+        }
+        .vscode-buttons {
+            display: flex;
+        }
+        .vscode-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .vscode-btn.close { background-color: var(--text-muted-color); } /* Muted for close */
+        .vscode-btn.minimize { background-color: var(--accent-color1); } /* Accent 1 for minimize */
+        .vscode-btn.maximize { background-color: var(--accent-color2); } /* Accent 2 for maximize */
+        .vscode-title {
+            color: var(--accent-color1); /* Portfolio theme */
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            margin-left: auto; /* Pushes title to the right if buttons are on left */
+            padding-right: 10px;
+        }
+        .vscode-body {
+            padding: 15px 20px; /* Slightly more horizontal padding */
+            min-height: 150px; /* Adjust as needed */
+            font-family: var(--font-fira-code), var(--font-code);
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: var(--text-color); /* Code text color */
+        }
+        .vscode-body pre {
+            margin: 0;
+            background-color: transparent !important; /* Override .go-code-snippet bg if applied */
+            padding: 0 !important; /* Override .go-code-snippet padding if applied */
+            border: none !important; /* Override .go-code-snippet border if applied */
+            white-space: pre-wrap; /* Ensure lines wrap and whitespace is preserved */
+        }
+        .vscode-body code {
+            white-space: pre-wrap; /* Ensure lines wrap and whitespace is preserved */
+            display: block;
+        }
+        /* End VS Code Window Styles */
+
+
         .social-icons a {
             color: var(--text-color);
             font-size: 1.8rem;
@@ -161,11 +224,6 @@
         .social-icons a:hover {
             color: var(--accent-color1);
             transform: scale(1.2);
-        }
-
-        /* Make strong tags within the hero lead paragraph thicker */
-        #hero .lead strong {
-            font-weight: 900; /* Roboto Black, if available and linked */
         }
 
         /* Gopher Animation Styles */
@@ -830,7 +888,20 @@
                     </div>
                 </div>
                 <h2 data-aos="fade-up" data-aos-delay="400">{{ personalInfo.title }}</h2>
-                <p class="lead" data-aos="fade-up" data-aos-delay="600" v-html="personalInfo.tagline"></p>
+                <!-- <p class="lead" data-aos="fade-up" data-aos-delay="600" v-html="personalInfo.tagline"></p> -->
+                <div class="vscode-window" data-aos="fade-up" data-aos-delay="700">
+                    <div class="vscode-header">
+                        <div class="vscode-buttons">
+                            <span class="vscode-btn close"></span>
+                            <span class="vscode-btn minimize"></span>
+                            <span class="vscode-btn maximize"></span>
+                        </div>
+                        <div class="vscode-title">cmd/portfolio</div>
+                    </div>
+                    <div class="vscode-body">
+                        <pre class="go-code-snippet"><code id="typed-go-code"></code></pre>
+                    </div>
+                </div>
                 <div class="social-icons" data-aos="fade-up" data-aos-delay="800">
                     <a :href="personalInfo.linkedin" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
                     <a :href="'mailto:' + personalInfo.email" title="Email"><i class="fas fa-envelope"></i></a>
@@ -895,10 +966,7 @@
                         <div class="timeline-item" data-aos="fade-up">
                             <!-- Hexagon icon container removed -->
                             <div class="timeline-content">
-                                <div class="project-card-content"> <!-- Reusing project-card-content for styling -->
-                                    <div class="internal-box-header">
-                                        <span>Txn ID: {{ experience[0].txnId }}</span>
-                                    </div>
+                                <!-- <div class="project-card-content"> g -->
                                     <h3>{{ experience[0].company }}</h3>
                                     <p style="font-size: 0.95rem; color: var(--text-muted-color); line-height: 1.6; margin-bottom: 0;">
                                         As a <strong>{{ experience[0].title }}</strong>, I played a pivotal role in the pioneering <strong>{{ experience[0].project }}</strong> project—a national digital currency initiative by the RBI, impacting millions of users and merchants. My contributions included designing and developing core modules using a hexagonal architecture, engineering robust backend services with Golang (Gin-Gonic, Go-Fiber), gRPC, and Kafka, and developing Hyperledger Fabric smart contracts.
@@ -908,7 +976,7 @@
                                         <em style="font-size: 0.9rem; color: var(--accent-color1); display: block; margin-top: 10px;">Period: {{ experience[0].period }}</em>
                                     </p>
                                     <!-- Removed bulleted list of responsibilities and achievements -->
-                                </div>
+                                <!-- </div> -->
                             </div>
                         </div>
 
@@ -917,9 +985,6 @@
                             <!-- Hexagon icon container removed -->
                             <div class="timeline-content">
                                 <div class="project-card-content">
-                                    <div class="internal-box-header">
-                                        <span>Txn ID: {{ experience[1].txnId }}</span>
-                                    </div>
                                     <h3>{{ experience[1].company }}</h3>
                                     <p style="font-size: 0.95rem; color: var(--text-muted-color); line-height: 1.6; margin-bottom: 0;">
                                         In my role as an <strong>{{ experience[1].title }}</strong>, I was instrumental in architecting and developing the <strong>{{ experience[1].project }}</strong>, a system serving over a million learners annually. I focused on leveraging Golang to enhance system performance and scalability, notably by designing concurrent reporting modules and developing a full-fledged simulation module from scratch, which included REST APIs, structured logging, and caching logic.
@@ -1125,13 +1190,72 @@
             }
             return txnId.toUpperCase(); // Often Txn IDs are uppercase
         }
+
+        // Function for live typing effect
+        function liveTypeEffect(elementSelector, htmlString, options = {}) {
+            const defaults = {
+                speed: 70,
+                initialDelay: 500,
+                erase: false,
+                eraseSpeed: 30, // Faster speed for erasing
+                onComplete: null
+            };
+            const config = { ...defaults, ...options };
+
+            const targetElement = document.querySelector(elementSelector);
+            if (!targetElement) {
+                console.error("Target element for typing effect not found:", elementSelector);
+                return;
+            }
+
+            const cursorHtml = '<span class="typing-cursor">&#9612;</span>';
+            let i = 0;
+            let isTag = false;
+            let currentDisplayHtml = '';
+
+            function animate() {
+                if (config.erase) {
+                    if (i > 0) {
+                        i--;
+                        // To correctly erase HTML, we need to be careful.
+                        // For simplicity here, we'll assume htmlString is the full content to erase.
+                        // A more robust solution would parse and remove nodes/text.
+                        // This basic erase will remove char by char from the provided htmlString.
+                        targetElement.innerHTML = htmlString.substring(0, i) + cursorHtml;
+                        setTimeout(animate, config.eraseSpeed);
+                    } else {
+                        targetElement.innerHTML = cursorHtml; // Leave only cursor after erasing
+                        if (config.onComplete) config.onComplete();
+                    }
+                } else {
+                    if (i < htmlString.length) {
+                        const char = htmlString[i];
+                        currentDisplayHtml += char;
+
+                        if (char === '<') isTag = true;
+                        if (char === '>') isTag = false;
+
+                        targetElement.innerHTML = currentDisplayHtml + cursorHtml;
+                        i++;
+                        setTimeout(animate, (isTag && char !== '>') ? 0 : config.speed); // Type tags faster
+                    } else {
+                        targetElement.innerHTML = currentDisplayHtml; // Remove cursor when done
+                        if (config.onComplete) config.onComplete();
+                    }
+                }
+            }
+            if (!config.erase) targetElement.innerHTML = cursorHtml; // Start with cursor for typing
+            else i = htmlString.length; // For erasing, start i at the end
+            setTimeout(animate, config.initialDelay);
+        }
+
         new Vue({
             el: '#app',
             data: {
                 personalInfo: {
                     name: "Pramod Shenkar",
                     title: "Gopher by Heart! Chaincrafter by passion!",
-                    tagline: "Experienced software developer specializing in <strong>distributed systems, Golang, and Blockchain technologies</strong>, passionate about scalability, performance, and innovation.",
+                    tagline: `Experienced software developer specializing in distributed systems, Golang, and Blockchain technologies, passionate about scalability, performance, and innovation.`, // Kept for potential other uses, but not for hero display
                     address: "At Post Akole, Ahmadnagar, Maharashtra, 422601",
                     phone: "+91 9139555224",
                     email: "pramodshenkar2210@gmail.com",
@@ -1294,6 +1418,45 @@
                     easing: 'ease-in-out-quad',
                     once: true, // whether animation should happen only once - while scrolling down
                 });
+
+                // Initialize tagline typing animation
+                const goCodeToType =
+`<span class="go-keyword">package</span> <span class="go-identifier">main</span>
+
+<span class="go-keyword">import</span> <span class="go-string">"fmt"</span>
+
+<span class="go-keyword">func</span> <span class="go-identifier">main</span><span class="go-punctuation">() {</span>
+    <span class="go-comment">// My Golang focus:</span>
+    <span class="go-identifier">fmt</span><span class="go-punctuation">.</span><span class="go-identifier">Println</span><span class="go-punctuation">(</span><span class="go-string">"Experienced developer: Distributed Systems, Golang, & Blockchain."</span><span class="go-punctuation">)</span>
+    <span class="go-identifier">fmt</span><span class="go-punctuation">.</span><span class="go-identifier">Println</span><span class="go-punctuation">(</span><span class="go-string">"Passionate about: Scalability, Performance, and Innovation!"</span><span class="go-punctuation">)</span>
+<span class="go-punctuation">}</span>`;
+
+                const solidityCodeToType =
+`<span class="sol-pragma">pragma</span> <span class="sol-keyword">solidity</span> <span class="sol-operator">^</span><span class="sol-string">0.8.0</span><span class="sol-punctuation">;</span>
+
+<span class="sol-keyword">contract</span> <span class="sol-identifier">PortfolioFocus</span> <span class="sol-punctuation">{</span>
+    <span class="sol-comment">// My Solidity focus:</span>
+    <span class="sol-keyword">function</span> <span class="sol-identifier">getSpecialization</span><span class="sol-punctuation">()</span> <span class="sol-visibility">public</span> <span class="sol-visibility">pure</span> <span class="sol-keyword">returns</span> <span class="sol-punctuation">(</span><span class="sol-type">string</span> <span class="sol-keyword">memory</span><span class="sol-punctuation">) {</span>
+        <span class="sol-keyword">return</span> <span class="sol-string">"Distributed Systems, Golang, & Blockchain."</span><span class="sol-punctuation">;</span>
+    <span class="sol-punctuation">}</span>
+
+    <span class="sol-keyword">function</span> <span class="sol-identifier">getPassion</span><span class="sol-punctuation">()</span> <span class="sol-visibility">public</span> <span class="sol-visibility">pure</span> <span class="sol-keyword">returns</span> <span class="sol-punctuation">(</span><span class="sol-type">string</span> <span class="sol-keyword">memory</span><span class="sol-punctuation">) {</span>
+        <span class="sol-keyword">return</span> <span class="sol-string">"Scalability, Performance, and Innovation!"</span><span class="sol-punctuation">;</span>
+    <span class="sol-punctuation">}</span>
+<span class="sol-punctuation">}</span>`;
+
+                const typeSolidity = () => {
+                    liveTypeEffect('#typed-go-code', solidityCodeToType, { speed: 30, initialDelay: 500 });
+                };
+
+                const eraseGoCode = () => {
+                    // Pass the already typed Go code string for erasing
+                    liveTypeEffect('#typed-go-code', goCodeToType, { erase: true, eraseSpeed: 15, initialDelay: 1000, onComplete: typeSolidity });
+                };
+
+                // Start the sequence
+                liveTypeEffect('#typed-go-code', goCodeToType, { speed: 25, initialDelay: 1200, onComplete: eraseGoCode });
+
 
                 // Smooth scrolling for navbar links
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
