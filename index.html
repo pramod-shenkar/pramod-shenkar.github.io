@@ -347,7 +347,7 @@
 
         .block-header {
             background-color: rgba(0, 224, 255, 0.1);
-            border-bottom: 1px solid var(--accent-color1);
+            border-bottom: 1px solid rgba(0, 224, 255, 0.15);
             padding: 10px 20px;
             margin: -30px -30px 20px -30px;
             font-family: var(--font-code);
@@ -2198,9 +2198,9 @@
                     <div class="timeline">
                          <div v-for="(project, index) in projects" :key="index" class="timeline-item" data-aos="fade-up" :data-aos-delay="100 * index">
                             <div class="timeline-content">
-                                <div class="txn-header">
+                                <!-- <div class="txn-header">
                                     <span>Transaction ID: <span class="txn-id">{{ project.txnId }}</span></span>
-                                </div>
+                                </div> -->
                                 <h3>{{ project.name }}</h3>
                                 <span class="date">{{ project.period }}</span>
                                 <ul>
@@ -2231,9 +2231,9 @@
                     <div class="row justify-content-center">
                         <div v-for="(edu, index) in education" :key="index" class="col-md-11 mb-5" data-aos="fade-up" :data-aos-delay="100 * index">
                             <div class="timeline-content" style="padding: 35px;">
-                                <div class="txn-header">
+                                <!-- <div class="txn-header">
                                     <span>Transaction ID: <span class="txn-id">{{ edu.txnId }}</span></span>
-                                </div>
+                                </div> -->
                                 <h3>{{ edu.degree }}</h3>
                                 <p class="font-weight-bold mb-3">{{ edu.institution }}</p>
                                 <p class="mb-3">{{ edu.period }}</p>
