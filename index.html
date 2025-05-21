@@ -38,38 +38,54 @@
 
         /* --- Navbar --- */
         .navbar {
-            background-color: rgba(10, 15, 31, 0.85); /* Semi-transparent dark bg */
+            background-color: rgba(10, 15, 31, 0.95);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color); /* Subtle border */
-            transition: background-color 0.3s ease;
+            border-bottom: 1px solid rgba(44, 255, 152, 0.2); /* Changed to green */
+            padding: 15px 0;
+            transition: all 0.3s ease;
         }
-        .nav-link {
-            color: var(--accent-color1) !important;
+
+        .navbar.scrolled {
+            background-color: rgba(10, 15, 31, 0.98);
+            box-shadow: 0 2px 20px rgba(44, 255, 152, 0.1); /* Changed to green */
+        }
+
+        .navbar-brand {
+            color: var(--accent-color2) !important; /* Changed to green */
             font-family: var(--font-display);
-            transition: color 0.3s ease, transform 0.2s ease; /* Added transform transition */
-            padding: 0.5rem 0.75rem; /* Adjusted padding slightly */
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(44, 255, 152, 0.3); /* Added subtle glow */
         }
+
+        .nav-link {
+            color: #87CEEB !important; /* Changed to faint sky blue */
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem !important;
+            margin: 0 0.2rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
         .nav-link:hover {
-            color: var(--accent-color2) !important;
+            color: #B0E0E6 !important; /* Changed to powder blue on hover */
+            background-color: rgba(176, 224, 230, 0.1);
+            transform: translateY(-2px);
         }
-        .nav-link:hover {
-            /* color: var(--accent-color2) !important; */ /* This is already handled above */
-            /* background-color: rgba(0, 224, 255, 0.1); */ /* Background hover removed */
-            transform: translateY(-2px); /* Slight lift on hover */
-        }
-        /* Optional: Style for active link (would need JS to add 'active' class) */
+
         .nav-link.active {
-            color: var(--accent-color2) !important;
-            background-color: rgba(44, 255, 152, 0.15); /* Greenish background for active */
+            color: #B0E0E6 !important; /* Changed to powder blue when active */
+            background-color: rgba(176, 224, 230, 0.15);
         }
-        .nav-link.active:hover {
-            background-color: rgba(44, 255, 152, 0.2); /* Slightly darker green on hover if active */
-        }
+
         .navbar-toggler {
-            border-color: var(--accent-color1);
+            border-color: var(--accent-color2); /* Changed to green */
         }
         .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 224, 255, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(44, 255, 152, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
 
         /* --- Hero Section --- */
@@ -87,89 +103,92 @@
 
         /* Subtle Hexagon Grid Overlay */
         #hero::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image:
-                repeating-linear-gradient(60deg, transparent, transparent 19px, var(--border-color) 19px, var(--border-color) 20px),
-                repeating-linear-gradient(120deg, transparent, transparent 19px, var(--border-color) 19px, var(--border-color) 20px);
-            background-size: 40px 40px;
-            opacity: 0.07;
-            z-index: 0;
-            animation: moveHexGrid 120s linear infinite;
-            pointer-events: none;
-        }
-        @keyframes moveHexGrid {
-            0% { background-position: 0 0; }
-            100% { background-position: 200px 200px; }
+            content: none;
         }
 
         /* Floating Blocks/Nodes */
         .floating-node {
-            position: absolute;
-            background-color: var(--accent-color1);
-            border-radius: 50%; /* Or square: border-radius: 3px; */
-            opacity: 0;
-            animation: floatNode 15s infinite ease-in-out;
-            box-shadow: 0 0 10px var(--accent-color1), 0 0 20px var(--accent-color1);
-            pointer-events: none;
+            display: none;
         }
-
-        @keyframes floatNode {
-            0%, 100% { transform: translateY(0) translateX(0) scale(0.8); opacity: 0; }
-            10% { opacity: 0.3; }
-            25% { transform: translateY(-20vh) translateX(10vw) scale(1); opacity: 0.6; }
-            50% { transform: translateY(-40vh) translateX(-15vw) scale(1.2); opacity: 0.4; }
-            75% { transform: translateY(-60vh) translateX(5vw) scale(0.9); opacity: 0.2; }
-            90% { opacity: 0.1; }
-        }
-
-        /* Small Chain Animations - REMOVED */
-        /* .chain-animation { ... } */
-        /* @keyframes animateChain { ... } */
 
         .hero-content {
             z-index: 1; position: relative; /* Ensure content is above background */
         }
-        #hero h1 {
-            font-family: var(--font-display);
-            font-size: 3.2rem; /* Adjusted size */
-            color: var(--accent-color1);
-            margin-bottom: 0.5rem;
-            text-shadow: 0 0 5px var(--accent-color1); /* Reduced glow */
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(0, 224, 255, 0.3),
+                         0 0 10px rgba(0, 224, 255, 0.2);
+            animation: nameGlow 3s ease-in-out infinite;
         }
-        #hero h2 {
-            font-size: 1.8rem;
-            color: var(--accent-color2);
-            margin-bottom: 1.5rem;
+
+        @keyframes nameGlow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(0, 224, 255, 0.3),
+                            0 0 10px rgba(0, 224, 255, 0.2);
+            }
+            50% {
+                text-shadow: 0 0 8px rgba(0, 224, 255, 0.4),
+                            0 0 15px rgba(0, 224, 255, 0.3);
+            }
+        }
+        .hero-content p {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 1.5rem auto;
+            line-height: 1.6;
             font-family: var(--font-secondary);
-            font-weight: 500; /* Keep weight */
+            text-shadow: 0 0 10px rgba(0, 224, 255, 0.1);
+            position: relative;
+            padding: 0 20px;
         }
-        /* Typing animation cursor */
-        .typing-cursor {
-            animation: blink 1s step-end infinite;
-            color: var(--accent-color2); /* Green cursor */
-            font-weight: bold;
-            margin-left: 2px;
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #e6e6e6;
+            line-height: 1.6;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            padding: 1rem 0;
+            position: relative;
+            font-weight: 300;
+            letter-spacing: 0.5px;
         }
-        @keyframes blink {
-            from, to { opacity: 1; }
-            50% { opacity: 0; }
+
+        .tagline::before,
+        .tagline::after {
+            content: '';
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #4a9eff, transparent);
+            width: 100%;
+            left: 0;
+        }
+
+        .tagline::before {
+            top: 0;
+        }
+
+        .tagline::after {
+            bottom: 0;
         }
 
         /* VS Code Window Styles */
         .vscode-window {
-            background-color: var(--primary-bg); /* Darker background for the window body */
+            background-color: #0a0f1f; /* Darker background to match theme */
             border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4); /* Slightly softer shadow */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             max-width: 700px;
             margin: 2rem auto;
             overflow: hidden;
-            border: 1px solid rgba(0, 224, 255, 0.3); /* Subtle cyan border */
+            border: 1px solid var(--border-color);
         }
         .vscode-header {
-            background-color: var(--secondary-bg); /* Slightly lighter header */
+            background-color: #101830; /* Darker header to match theme */
             padding: 8px 12px;
             display: flex;
             align-items: center;
@@ -183,23 +202,23 @@
             border-radius: 50%;
             margin-right: 8px;
         }
-        .vscode-btn.close { background-color: var(--text-muted-color); } /* Muted for close */
-        .vscode-btn.minimize { background-color: var(--accent-color1); } /* Accent 1 for minimize */
-        .vscode-btn.maximize { background-color: var(--accent-color2); } /* Accent 2 for maximize */
+        .vscode-btn.close { background-color: #ff5f56; }
+        .vscode-btn.minimize { background-color: #ffbd2e; }
+        .vscode-btn.maximize { background-color: #27c93f; }
         .vscode-title {
-            color: var(--accent-color1); /* Portfolio theme */
+            color: var(--text-muted-color); /* Using theme's muted color */
             font-family: var(--font-code);
             font-size: 0.85rem;
-            margin-left: auto; /* Pushes title to the right if buttons are on left */
+            margin-left: auto;
             padding-right: 10px;
         }
         .vscode-body {
-            padding: 15px 20px; /* Slightly more horizontal padding */
-            min-height: 150px; /* Adjust as needed */
+            padding: 15px 20px;
+            min-height: 150px;
             font-family: var(--font-fira-code), var(--font-code);
             font-size: 0.9em;
             line-height: 1.6;
-            color: var(--text-color); /* Code text color */
+            color: var(--text-color); /* Using theme's text color */
         }
         .vscode-body pre {
             margin: 0;
@@ -310,47 +329,178 @@
         /* --- Blockchain Block Structure --- */
         .blockchain-block {
             background-color: var(--secondary-bg);
-            border: 1px solid transparent;
-            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
-            background-clip: padding-box;
+            border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 30px;
-            margin: 80px auto; /* Increased margin to ensure space for connectors */
-            max-width: 900px; /* Max width for blocks */
+            margin: 80px auto;
+            max-width: 900px;
             position: relative;
-            z-index: 1; /* Ensure blocks are above background effects */
+            z-index: 1;
             box-shadow: 0 8px 20px rgba(0,0,0,0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .blockchain-block:hover {
-             transform: translateY(-5px);
-             box-shadow: 0 12px 30px rgba(0, 224, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 224, 255, 0.15);
         }
 
         .block-header {
             background-color: rgba(0, 224, 255, 0.1);
             border-bottom: 1px solid var(--accent-color1);
             padding: 10px 20px;
-            margin: -30px -30px 20px -30px; /* Extend to edges of block padding */
+            margin: -30px -30px 20px -30px;
             font-family: var(--font-code);
             font-size: 0.9rem;
-            color: var(--accent-color1);
+            color: rgba(204, 204, 204, 0.6); /* Dimmed color for block number and hash */
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .block-header span {
-            word-break: break-all; /* Break long hashes */
+
+        /* Timeline Content Styling */
+        .timeline-content {
+            background-color: rgba(10, 15, 31, 0.8);
+            border: none;
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+            box-shadow: none;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: none;
+        }
+
+        /* Project Card Content */
+        .project-card-content {
+            background-color: rgba(10, 15, 31, 0.8);
+            border: none;
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+            box-shadow: none;
+        }
+
+        .project-card-content:hover {
+            transform: translateY(-5px);
+            box-shadow: none;
+        }
+
+        .project-card-content h3 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            margin-top: 0;
+            font-size: 1.6rem;
+            text-shadow: none;
+        }
+
+        .project-card-content .date {
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            margin-bottom: 15px;
+            display: block;
+            text-shadow: none;
+        }
+
+        .project-card-content ul {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            margin-bottom: 10px;
+            padding-left: 20px;
+            text-shadow: none;
+        }
+
+        .project-card-content ul li::marker {
+            color: var(--accent-color1);
+        }
+
+        .tech-stack-list {
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted-color);
+            text-shadow: none;
+        }
+
+        .tech-stack-list strong {
+            color: var(--accent-color2);
+            text-shadow: none;
+        }
+
+        /* Education & Certifications Cards */
+        .card-custom {
+            background-color: rgba(10, 15, 31, 0.8);
+            border: none;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+            position: relative;
+            box-shadow: none;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: none;
+        }
+
+        .card-custom h5 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            text-shadow: none;
+        }
+
+        .card-custom p {
+            color: var(--text-muted-color);
+            font-size: 0.95rem;
+            text-shadow: none;
+        }
+
+        .internal-box-header {
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--text-muted-color);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: right;
+            text-shadow: none;
+        }
+
+        /* Remove all pseudo-elements and their effects */
+        .project-card-content::before,
+        .project-card-content::after,
+        .card-custom::before,
+        .card-custom::after {
+            display: none;
+            content: none;
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        /* Remove any remaining glow effects */
+        .blockchain-block {
+            box-shadow: none;
+        }
+
+        .blockchain-block:hover {
+            box-shadow: none;
+        }
+
+        .block-header {
+            box-shadow: none;
+            text-shadow: none;
         }
 
         .block-meta {
-            font-family: var(--font-code);
-            font-size: 0.85rem;
-            color: var(--text-muted-color);
-            margin-bottom: 20px;
+            text-shadow: none;
         }
-        .block-meta span { margin-right: 20px; }
-        .block-meta span:last-child { margin-right: 0; } /* Remove margin on the last item */
+
         /* --- About Section --- */
         #about p {
             font-size: 1.1rem;
@@ -402,8 +552,93 @@
         /* --- Experience & Projects Section --- */
         .timeline {
             position: relative;
-            padding: 0; /* Remove padding, it's on the block */
+            padding: 0;
         }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-content {
+            background-color: rgba(10, 15, 31, 0.8);
+            border: none;
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+            box-shadow: none;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: none;
+        }
+
+        .timeline-content h3 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            margin-top: 0;
+            font-size: 1.6rem;
+            text-shadow: none;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            line-height: 1.6;
+            margin-bottom: 0;
+            text-shadow: none;
+        }
+
+        .timeline-content strong {
+            color: var(--text-color);
+            font-weight: 600;
+            text-shadow: none;
+        }
+
+        .timeline-content em {
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            display: block;
+            margin-top: 10px;
+            text-shadow: none;
+        }
+
+        /* Remove all pseudo-elements and their effects */
+        .timeline::before,
+        .timeline::after,
+        .timeline-item::before,
+        .timeline-item::after,
+        .timeline-content::before,
+        .timeline-content::after {
+            display: none;
+            content: none;
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        .timeline-content::before {
+            content: none;
+        }
+
+        .timeline-content::after {
+            content: none;
+        }
+
+        .timeline-item::before {
+            content: none;
+        }
+
+        .timeline-item::after {
+            content: none;
+        }
+
+        .timeline::before {
+            content: none;
+        }
+
         .timeline::before { /* Central timeline bar */
             content: none; /* Remove the central timeline bar */
             position: absolute;
@@ -503,30 +738,30 @@
         /* Solidity Code Block Styling */
         .solidity-code-block {
             font-family: var(--font-fira-code), var(--font-code);
-            background-color: #1e1e1e; /* Common dark theme for Solidity editors */
+            background-color: #1e1e1e; /* VS Code's default dark theme */
             padding: 10px 15px;
             border-radius: 4px;
             font-size: 0.85em;
-            line-height: 1.7; /* Overall line height */
+            line-height: 1.7;
             white-space: pre-wrap;
-            color: #d4d4d4; /* Default text */
+            color: #d4d4d4;
             margin-top: 10px;
-            border: 1px solid var(--border-color);
-            text-align: left; /* Ensure code is left-aligned */
+            border: 1px solid #3c3c3c;
+            text-align: left;
         }
         .solidity-code-block code {
-            display: block; /* Ensure code tag takes full width for pre formatting */
+            display: block;
         }
-        .solidity-code-block .line { display: block; min-height: 1.7em; } /* For line-by-line structure & empty lines */
+        .solidity-code-block .line { display: block; min-height: 1.7em; }
         .solidity-code-block .sol-comment    { color: #6a9955; font-style: italic; }
-        .solidity-code-block .sol-pragma     { color: var(--accent-color1); } /* Use accent color 1 */
-        .solidity-code-block .sol-keyword    { color: var(--accent-color2); } /* Use accent color 2 */
-        .solidity-code-block .sol-visibility { color: #c586c0; } /* Keep purple for visibility */
-        .solidity-code-block .sol-type       { color: #4ec9b0; } /* Keep teal for types */
-        .solidity-code-block .sol-identifier { color: var(--text-color); } /* Use main text color for identifiers */
-        .solidity-code-block .sol-string     { color: #ce9178; } /* Keep orange for strings */
-        .solidity-code-block .sol-punctuation{ color: var(--text-muted-color); } /* Use muted color for punctuation */
-        .solidity-code-block .sol-operator   { color: var(--text-color); } /* Use main text color for operators */
+        .solidity-code-block .sol-pragma     { color: #569cd6; } /* VS Code's blue for keywords */
+        .solidity-code-block .sol-keyword    { color: #569cd6; } /* VS Code's blue for keywords */
+        .solidity-code-block .sol-visibility { color: #9cdcfe; } /* VS Code's light blue for modifiers */
+        .solidity-code-block .sol-type       { color: #4ec9b0; } /* VS Code's teal for types */
+        .solidity-code-block .sol-identifier { color: #dcdcaa; } /* VS Code's yellow for functions */
+        .solidity-code-block .sol-string     { color: #ce9178; } /* VS Code's orange for strings */
+        .solidity-code-block .sol-punctuation{ color: #d4d4d4; } /* VS Code's white for punctuation */
+        .solidity-code-block .sol-operator   { color: #d4d4d4; } /* VS Code's white for operators */
 
         /* Ensure project-card-content ul has its own styling if needed,
            as go-code-snippet might be inside it. */
@@ -641,44 +876,45 @@
 
         /* --- Contact Section (Wallet UI) --- */
         #contact {
-            background-color: var(--secondary-bg); /* Wallet background */
-            border-radius: 15px; /* Rounded corners */
-            max-width: 600px; /* Smaller width */
-            margin: 80px auto; /* Center the wallet */
-            border: 2px solid var(--accent-color2); /* Wallet border */
-            box-shadow: 0 0 25px rgba(44, 255, 152, 0.3); /* Slightly enhanced Green glow */
+            background-color: var(--secondary-bg);
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 80px auto;
+            border: 1px solid var(--accent-color2);
+            box-shadow: 0 0 15px rgba(44, 255, 152, 0.1);
             position: relative;
-            overflow: hidden; /* Contain inner elements */
-            padding: 0; /* Remove outer padding, will be handled by inner divs */
+            overflow: hidden;
+            padding: 0;
         }
-        /* Styles for the new wallet UI */
+
         .wallet-header {
-            background-color: rgba(44, 255, 152, 0.1); /* Greenish tint for header */
+            background-color: rgba(44, 255, 152, 0.05);
             padding: 20px;
             border-bottom: 1px solid var(--accent-color2);
             text-align: center;
-            position: relative; /* For status indicator positioning */
+            position: relative;
         }
-        .wallet-header h2 { /* Targeting the h2 directly, not as .section-title */
+
+        .wallet-header h2 {
             font-family: var(--font-display);
             color: var(--accent-color2);
             font-size: 1.8rem;
             margin-bottom: 0;
-            text-shadow: 0 0 8px var(--accent-color2);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .wallet-status-indicator {
-            width: 12px;
-            height: 12px;
-            background-color: var(--accent-color2); /* Green for "online" */
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color2);
             border-radius: 50%;
             position: absolute;
             top: 50%;
             left: 20px;
             transform: translateY(-50%);
-            box-shadow: 0 0 8px var(--accent-color2);
         }
+
         .wallet-body {
             padding: 25px;
         }
@@ -734,40 +970,39 @@
         .contact-entry {
             display: flex;
             align-items: center;
-            background-color: rgba(10, 15, 31, 0.6); /* Darker item background */
+            background-color: rgba(10, 15, 31, 0.6);
             padding: 12px 15px;
             border-radius: 8px;
             margin-bottom: 12px;
             border: 1px solid var(--border-color);
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
-        .contact-entry:hover {
-            background-color: rgba(0, 224, 255, 0.1);
-            border-color: var(--accent-color1);
-        }
-        .contact-entry i.contact-icon { /* Specific class for main contact icons */
+
+        .contact-entry i.contact-icon {
             color: var(--accent-color1);
             font-size: 1.3rem;
             margin-right: 15px;
             width: 25px;
             text-align: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
         }
+
         .contact-entry span, .contact-entry a {
             color: var(--text-color);
             font-size: 1rem;
             text-decoration: none;
-            flex-grow: 1; /* Allow text to take available space */
-            word-break: break-all; /* Break long strings like email/address */
+            flex-grow: 1;
+            word-break: break-all;
+            margin-right: 10px; /* Add space between text and icon */
         }
-        .contact-entry a:hover {
-            color: var(--accent-color1);
-        }
-        .action-icon { /* For copy/link icons */
+
+        .action-icon {
             color: var(--text-muted-color);
-            margin-left: 15px;
+            margin-left: 0; /* Remove left margin */
             cursor: pointer;
             transition: color 0.3s ease;
             font-size: 1.1rem;
+            flex-shrink: 0; /* Prevent icon from shrinking */
         }
         .action-icon:hover {
             color: var(--accent-color2);
@@ -849,6 +1084,962 @@
         /* .chain-connector-right, .chain-connector-left, .chain-connector-vertical { ... } */
         /* @keyframes flowChain { ... } */
 
+        /* Solidity Syntax Highlighting */
+        .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
+        .sol-pragma     { color: #569cd6 !important; }
+        .sol-keyword    { color: #569cd6 !important; }
+        .sol-visibility { color: #9cdcfe !important; }
+        .sol-type       { color: #4ec9b0 !important; }
+        .sol-identifier { color: #dcdcaa !important; }
+        .sol-string     { color: #ce9178 !important; }
+        .sol-punctuation{ color: #d4d4d4 !important; }
+        .sol-operator   { color: #d4d4d4 !important; }
+
+        /* Ensure these styles are applied to the code in the VS Code window */
+        .vscode-body .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
+        .vscode-body .sol-pragma     { color: #569cd6 !important; }
+        .vscode-body .sol-keyword    { color: #569cd6 !important; }
+        .vscode-body .sol-visibility { color: #9cdcfe !important; }
+        .vscode-body .sol-type       { color: #4ec9b0 !important; }
+        .vscode-body .sol-identifier { color: #dcdcaa !important; }
+        .vscode-body .sol-string     { color: #ce9178 !important; }
+        .vscode-body .sol-punctuation{ color: #d4d4d4 !important; }
+        .vscode-body .sol-operator   { color: #d4d4d4 !important; }
+
+        /* Tagline styling */
+        #hero .lead {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 1.5rem auto;
+            line-height: 1.6;
+            font-family: var(--font-secondary);
+            text-shadow: 0 0 10px rgba(0, 224, 255, 0.1);
+            position: relative;
+            padding: 0 20px;
+        }
+        #hero .lead::before,
+        #hero .lead::after {
+            content: '';
+            position: absolute;
+            height: 1px;
+            width: 100px;
+            background: linear-gradient(to right, transparent, var(--accent-color1), transparent);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #hero .lead::before {
+            top: -15px;
+        }
+        #hero .lead::after {
+            bottom: -15px;
+        }
+
+        /* Experience Tiles Styling */
+        .timeline-content {
+            background-color: rgba(10, 15, 31, 0.8);
+            border: none;
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+            box-shadow: none;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: none;
+        }
+
+        .timeline-content h3 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            margin-top: 0;
+            font-size: 1.6rem;
+            text-shadow: none;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            line-height: 1.6;
+            margin-bottom: 0;
+            text-shadow: none;
+        }
+
+        .timeline-content strong {
+            color: var(--text-color);
+            font-weight: 600;
+            text-shadow: none;
+        }
+
+        .timeline-content em {
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            display: block;
+            margin-top: 10px;
+            text-shadow: none;
+        }
+
+        /* Remove any remaining glow effects */
+        .timeline::before,
+        .timeline-item::before,
+        .timeline-item::after,
+        .timeline-content::before,
+        .timeline-content::after {
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        .timeline-content::before {
+            content: none;
+        }
+
+        .timeline-content::after {
+            content: none;
+        }
+
+        .timeline-item::before {
+            content: none;
+        }
+
+        .timeline-item::after {
+            content: none;
+        }
+
+        .timeline::before {
+            content: none;
+        }
+
+        .wallet-balance {
+            background-color: rgba(10, 15, 31, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 224, 255, 0.2);
+        }
+
+        .balance-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .network-name {
+            color: var(--accent-color1);
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .balance-amount {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .currency-symbol {
+            color: var(--accent-color2);
+            font-family: var(--font-code);
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+
+        .amount {
+            color: var(--text-color);
+            font-family: var(--font-code);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .wallet-address {
+            background-color: rgba(0, 224, 255, 0.1);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: var(--text-muted-color);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .address-label {
+            color: var(--accent-color1);
+        }
+
+        .address {
+            color: var(--text-color);
+            flex-grow: 1;
+        }
+
+        /* Transaction ID Header for Tiles */
+        .txn-header {
+            font-family: var(--font-code);
+            font-size: 0.7rem;
+            color: var(--text-muted-color);
+            padding: 8px 15px;
+            background-color: rgba(16, 24, 48, 0.95);
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: -20px -20px 12px -20px;
+            opacity: 0.9;
+        }
+
+        .txn-id {
+            color: var(--accent-color1);
+            font-family: var(--font-code);
+            font-size: 0.65rem;
+            opacity: 0.9;
+            background-color: rgba(0, 224, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .timeline-content {
+            background-color: rgba(10, 15, 31, 0.95);
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .project-card-content {
+            background-color: rgba(10, 15, 31, 0.95);
+            border: 1px solid rgba(0, 224, 255, 0.15);
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-custom {
+            background-color: rgba(10, 15, 31, 0.95);
+            border: 1px solid rgba(0, 224, 255, 0.15);
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add subtle gradient overlay to content areas */
+        .timeline-content::after,
+        .project-card-content::after,
+        .card-custom::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(0, 224, 255, 0.05),
+                rgba(44, 255, 152, 0.05)
+            );
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        /* Enhance hover effects */
+        .timeline-content:hover,
+        .project-card-content:hover,
+        .card-custom:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
+            border-color: rgba(0, 224, 255, 0.3);
+        }
+
+        .timeline-content h3 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            margin-top: 0;
+            font-size: 1.6rem;
+            text-shadow: none;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            line-height: 1.6;
+            margin-bottom: 0;
+            text-shadow: none;
+        }
+
+        .timeline-content strong {
+            color: var(--text-color);
+            font-weight: 600;
+            text-shadow: none;
+        }
+
+        .timeline-content em {
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            display: block;
+            margin-top: 10px;
+            text-shadow: none;
+        }
+
+        .timeline-content::before { /* Inner glow / "active" feel for the outer card */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.15);
+            pointer-events: none;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            /* float: left; */
+            /* text-align: right; */ /* Align based on content, or default left */
+            margin: 0 auto; /* Center the block if it's less than full width */
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            /* float: right; */
+            /* text-align: left; */
+            margin: 0 auto; /* Center the block */
+        }
+
+        .timeline-item::before {
+            content: none;
+        }
+
+        .timeline-item::after {
+            content: none;
+        }
+
+        .timeline::before {
+            content: none;
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative; /* Keep relative positioning */
+        }
+        .timeline-item::after { /* Clearfix */
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 50px;
+            height: 50px;
+            /* Hexagonal node shape */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Keep hexagonal shape */
+            background: var(--accent-color1);
+            color: var(--primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(-50%);
+            z-index: 2; /* Above timeline line */
+            font-size: 1.3rem;
+            border: 2px solid var(--primary-bg); /* Thinner border for clip-path */
+            box-shadow: 0 0 15px var(--accent-color1); /* Glow effect */
+            animation: pulseGlow 2s infinite ease-in-out; /* Subtle pulse */
+        }
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 15px var(--accent-color1); }
+            50% { box-shadow: 0 0 20px var(--accent-color1), 0 0 25px rgba(0, 224, 255, 0.5); } /* Adjusted glow intensity */
+            100% { box-shadow: 0 0 15px var(--accent-color1); } /* Keep glow */
+        }
+        @keyframes pulseGlowAlt { /* For even items */
+            0% { box-shadow: 0 0 15px var(--accent-color2); }
+            50% { box-shadow: 0 0 25px var(--accent-color2), 0 0 30px rgba(44, 255, 152, 0.5); }
+            100% { box-shadow: 0 0 15px var(--accent-color2); }
+        }
+        .timeline-item:nth-child(even) .timeline-icon {
+            background: var(--accent-color2);
+             border-color: var(--primary-bg); /* Keep border color */
+             box-shadow: 0 0 15px var(--accent-color2); /* Keep glow */
+             animation: pulseGlowAlt 2s infinite ease-in-out; /* Keep animation */
+        }
+        .timeline-content { /* This remains for the card border/bg of timeline items */
+            width: 90%; /* Ensure .timeline-content takes more width */
+            padding: 20px; /* Add padding for content inside the card */
+            background: transparent; /* Make transparent, go-code-block has its own bg */
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border: 1px solid transparent; /* Base for gradient border */
+            position: relative;
+            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
+            background-clip: padding-box; /* Important for border-image */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin: 0 auto; /* Center the block */
+        }
+        /* Go Code Block Styling (for Technologies snippet) */
+        .go-code-snippet {
+            font-family: var(--font-fira-code), var(--font-code);
+            background-color: #0c1021; /* Darker than secondary-bg */
+            padding: 10px 15px; /* Smaller padding for snippet */
+            border-radius: 4px;
+            font-size: 0.85em; /* Slightly smaller font for snippet */
+            line-height: 1.7;
+            white-space: pre-wrap;
+            color: #d4d4d4;
+            margin-top: 10px;
+            border: 1px solid var(--border-color);
+            text-align: left; /* Ensure code is left-aligned */
+        }
+        .go-code-snippet code {
+            display: block; /* Ensure code tag takes full width for pre formatting */
+        }
+        .go-code-snippet .line { display: block; min-height: 1.7em; } /* For line-by-line structure & empty lines */
+        .go-code-snippet .go-keyword    { color: #c586c0; } /* e.g., package, func, type, struct, map, return, var */
+        .go-code-snippet .go-type       { color: #4ec9b0; } /* e.g., string, RetailCBDC, MkclERA */
+        .go-code-snippet .go-identifier { color: #9cdcfe; } /* e.g., r, TechStack, Duration, from, to */
+        .go-code-snippet .go-string     { color: #ce9178; } /* e.g., "Gin Gonic" */
+        .go-code-snippet .go-punctuation{ color: #ffd700; } /* e.g., (), {}, [], *, ,, : */
+        .go-code-snippet .go-comment    { color: #6a9955; font-style: italic; }
+        .go-code-snippet .go-operator   { color: #d4d4d4; } /* For operators like = */
+
+
+        /* Solidity Code Block Styling */
+        .solidity-code-block {
+            font-family: var(--font-fira-code), var(--font-code);
+            background-color: #1e1e1e; /* VS Code's default dark theme */
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            color: #d4d4d4;
+            margin-top: 10px;
+            border: 1px solid #3c3c3c;
+            text-align: left;
+        }
+        .solidity-code-block code {
+            display: block;
+        }
+        .solidity-code-block .line { display: block; min-height: 1.7em; }
+        .solidity-code-block .sol-comment    { color: #6a9955; font-style: italic; }
+        .solidity-code-block .sol-pragma     { color: #569cd6; } /* VS Code's blue for keywords */
+        .solidity-code-block .sol-keyword    { color: #569cd6; } /* VS Code's blue for keywords */
+        .solidity-code-block .sol-visibility { color: #9cdcfe; } /* VS Code's light blue for modifiers */
+        .solidity-code-block .sol-type       { color: #4ec9b0; } /* VS Code's teal for types */
+        .solidity-code-block .sol-identifier { color: #dcdcaa; } /* VS Code's yellow for functions */
+        .solidity-code-block .sol-string     { color: #ce9178; } /* VS Code's orange for strings */
+        .solidity-code-block .sol-punctuation{ color: #d4d4d4; } /* VS Code's white for punctuation */
+        .solidity-code-block .sol-operator   { color: #d4d4d4; } /* VS Code's white for operators */
+
+        /* Ensure project-card-content ul has its own styling if needed,
+           as go-code-snippet might be inside it. */
+        .project-card-content ul {
+            /* Styles from lines 436-444 are already good */
+        }
+
+        .timeline-content::before { /* Inner glow / "active" feel for the outer card */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.15);
+            pointer-events: none;
+        }
+        .timeline-content:hover {
+            transform: translateY(-5px); /* Remove scale on hover for full width items */
+            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
+        }
+        .timeline-item:nth-child(odd) .timeline-content {
+            /* float: left; */
+            /* text-align: right; */ /* Align based on content, or default left */
+            margin: 0 auto; /* Center the block if it's less than full width */
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            /* float: right; */
+            /* text-align: left; */
+            margin: 0 auto; /* Center the block */
+        }
+        /* Styles for regular project cards (not Go code style) */
+        .project-card-content { /* This class is now primarily for the Projects section */
+            padding: 20px;
+        }
+        .project-card-content h3 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+        .project-card-content .date {
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            margin-bottom: 15px;
+            display: block;
+        }
+        .project-card-content ul {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            margin-bottom: 10px;
+            padding-left: 20px; /* Keep padding */
+        }
+        .project-card-content ul li::marker {
+            color: var(--accent-color1);
+        }
+        .tech-stack-list { /* List of technologies */
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted-color);
+        }
+        .tech-stack-list strong {
+            color: var(--accent-color2);
+        }
+
+        /* --- Education & Certifications --- */
+        .card-custom {
+            background-color: var(--secondary-bg);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
+            background-clip: padding-box;
+        }
+        /* Specific style for Certifications card */
+        #certifications .card-custom {
+             border-image: linear-gradient(to bottom right, var(--accent-color2), var(--accent-color1)) 1; /* Reverse gradient */
+        }
+         #certifications .card-custom::before { /* Inner glow */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(44, 255, 152, 0.1); /* Greenish glow */
+            background-clip: padding-box;
+        }
+        .card-custom::before { /* Inner glow */
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.1);
+            pointer-events: none;
+        }
+        .internal-box-header { /* For Txn IDs inside cards */
+            font-family: var(--font-code);
+            font-size: 0.75rem;
+            color: var(--text-muted-color);
+            padding-bottom: 8px;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed var(--border-color);
+            text-align: right;
+        }
+
+        .card-custom:hover {
+            transform: translateY(-5px) scale(1.01);
+            box-shadow: 0 6px 20px rgba(0, 224, 255, 0.1);
+        }
+        .card-custom h5 {
+            color: var(--accent-color1);
+            font-family: var(--font-display); /* Keep font */
+        }
+        .card-custom p {
+            color: var(--text-muted-color);
+            font-size: 0.95rem;
+        }
+
+        /* --- Contact Section (Wallet UI) --- */
+        #contact {
+            background-color: var(--secondary-bg);
+            border-radius: 15px;
+            max-width: 600px;
+            margin: 80px auto;
+            border: 1px solid var(--accent-color2);
+            box-shadow: 0 0 15px rgba(44, 255, 152, 0.1);
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .wallet-header {
+            background-color: rgba(44, 255, 152, 0.05);
+            padding: 20px;
+            border-bottom: 1px solid var(--accent-color2);
+            text-align: center;
+            position: relative;
+        }
+
+        .wallet-header h2 {
+            font-family: var(--font-display);
+            color: var(--accent-color2);
+            font-size: 1.8rem;
+            margin-bottom: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .wallet-status-indicator {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color2);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+        }
+
+        .wallet-body {
+            padding: 25px;
+        }
+        .qr-code-area {
+            text-align: center;
+            margin-bottom: 25px;
+            background-color: rgba(10, 15, 31, 0.4); /* Slightly different background */
+            border-radius: 10px;
+            border: 1px dashed var(--border-color);
+        }
+        .qr-code-area i {
+            font-size: 5rem; /* Large QR icon */
+            color: var(--text-muted-color);
+            padding: 15px 0; /* Add some padding around QR icon */
+        }
+        .qr-code-area p {
+            font-size: 0.8rem;
+            color: var(--text-muted-color);
+            margin-top: 5px; /* Reduced margin */
+            font-family: var(--font-code);
+            padding-bottom: 10px;
+        }
+        .wallet-actions {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 25px;
+        }
+        .wallet-action-btn, a.wallet-action-btn { /* Ensure <a> tags are styled too */
+            background-color: rgba(0, 224, 255, 0.1);
+            color: var(--accent-color1);
+            border: 1px solid var(--accent-color1);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: var(--font-display);
+            font-size: 0.9rem; /* Slightly smaller for better fit */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            text-decoration: none; /* Remove underline from <a> */
+            display: inline-flex; /* Align icon and text */
+            align-items: center;
+        }
+        .wallet-intro-text {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .contact-entries-list {
+            /* Wrapper for contact items if needed for future styling */
+        }
+        .contact-entry {
+            display: flex;
+            align-items: center;
+            background-color: rgba(10, 15, 31, 0.6);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .contact-entry i.contact-icon {
+            color: var(--accent-color1);
+            font-size: 1.3rem;
+            margin-right: 15px;
+            width: 25px;
+            text-align: center;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+
+        .contact-entry span, .contact-entry a {
+            color: var(--text-color);
+            font-size: 1rem;
+            text-decoration: none;
+            flex-grow: 1;
+            word-break: break-all;
+            margin-right: 10px; /* Add space between text and icon */
+        }
+
+        .action-icon {
+            color: var(--text-muted-color);
+            margin-left: 0; /* Remove left margin */
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-size: 1.1rem;
+            flex-shrink: 0; /* Prevent icon from shrinking */
+        }
+        .action-icon:hover {
+            color: var(--accent-color2);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--secondary-bg);
+            color: var(--text-muted-color);
+            padding: 30px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+        }
+        footer .social-icons a {
+            font-size: 1.5rem; /* Keep icon size */
+        }
+
+        /* --- Responsive Adjustments for Timeline --- */
+        @media (max-width: 768px) {
+            #hero h1 { font-size: 2.5rem; }
+            #hero h2 { font-size: 1.5rem; }
+            .section-title { font-size: 2rem; }
+            .timeline::before { /* Keep responsive adjustments */
+                left: 25px;
+            } /* Keep responsive adjustments */
+            .timeline-item .timeline-content {
+                width: calc(100% - 70px); /* Adjust width */
+                float: right; /* All content to the right */
+                text-align: left; /* Align text left */
+                margin: 0; /* Remove auto margin on small screens if floating */
+            }
+            .timeline-item:nth-child(odd) .timeline-content {
+                float: right;
+                text-align: left;
+            }
+            .timeline-icon {
+                left: 25px; /* Align icon with the line */ /* Keep responsive icon alignment */
+            }
+            /* Hide side connectors on small screens */
+            .chain-connector-right, .chain-connector-left, .chain-connector-vertical { display: none; } 
+        }
+
+        /* Scrollbar styling (optional, for a more themed look) */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color1);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color2);
+        }
+
+        /* Specific style for blockchain skills */
+        .skill-category.blockchain-skills h4 {
+            color: var(--accent-color1); /* Use accent color 1 for blockchain category */
+            font-weight: 700; /* Make it bolder */
+            border-color: var(--accent-color1);
+        }
+        .skill-category.blockchain-skills {
+            position: relative;
+            z-index: 1;
+        }
+        .skill-category.blockchain-skills::before { /* Add a subtle block/frame effect */
+            content: '';
+            position: absolute;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
+            border: 1px solid var(--accent-color1);
+            opacity: 0.2;
+            z-index: -1;
+        } /* Keep blockchain skills frame */
+
+        /* --- Blockchain Block Connectors (REMOVED) --- */
+        /* .chain-connector-right, .chain-connector-left, .chain-connector-vertical { ... } */
+        /* @keyframes flowChain { ... } */
+
+        /* Solidity Syntax Highlighting */
+        .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
+        .sol-pragma     { color: #569cd6 !important; }
+        .sol-keyword    { color: #569cd6 !important; }
+        .sol-visibility { color: #9cdcfe !important; }
+        .sol-type       { color: #4ec9b0 !important; }
+        .sol-identifier { color: #dcdcaa !important; }
+        .sol-string     { color: #ce9178 !important; }
+        .sol-punctuation{ color: #d4d4d4 !important; }
+        .sol-operator   { color: #d4d4d4 !important; }
+
+        /* Ensure these styles are applied to the code in the VS Code window */
+        .vscode-body .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
+        .vscode-body .sol-pragma     { color: #569cd6 !important; }
+        .vscode-body .sol-keyword    { color: #569cd6 !important; }
+        .vscode-body .sol-visibility { color: #9cdcfe !important; }
+        .vscode-body .sol-type       { color: #4ec9b0 !important; }
+        .vscode-body .sol-identifier { color: #dcdcaa !important; }
+        .vscode-body .sol-string     { color: #ce9178 !important; }
+        .vscode-body .sol-punctuation{ color: #d4d4d4 !important; }
+        .vscode-body .sol-operator   { color: #d4d4d4 !important; }
+
+        /* Tagline styling */
+        #hero .lead {
+            font-size: 1.4rem;
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 1.5rem auto;
+            line-height: 1.6;
+            font-family: var(--font-secondary);
+            text-shadow: 0 0 10px rgba(0, 224, 255, 0.1);
+            position: relative;
+            padding: 0 20px;
+        }
+        #hero .lead::before,
+        #hero .lead::after {
+            content: '';
+            position: absolute;
+            height: 1px;
+            width: 100px;
+            background: linear-gradient(to right, transparent, var(--accent-color1), transparent);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #hero .lead::before {
+            top: -15px;
+        }
+        #hero .lead::after {
+            bottom: -15px;
+        }
+
+        /* Experience Tiles Styling */
+        .timeline-content {
+            background-color: rgba(10, 15, 31, 0.8);
+            border: none;
+            border-radius: 6px;
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+            box-shadow: none;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: none;
+        }
+
+        .timeline-content h3 {
+            color: var(--accent-color1);
+            font-family: var(--font-display);
+            margin-top: 0;
+            font-size: 1.6rem;
+            text-shadow: none;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted-color);
+            line-height: 1.6;
+            margin-bottom: 0;
+            text-shadow: none;
+        }
+
+        .timeline-content strong {
+            color: var(--text-color);
+            font-weight: 600;
+            text-shadow: none;
+        }
+
+        .timeline-content em {
+            font-size: 0.9rem;
+            color: var(--text-muted-color);
+            display: block;
+            margin-top: 10px;
+            text-shadow: none;
+        }
+
+        /* Remove any remaining glow effects */
+        .timeline::before,
+        .timeline-item::before,
+        .timeline-item::after,
+        .timeline-content::before,
+        .timeline-content::after {
+            box-shadow: none;
+            text-shadow: none;
+        }
+
+        .timeline-content::before {
+            content: none;
+        }
+
+        .timeline-content::after {
+            content: none;
+        }
+
+        .timeline-item::before {
+            content: none;
+        }
+
+        .timeline-item::after {
+            content: none;
+        }
+
+        .timeline::before {
+            content: none;
+        }
+
+        .wallet-balance {
+            background-color: rgba(10, 15, 31, 0.6);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 224, 255, 0.2);
+        }
+
+        .balance-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .network-name {
+            color: var(--accent-color1);
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+
+        .balance-amount {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .currency-symbol {
+            color: var(--accent-color2);
+            font-family: var(--font-code);
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+
+        .amount {
+            color: var(--text-color);
+            font-family: var(--font-code);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .wallet-address {
+            background-color: rgba(0, 224, 255, 0.1);
+            border-radius: 6px;
+            padding: 12px;
+            font-family: var(--font-code);
+            font-size: 0.85rem;
+            color: var(--text-muted-color);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .address-label {
+            color: var(--accent-color1);
+        }
+
+        .address {
+            color: var(--text-color);
+            flex-grow: 1;
+        }
     </style>
 </head>
 <body>
@@ -857,12 +2048,11 @@
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
-                <!-- Navbar brand (name) removed -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav"> <!-- ml-auto removed as justify-content-end handles it -->
+                    <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
@@ -887,8 +2077,7 @@
                         <img src="https://media.tenor.com/TCMWkxIkF9IAAAAj/dancing-gopher.gif" alt="Dancing Gopher">
                     </div>
                 </div>
-                <h2 data-aos="fade-up" data-aos-delay="400">{{ personalInfo.title }}</h2>
-                <!-- <p class="lead" data-aos="fade-up" data-aos-delay="600" v-html="personalInfo.tagline"></p> -->
+                <p class="lead" data-aos="fade-up" data-aos-delay="400" v-html="personalInfo.tagline"></p>
                 <div class="vscode-window" data-aos="fade-up" data-aos-delay="700">
                     <div class="vscode-header">
                         <div class="vscode-buttons">
@@ -911,14 +2100,13 @@
             </div>
         </section>
 
-        <!-- About Section (Block 1) -->
+        <!-- About Section (Block 0) -->
         <section id="about" class="container">
             <div class="blockchain-block" data-aos="fade-up">
                 <div class="block-header">
                     <span>Block #{{ aboutBlock.nonce }}</span>
                     <span>Hash: {{ aboutBlock.hash }}</span>
                 </div>
-                <div class="block-meta"><span>Created At: {{ aboutBlock.createdAt }}</span></div>
                 <div class="block-content">
                     <h2 class="section-title" data-aos="fade-up">About Me</h2>
                     <div class="row">
@@ -930,14 +2118,13 @@
             </div>
         </section>
 
-        <!-- Skills Section (Block 2) -->
+        <!-- Skills Section (Block 1) -->
         <section id="skills" class="container">
             <div class="blockchain-block" data-aos="fade-up">
                 <div class="block-header">
                     <span>Block #{{ skillsBlock.nonce }}</span>
                     <span>Hash: {{ skillsBlock.hash }}</span>
                 </div>
-                <div class="block-meta"><span>Created At: {{ skillsBlock.createdAt }}</span></div>
                 <div class="block-content">
                     <h2 class="section-title" data-aos="fade-up">Skills</h2>
                     <div v-for="(category, index) in skills" :key="index" class="skill-category" data-aos="fade-up" :data-aos-delay="100 * index">
@@ -950,51 +2137,48 @@
             </div>
         </section>
 
-        <!-- Experience Section (Block 3) -->
+        <!-- Experience Section (Block 1) -->
         <section id="experience" class="container">
             <div class="blockchain-block" data-aos="fade-up">
                 <div class="block-header">
                     <span>Block #{{ experienceBlock.nonce }}</span>
                     <span>Hash: {{ experienceBlock.hash }}</span>
                 </div>
-                <div class="block-meta"><span>Created At: {{ experienceBlock.createdAt }}</span></div>
                 <div class="block-content">
                     <h2 class="section-title" data-aos="fade-up">Experience</h2>
 
                     <div class="timeline">
                          <!-- NPCI Experience -->
                         <div class="timeline-item" data-aos="fade-up">
-                            <!-- Hexagon icon container removed -->
                             <div class="timeline-content">
-                                <!-- <div class="project-card-content"> g -->
-                                    <h3>{{ experience[0].company }}</h3>
-                                    <p style="font-size: 0.95rem; color: var(--text-muted-color); line-height: 1.6; margin-bottom: 0;">
-                                        As a <strong>{{ experience[0].title }}</strong>, I played a pivotal role in the pioneering <strong>{{ experience[0].project }}</strong> project—a national digital currency initiative by the RBI, impacting millions of users and merchants. My contributions included designing and developing core modules using a hexagonal architecture, engineering robust backend services with Golang (Gin-Gonic, Go-Fiber), gRPC, and Kafka, and developing Hyperledger Fabric smart contracts.
-                                        <br><br>
-                                        Key outcomes of my work include a <strong>75% increase in system efficiency</strong> through concurrent processing and a <strong>40% reduction in production bugs</strong> by implementing idempotency and rollback-safe flows, significantly enhancing platform reliability. I also led UAT and production deployment coordination with RBI and numerous partner banks, and mentored junior developers in best practices.
-                                        <br>
-                                        <em style="font-size: 0.9rem; color: var(--accent-color1); display: block; margin-top: 10px;">Period: {{ experience[0].period }}</em>
-                                    </p>
-                                    <!-- Removed bulleted list of responsibilities and achievements -->
-                                <!-- </div> -->
+                                <div class="txn-header">
+                                    <span>Transaction ID: <span class="txn-id">{{ experience[0].txnId }}</span></span>
+                                </div>
+                                <h3>{{ experience[0].company }}</h3>
+                                <p>
+                                    As a <strong>{{ experience[0].title }}</strong>, I played a pivotal role in the pioneering <strong>{{ experience[0].project }}</strong> project—a national digital currency initiative by the RBI, impacting millions of users and merchants. My contributions included designing and developing core modules using a hexagonal architecture, engineering robust backend services with Golang (Gin-Gonic, Go-Fiber), gRPC, and Kafka, and developing Hyperledger Fabric smart contracts.
+                                    <br><br>
+                                    Key outcomes of my work include a <strong>75% increase in system efficiency</strong> through concurrent processing and a <strong>40% reduction in production bugs</strong> by implementing idempotency and rollback-safe flows, significantly enhancing platform reliability. I also led UAT and production deployment coordination with RBI and numerous partner banks, and mentored junior developers in best practices.
+                                    <br>
+                                    <em>Period: {{ experience[0].period }}</em>
+                                </p>
                             </div>
                         </div>
 
                         <!-- MKCL Experience -->
                         <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
-                            <!-- Hexagon icon container removed -->
                             <div class="timeline-content">
-                                <div class="project-card-content">
-                                    <h3>{{ experience[1].company }}</h3>
-                                    <p style="font-size: 0.95rem; color: var(--text-muted-color); line-height: 1.6; margin-bottom: 0;">
-                                        In my role as an <strong>{{ experience[1].title }}</strong>, I was instrumental in architecting and developing the <strong>{{ experience[1].project }}</strong>, a system serving over a million learners annually. I focused on leveraging Golang to enhance system performance and scalability, notably by designing concurrent reporting modules and developing a full-fledged simulation module from scratch, which included REST APIs, structured logging, and caching logic.
-                                        <br><br>
-                                        My optimization efforts led to a significant <strong>30% performance gain</strong> through targeted server-side cache optimization and reduced I/O overhead, greatly improving the user experience and platform stability.
-                                        <br>
-                                        <em style="font-size: 0.9rem; color: var(--accent-color1); display: block; margin-top: 10px;">Period: {{ experience[1].period }}</em>
-                                    </p>
-                                    <!-- Removed bulleted list of responsibilities and achievements -->
+                                <div class="txn-header">
+                                    <span>Transaction ID: <span class="txn-id">{{ experience[1].txnId }}</span></span>
                                 </div>
+                                <h3>{{ experience[1].company }}</h3>
+                                <p>
+                                    In my role as an <strong>{{ experience[1].title }}</strong>, I was instrumental in architecting and developing the <strong>{{ experience[1].project }}</strong>, a system serving over a million learners annually. I focused on leveraging Golang to enhance system performance and scalability, notably by designing concurrent reporting modules and developing a full-fledged simulation module from scratch, which included REST APIs, structured logging, and caching logic.
+                                    <br><br>
+                                    My optimization efforts led to a significant <strong>30% performance gain</strong> through targeted server-side cache optimization and reduced I/O overhead, greatly improving the user experience and platform stability.
+                                    <br>
+                                    <em>Period: {{ experience[1].period }}</em>
+                                </p>
                             </div>
                         </div>
                     </div> <!-- End timeline -->
@@ -1002,35 +2186,30 @@
             </div>
         </section>
 
-        <!-- Projects Section (Block 4) -->
+        <!-- Projects Section (Block 2) -->
         <section id="projects" class="container">
             <div class="blockchain-block" data-aos="fade-up">
                 <div class="block-header">
                     <span>Block #{{ projectsBlock.nonce }}</span>
                     <span>Hash: {{ projectsBlock.hash }}</span>
                 </div>
-                <div class="block-meta"><span>Created At: {{ projectsBlock.createdAt }}</span></div>
                 <div class="block-content">
                     <h2 class="section-title" data-aos="fade-up">Personal Projects</h2>
                     <div class="timeline">
                          <div v-for="(project, index) in projects" :key="index" class="timeline-item" data-aos="fade-up" :data-aos-delay="100 * index">
-                            <!-- Hexagon icon container removed -->
-                            <div class="timeline-content"> <!-- Standard project card content -->
-                                <div class="project-card-content">
-                                    <div class="internal-box-header">
-                                        <span>Txn ID: {{ project.txnId }}</span>
-                                    </div>
-                                    <h3>{{ project.name }}</h3>
-                                    <span class="date">{{ project.period }}</span>
-                                    <ul>
-                                        <li v-for="detail in project.details" :key="detail">{{ detail }}</li>
-                                    </ul>
-                                     <div class="mt-3">
-                                        <strong>Technologies:</strong>
-                                        <!-- Display technologies as a list for all projects -->
-                                        <div v-if="project.technologies && Array.isArray(project.technologies) && project.technologies.length > 0" class="tech-stack-list" style="margin-top:0; padding: 5px 0;">
-                                            {{ project.technologies.join(', ') }}
-                                        </div>
+                            <div class="timeline-content">
+                                <div class="txn-header">
+                                    <span>Transaction ID: <span class="txn-id">{{ project.txnId }}</span></span>
+                                </div>
+                                <h3>{{ project.name }}</h3>
+                                <span class="date">{{ project.period }}</span>
+                                <ul>
+                                    <li v-for="detail in project.details" :key="detail">{{ detail }}</li>
+                                </ul>
+                                <div class="mt-3">
+                                    <strong>Technologies:</strong>
+                                    <div v-if="project.technologies && Array.isArray(project.technologies) && project.technologies.length > 0" class="tech-stack-list">
+                                        {{ project.technologies.join(', ') }}
                                     </div>
                                 </div>
                             </div>
@@ -1040,28 +2219,27 @@
             </div>
         </section>
 
-        <!-- Education Section (Block 5) -->
+        <!-- Education Section (Block 3) -->
         <section id="education" class="container">
             <div class="blockchain-block" data-aos="fade-up">
                 <div class="block-header">
                     <span>Block #{{ educationBlock.nonce }}</span>
                     <span>Hash: {{ educationBlock.hash }}</span>
                 </div>
-                <div class="block-meta"><span>Created At: {{ educationBlock.createdAt }}</span></div>
                 <div class="block-content">
                     <h2 class="section-title" data-aos="fade-up">Education</h2>
-                    <div class="row">
-                        <div v-for="(edu, index) in education" :key="index" class="col-md-6 mx-auto" data-aos="fade-up" :data-aos-delay="100 * index">
-                            <div class="card-custom">
-                                <div class="internal-box-header">
-                                    <span>Txn ID: {{ edu.txnId }}</span>
+                    <div class="row justify-content-center">
+                        <div v-for="(edu, index) in education" :key="index" class="col-md-11 mb-5" data-aos="fade-up" :data-aos-delay="100 * index">
+                            <div class="timeline-content" style="padding: 35px;">
+                                <div class="txn-header">
+                                    <span>Transaction ID: <span class="txn-id">{{ edu.txnId }}</span></span>
                                 </div>
-                                <h5>{{ edu.degree }}</h5>
-                                <p class="font-weight-bold">{{ edu.institution }}</p>
-                                <p>{{ edu.period }}</p>
-                                <p><strong>Result:</strong> {{ edu.result }}</p>
-                                <ul>
-                                    <li v-for="point in edu.highlights" :key="point">{{ point }}</li>
+                                <h3>{{ edu.degree }}</h3>
+                                <p class="font-weight-bold mb-3">{{ edu.institution }}</p>
+                                <p class="mb-3">{{ edu.period }}</p>
+                                <p class="mb-3"><strong>Result:</strong> {{ edu.result }}</p>
+                                <ul class="mb-0" style="padding-left: 20px;">
+                                    <li v-for="point in edu.highlights" :key="point" style="margin-bottom: 8px;">{{ point }}</li>
                                 </ul>
                             </div>
                         </div>
@@ -1070,23 +2248,22 @@
             </div>
         </section>
 
-        <!-- Certifications Section (Block 6) -->
+        <!-- Certifications Section (Block 4) -->
         <section id="certifications" class="container">
             <div class="blockchain-block" data-aos="fade-up">
                 <div class="block-header">
                     <span>Block #{{ certificationsBlock.nonce }}</span>
                     <span>Hash: {{ certificationsBlock.hash }}</span>
                 </div>
-                <div class="block-meta"><span>Created At: {{ certificationsBlock.createdAt }}</span></div>
                 <div class="block-content">
                     <h2 class="section-title" data-aos="fade-up">Certifications</h2>
                     <div class="row">
                         <div v-for="(cert, index) in certifications" :key="index" class="col-md-6" data-aos="fade-up" :data-aos-delay="100 * index">
-                             <div class="card-custom">
-                                <div class="internal-box-header">
-                                    <span>Txn ID: {{ cert.txnId }}</span>
+                            <div class="timeline-content">
+                                <div class="txn-header">
+                                    <span>Transaction ID: <span class="txn-id">{{ cert.txnId }}</span></span>
                                 </div>
-                                <h5>{{ cert.name }}</h5>
+                                <h3>{{ cert.name }}</h3>
                                 <p><em>{{ cert.issuer }}</em></p>
                             </div>
                         </div>
@@ -1096,27 +2273,18 @@
         </section>
 
         <!-- Contact Section (Wallet UI) -->
-        <section id="contact"> <!-- Removed container class, max-width handles centering -->
+        <section id="contact">
             <div class="wallet-header">
                 <span class="wallet-status-indicator" title="Network: Online"></span>
-                <h2 data-aos="fade-up">Contact Node</h2>
+                <h2 data-aos="fade-up">Connect with Dev</h2>
             </div>
             <div class="wallet-body">
-                <!-- Balance Area Removed -->
-
-                <div class="qr-code-area" data-aos="zoom-in" data-aos-delay="50">
-                    <a :href="personalInfo.linkedin" target="_blank" title="Open LinkedIn Profile" style="color: var(--text-muted-color); text-decoration: none;">
-                        <i class="fas fa-qrcode"></i>
-                    </a>
-                    <p>Scan or Click QR to view LinkedIn Profile</p>
-                </div>
-
                 <div class="wallet-actions" data-aos="fade-up" data-aos-delay="100">
                     <a :href="'mailto:' + personalInfo.email" class="wallet-action-btn">
                         <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Mail Me
                     </a>
                     <a href="Pramod_Shenkar_Resume.pdf" download class="wallet-action-btn" style="background-color: rgba(44, 255, 152, 0.1); color: var(--accent-color2); border-color: var(--accent-color2);">
-                        <i class="fas fa-qrcode" style="margin-right: 8px;"></i> Download CV
+                        <i class="fas fa-file-import" style="margin-right: 8px;"></i> Download CV
                     </a>
                 </div>
 
@@ -1142,10 +2310,13 @@
                     </div>
                     <div class="contact-entry" data-aos="fade-up" data-aos-delay="500">
                         <i class="fab fa-linkedin contact-icon"></i>
-                        <a :href="personalInfo.linkedin" target="_blank">{{ personalInfo.linkedin.replace('https://www.','') }}</a>
-                        <a :href="personalInfo.linkedin" target="_blank" class="action-icon" title="Open LinkedIn Profile"><i class="fas fa-external-link-alt"></i></a>
+                        <a :href="personalInfo.linkedin" target="_blank" class="d-flex align-items-center justify-content-between w-100">
+                            <span>{{ personalInfo.linkedin.replace('https://www.','') }}</span>
+                            <i class="fas fa-external-link-alt action-icon" title="Open LinkedIn Profile"></i>
+                        </a>
                     </div>
                 </div>
+            </div>
         </section>
 
         <!-- Footer -->
@@ -1197,7 +2368,7 @@
                 speed: 70,
                 initialDelay: 500,
                 erase: false,
-                eraseSpeed: 30, // Faster speed for erasing
+                eraseSpeed: 30,
                 onComplete: null
             };
             const config = { ...defaults, ...options };
@@ -1215,18 +2386,12 @@
 
             function animate() {
                 if (config.erase) {
-                    if (i > 0) {
-                        i--;
-                        // To correctly erase HTML, we need to be careful.
-                        // For simplicity here, we'll assume htmlString is the full content to erase.
-                        // A more robust solution would parse and remove nodes/text.
-                        // This basic erase will remove char by char from the provided htmlString.
-                        targetElement.innerHTML = htmlString.substring(0, i) + cursorHtml;
-                        setTimeout(animate, config.eraseSpeed);
-                    } else {
-                        targetElement.innerHTML = cursorHtml; // Leave only cursor after erasing
+                    // Select all and delete effect
+                    targetElement.innerHTML = '<span style="background-color: #264f78;">' + htmlString + '</span>' + cursorHtml;
+                    setTimeout(() => {
+                        targetElement.innerHTML = cursorHtml;
                         if (config.onComplete) config.onComplete();
-                    }
+                    }, 300); // Short delay to show selection before deletion
                 } else {
                     if (i < htmlString.length) {
                         const char = htmlString[i];
@@ -1237,15 +2402,15 @@
 
                         targetElement.innerHTML = currentDisplayHtml + cursorHtml;
                         i++;
-                        setTimeout(animate, (isTag && char !== '>') ? 0 : config.speed); // Type tags faster
+                        setTimeout(animate, (isTag && char !== '>') ? 0 : config.speed);
                     } else {
-                        targetElement.innerHTML = currentDisplayHtml; // Remove cursor when done
+                        targetElement.innerHTML = currentDisplayHtml;
                         if (config.onComplete) config.onComplete();
                     }
                 }
             }
-            if (!config.erase) targetElement.innerHTML = cursorHtml; // Start with cursor for typing
-            else i = htmlString.length; // For erasing, start i at the end
+            if (!config.erase) targetElement.innerHTML = cursorHtml;
+            else i = htmlString.length;
             setTimeout(animate, config.initialDelay);
         }
 
@@ -1264,13 +2429,13 @@
                 },
                 // Data structured for Blockchain Blocks
                 aboutBlock: {
-                    nonce: 1, // Genesis Block is Hero, so About is #1
-                    createdAt: "2020-05-20T10:00:00Z", // Placeholder date
+                    nonce: 0,
+                    createdAt: "2020-05-20T10:00:00Z",
                     hash: generateFakeHash(),
                 },
                 skillsBlock: {
-                    nonce: 2,
-                    createdAt: "2020-05-20T10:05:00Z", // Placeholder date
+                    nonce: 1,
+                    createdAt: "2020-05-20T10:05:00Z",
                     hash: generateFakeHash(),
                 },
                 experienceBlock: {
@@ -1426,37 +2591,36 @@
 <span class="go-keyword">import</span> <span class="go-string">"fmt"</span>
 
 <span class="go-keyword">func</span> <span class="go-identifier">main</span><span class="go-punctuation">() {</span>
-    <span class="go-comment">// My Golang focus:</span>
-    <span class="go-identifier">fmt</span><span class="go-punctuation">.</span><span class="go-identifier">Println</span><span class="go-punctuation">(</span><span class="go-string">"Experienced developer: Distributed Systems, Golang, & Blockchain."</span><span class="go-punctuation">)</span>
-    <span class="go-identifier">fmt</span><span class="go-punctuation">.</span><span class="go-identifier">Println</span><span class="go-punctuation">(</span><span class="go-string">"Passionate about: Scalability, Performance, and Innovation!"</span><span class="go-punctuation">)</span>
+    <span class="go-identifier">fmt</span><span class="go-punctuation">.</span><span class="go-identifier">Println</span><span class="go-punctuation">(</span><span class="go-string">"Gopher by Heart! Chaincrafter by passion!"</span><span class="go-punctuation">)</span>
 <span class="go-punctuation">}</span>`;
 
                 const solidityCodeToType =
 `<span class="sol-pragma">pragma</span> <span class="sol-keyword">solidity</span> <span class="sol-operator">^</span><span class="sol-string">0.8.0</span><span class="sol-punctuation">;</span>
 
-<span class="sol-keyword">contract</span> <span class="sol-identifier">PortfolioFocus</span> <span class="sol-punctuation">{</span>
-    <span class="sol-comment">// My Solidity focus:</span>
-    <span class="sol-keyword">function</span> <span class="sol-identifier">getSpecialization</span><span class="sol-punctuation">()</span> <span class="sol-visibility">public</span> <span class="sol-visibility">pure</span> <span class="sol-keyword">returns</span> <span class="sol-punctuation">(</span><span class="sol-type">string</span> <span class="sol-keyword">memory</span><span class="sol-punctuation">) {</span>
-        <span class="sol-keyword">return</span> <span class="sol-string">"Distributed Systems, Golang, & Blockchain."</span><span class="sol-punctuation">;</span>
-    <span class="sol-punctuation">}</span>
-
-    <span class="sol-keyword">function</span> <span class="sol-identifier">getPassion</span><span class="sol-punctuation">()</span> <span class="sol-visibility">public</span> <span class="sol-visibility">pure</span> <span class="sol-keyword">returns</span> <span class="sol-punctuation">(</span><span class="sol-type">string</span> <span class="sol-keyword">memory</span><span class="sol-punctuation">) {</span>
-        <span class="sol-keyword">return</span> <span class="sol-string">"Scalability, Performance, and Innovation!"</span><span class="sol-punctuation">;</span>
+<span class="sol-keyword">contract</span> <span class="sol-identifier">PortfolioContract</span> <span class="sol-punctuation">{</span>
+    <span class="sol-keyword">function</span> <span class="sol-identifier">Title</span><span class="sol-punctuation">()</span> <span class="sol-visibility">public</span> <span class="sol-visibility">pure</span> <span class="sol-keyword">returns</span> <span class="sol-punctuation">(</span><span class="sol-type">string</span> <span class="sol-keyword">memory</span><span class="sol-punctuation">) {</span>
+        <span class="sol-keyword">return</span> <span class="sol-string">"Gopher by Heart! Chaincrafter by passion!"</span><span class="sol-punctuation">;</span>
     <span class="sol-punctuation">}</span>
 <span class="sol-punctuation">}</span>`;
 
                 const typeSolidity = () => {
-                    liveTypeEffect('#typed-go-code', solidityCodeToType, { speed: 30, initialDelay: 500 });
+                    liveTypeEffect('#typed-go-code', solidityCodeToType, { speed: 30, initialDelay: 500, onComplete: eraseSolidity });
+                };
+
+                const eraseSolidity = () => {
+                    liveTypeEffect('#typed-go-code', solidityCodeToType, { erase: true, eraseSpeed: 15, initialDelay: 1000, onComplete: typeGo });
+                };
+
+                const typeGo = () => {
+                    liveTypeEffect('#typed-go-code', goCodeToType, { speed: 25, initialDelay: 500, onComplete: eraseGoCode });
                 };
 
                 const eraseGoCode = () => {
-                    // Pass the already typed Go code string for erasing
                     liveTypeEffect('#typed-go-code', goCodeToType, { erase: true, eraseSpeed: 15, initialDelay: 1000, onComplete: typeSolidity });
                 };
 
-                // Start the sequence
-                liveTypeEffect('#typed-go-code', goCodeToType, { speed: 25, initialDelay: 1200, onComplete: eraseGoCode });
-
+                // Start the sequence with Go code
+                typeGo();
 
                 // Smooth scrolling for navbar links
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
