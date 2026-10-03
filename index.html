@@ -1,2682 +1,1284 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pramod Shenkar - Gopher & Chaincrafter</title>
-    <!-- Bootstrap CDN -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <!-- AOS (Animate On Scroll) CDN -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Roboto:wght@300;400;700;900&family=Source+Code+Pro:wght@400;600&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-bg: #0a0f1f; /* Deep dark blue */
-            --secondary-bg: #101830; /* Slightly lighter dark blue for cards */
-            --accent-color1: #00e0ff; /* Bright cyan/electric blue */
-            --accent-color2: #2cff98; /* Vibrant green */
-            --text-color: #e0e0e0; /* Light grey for text */
-            --text-muted-color: #a0a0b0; /* Muted text */
-            --border-color: #2a3045; /* Border color for elements */
-            --font-primary: 'Roboto', sans-serif; /* Keep Roboto for body */
-            --font-secondary: 'Rajdhani', sans-serif; /* For less prominent headings/subtitles */
-            --font-display: 'Rajdhani', sans-serif; /* Changed font for headings */
-            --font-code: 'Source Code Pro', monospace; /* Fallback code font */
-            --font-fira-code: 'Fira Code', monospace; /* Preferred code font */
-        }
-
-        body {
-            background-color: var(--primary-bg);
-            color: var(--text-color);
-            font-family: var(--font-primary);
-            line-height: 1.7;
-            overflow-x: hidden; /* Prevent horizontal scroll from AOS */
-        }
-
-        /* --- Navbar --- */
-        .navbar {
-            background-color: rgba(10, 15, 31, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(44, 255, 152, 0.2); /* Changed to green */
-            padding: 15px 0;
-            transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled {
-            background-color: rgba(10, 15, 31, 0.98);
-            box-shadow: 0 2px 20px rgba(44, 255, 152, 0.1); /* Changed to green */
-        }
-
-        .navbar-brand {
-            color: var(--accent-color2) !important; /* Changed to green */
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(44, 255, 152, 0.3); /* Added subtle glow */
-        }
-
-        .nav-link {
-            color: #87CEEB !important; /* Changed to faint sky blue */
-            font-family: var(--font-display);
-            font-size: 1.1rem;
-            font-weight: 500;
-            padding: 0.5rem 1.2rem !important;
-            margin: 0 0.2rem;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: #B0E0E6 !important; /* Changed to powder blue on hover */
-            background-color: rgba(176, 224, 230, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .nav-link.active {
-            color: #B0E0E6 !important; /* Changed to powder blue when active */
-            background-color: rgba(176, 224, 230, 0.15);
-        }
-
-        .navbar-toggler {
-            border-color: var(--accent-color2); /* Changed to green */
-        }
-        .navbar-toggler-icon {
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(44, 255, 152, 0.8)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-        }
-
-        /* --- Hero Section --- */
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            padding: 2rem;
-            background: radial-gradient(ellipse at center, var(--secondary-bg) 0%, var(--primary-bg) 70%); /* Keep radial gradient */
-        }
-
-        /* Subtle Hexagon Grid Overlay */
-        #hero::before {
-            content: none;
-        }
-
-        /* Floating Blocks/Nodes */
-        .floating-node {
-            display: none;
-        }
-
-        .hero-content {
-            z-index: 1; position: relative; /* Ensure content is above background */
-        }
-        .hero-content h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-shadow: 0 0 5px rgba(0, 224, 255, 0.3),
-                         0 0 10px rgba(0, 224, 255, 0.2);
-            animation: nameGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes nameGlow {
-            0%, 100% {
-                text-shadow: 0 0 5px rgba(0, 224, 255, 0.3),
-                            0 0 10px rgba(0, 224, 255, 0.2);
-            }
-            50% {
-                text-shadow: 0 0 8px rgba(0, 224, 255, 0.4),
-                            0 0 15px rgba(0, 224, 255, 0.3);
-            }
-        }
-        .hero-content p {
-            font-size: 1.4rem;
-            color: var(--text-color);
-            max-width: 800px;
-            margin: 1.5rem auto;
-            line-height: 1.6;
-            font-family: var(--font-secondary);
-            text-shadow: 0 0 10px rgba(0, 224, 255, 0.1);
-            position: relative;
-            padding: 0 20px;
-        }
-
-        .tagline {
-            font-size: 1.5rem;
-            color: #e6e6e6;
-            line-height: 1.6;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            padding: 1rem 0;
-            position: relative;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-
-        .tagline::before,
-        .tagline::after {
-            content: '';
-            position: absolute;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #4a9eff, transparent);
-            width: 100%;
-            left: 0;
-        }
-
-        .tagline::before {
-            top: 0;
-        }
-
-        .tagline::after {
-            bottom: 0;
-        }
-
-        /* VS Code Window Styles */
-        .vscode-window {
-            background-color: #0a0f1f; /* Darker background to match theme */
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-            max-width: 700px;
-            margin: 2rem auto;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-        .vscode-header {
-            background-color: #101830; /* Darker header to match theme */
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-        }
-        .vscode-buttons {
-            display: flex;
-        }
-        .vscode-btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-        }
-        .vscode-btn.close { background-color: #ff5f56; }
-        .vscode-btn.minimize { background-color: #ffbd2e; }
-        .vscode-btn.maximize { background-color: #27c93f; }
-        .vscode-title {
-            color: var(--text-muted-color); /* Using theme's muted color */
-            font-family: var(--font-code);
-            font-size: 0.85rem;
-            margin-left: auto;
-            padding-right: 10px;
-        }
-        .vscode-body {
-            padding: 15px 20px;
-            min-height: 150px;
-            font-family: var(--font-fira-code), var(--font-code);
-            font-size: 0.9em;
-            line-height: 1.6;
-            color: var(--text-color); /* Using theme's text color */
-        }
-        .vscode-body pre {
-            margin: 0;
-            background-color: transparent !important; /* Override .go-code-snippet bg if applied */
-            padding: 0 !important; /* Override .go-code-snippet padding if applied */
-            border: none !important; /* Override .go-code-snippet border if applied */
-            white-space: pre-wrap; /* Ensure lines wrap and whitespace is preserved */
-        }
-        .vscode-body code {
-            white-space: pre-wrap; /* Ensure lines wrap and whitespace is preserved */
-            display: block;
-        }
-        /* End VS Code Window Styles */
-
-
-        .social-icons a {
-            color: var(--text-color);
-            font-size: 1.8rem;
-            margin: 0 0.75rem;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        .social-icons a:hover {
-            color: var(--accent-color1);
-            transform: scale(1.2);
-        }
-
-        /* Gopher Animation Styles */
-        .name-line {
-            display: flex;
-            align-items: center; /* Vertically align gopher and name */
-            justify-content: center; /* Center the group */
-            flex-wrap: wrap; /* Allow wrapping on small screens if needed */
-        }
-
-        #gopher-gif-container {
-            width: 70px; /* Adjust size as needed */
-            height: 70px;
-            margin-left: 15px; /* Space between name and gopher */
-            animation: gopherComeIn 1s ease-out 0.4s forwards;
-            opacity: 0; /* Start hidden for animation */
-            transform: translateY(-70px); /* Start above its final position */
-            display: flex; /* To help center the image if its aspect ratio is different */
-            align-items: center;
-            justify-content: center;
-        }
-        #gopher-gif-container img {
-            max-width: 100%;
-            max-height: 100%;
-            transform: translateY(-10px); /* Raise the Gopher GIF slightly */
-        }
-
-        @keyframes gopherComeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-
-        /* --- Section Styling --- */
-        section {
-            padding: 40px 0; /* Reduced padding to accommodate block margins */
-            position: relative; /* Needed for connectors */
-            border-bottom: none; /* Remove simple border */
-        }
-        /* Remove the old section divider as chains will connect blocks */
-        section:not(#hero):not(:last-of-type)::after {
-            content: none;
-        }
-        section:last-of-type {
-            border-bottom: none;
-        }
-        .section-title {
-            font-family: var(--font-display);
-            color: var(--accent-color1);
-            text-align: center; /* Keep centered */
-            margin-bottom: 50px;
-            font-size: 2.5rem;
-            font-weight: 700; /* Keep weight */
-            text-transform: uppercase; /* Optional: Add uppercase for tech feel */
-            letter-spacing: 1px;
-
-            position: relative;
-            padding-bottom: 10px;
-        }
-        .section-title::after { /* Underline effect */
-            content: '';
-            position: absolute;
-            display: block;
-            width: 80px;
-            height: 3px;
-            background: var(--accent-color2);
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 10px var(--accent-color2); /* Subtle glow */
-        }
-
-        /* Subtle background pattern for sections */
-        section:not(#hero) { /* Apply to all sections except hero */
-            background-image:
-               linear-gradient(to right, rgba(42, 48, 69, 0.2) 1px, transparent 1px), /* Fainter grid lines */
-               linear-gradient(to bottom, rgba(42, 48, 69, 0.2) 1px, transparent 1px);
-            background-size: 30px 30px; /* Larger grid */
-            z-index: 1;
-        } /* Keep section background grid */
-
-        /* --- Blockchain Block Structure --- */
-        .blockchain-block {
-            background-color: var(--secondary-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 30px;
-            margin: 80px auto;
-            max-width: 900px;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .blockchain-block:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 224, 255, 0.15);
-        }
-
-        .block-header {
-            background-color: rgba(0, 224, 255, 0.1);
-            border-bottom: 1px solid rgba(0, 224, 255, 0.15);
-            padding: 10px 20px;
-            margin: -30px -30px 20px -30px;
-            font-family: var(--font-code);
-            font-size: 0.9rem;
-            color: rgba(204, 204, 204, 0.6); /* Dimmed color for block number and hash */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Timeline Content Styling */
-        .timeline-content {
-            background-color: rgba(10, 15, 31, 0.8);
-            border: none;
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-            box-shadow: none;
-        }
-
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: none;
-        }
-
-        /* Project Card Content */
-        .project-card-content {
-            background-color: rgba(10, 15, 31, 0.8);
-            border: none;
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-            box-shadow: none;
-        }
-
-        .project-card-content:hover {
-            transform: translateY(-5px);
-            box-shadow: none;
-        }
-
-        .project-card-content h3 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            margin-top: 0;
-            font-size: 1.6rem;
-            text-shadow: none;
-        }
-
-        .project-card-content .date {
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
-            margin-bottom: 15px;
-            display: block;
-            text-shadow: none;
-        }
-
-        .project-card-content ul {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            margin-bottom: 10px;
-            padding-left: 20px;
-            text-shadow: none;
-        }
-
-        .project-card-content ul li::marker {
-            color: var(--accent-color1);
-        }
-
-        .tech-stack-list {
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: var(--text-muted-color);
-            text-shadow: none;
-        }
-
-        .tech-stack-list strong {
-            color: var(--accent-color2);
-            text-shadow: none;
-        }
-
-        /* Education & Certifications Cards */
-        .card-custom {
-            background-color: rgba(10, 15, 31, 0.8);
-            border: none;
-            border-radius: 6px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
-            position: relative;
-            box-shadow: none;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: none;
-        }
-
-        .card-custom h5 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            text-shadow: none;
-        }
-
-        .card-custom p {
-            color: var(--text-muted-color);
-            font-size: 0.95rem;
-            text-shadow: none;
-        }
-
-        .internal-box-header {
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            color: var(--text-muted-color);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-            border-bottom: 1px solid var(--border-color);
-            text-align: right;
-            text-shadow: none;
-        }
-
-        /* Remove all pseudo-elements and their effects */
-        .project-card-content::before,
-        .project-card-content::after,
-        .card-custom::before,
-        .card-custom::after {
-            display: none;
-            content: none;
-            box-shadow: none;
-            text-shadow: none;
-        }
-
-        /* Remove any remaining glow effects */
-        .blockchain-block {
-            box-shadow: none;
-        }
-
-        .blockchain-block:hover {
-            box-shadow: none;
-        }
-
-        .block-header {
-            box-shadow: none;
-            text-shadow: none;
-        }
-
-        .block-meta {
-            text-shadow: none;
-        }
-
-        /* --- About Section --- */
-        #about p {
-            font-size: 1.1rem;
-            color: var(--text-muted-color);
-            text-align: justify;
-        }
-        /* About section content is now inside .block-content */
-        /* --- Skills Section --- */
-        .skill-category {
-            margin-bottom: 30px;
-        }
-        .skill-category h4 { /* Skill category titles */
-            color: var(--accent-color2);
-            font-family: var(--font-display);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            border-left: 3px solid var(--accent-color2);
-            padding-left: 10px;
-        }
-        .skill-tag {
-            background-color: var(--secondary-bg);
-            color: var(--text-color);
-            padding: 8px 15px;
-            margin: 5px;
-            border-radius: 4px; /* More angular, like a chip/token */
-            font-family: var(--font-code);
-            font-size: 0.85rem;
-            display: inline-flex; align-items: center; /* For potential icons */
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-        }
-        .skill-tag:hover { /* Hover effect for skills */
-            background-color: var(--accent-color1);
-            color: var(--primary-bg);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 224, 255, 0.3);
-        }
-        /* Special styling for blockchain skill tags */
-        .skill-category.blockchain-skills .skill-tag {
-            border-color: var(--accent-color1);
-            box-shadow: inset 0 0 5px rgba(0, 224, 255, 0.3);
-        }
-        .skill-category.blockchain-skills .skill-tag:hover {
-            background-color: var(--accent-color1);
-            box-shadow: 0 0 10px var(--accent-color1);
-        }
-
-        /* --- Experience & Projects Section --- */
-        .timeline {
-            position: relative;
-            padding: 0;
-        }
-
-        .timeline-item {
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .timeline-content {
-            background-color: rgba(10, 15, 31, 0.8);
-            border: none;
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-            box-shadow: none;
-        }
-
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: none;
-        }
-
-        .timeline-content h3 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            margin-top: 0;
-            font-size: 1.6rem;
-            text-shadow: none;
-        }
-
-        .timeline-content p {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            line-height: 1.6;
-            margin-bottom: 0;
-            text-shadow: none;
-        }
-
-        .timeline-content strong {
-            color: var(--text-color);
-            font-weight: 600;
-            text-shadow: none;
-        }
-
-        .timeline-content em {
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
-            display: block;
-            margin-top: 10px;
-            text-shadow: none;
-        }
-
-        /* Remove all pseudo-elements and their effects */
-        .timeline::before,
-        .timeline::after,
-        .timeline-item::before,
-        .timeline-item::after,
-        .timeline-content::before,
-        .timeline-content::after {
-            display: none;
-            content: none;
-            box-shadow: none;
-            text-shadow: none;
-        }
-
-        .timeline-content::before {
-            content: none;
-        }
-
-        .timeline-content::after {
-            content: none;
-        }
-
-        .timeline-item::before {
-            content: none;
-        }
-
-        .timeline-item::after {
-            content: none;
-        }
-
-        .timeline::before {
-            content: none;
-        }
-
-        .timeline::before { /* Central timeline bar */
-            content: none; /* Remove the central timeline bar */
-            position: absolute;
-            left: 50%;
-            top: 0; /* Keep positioning */
-            bottom: 0;
-            width: 4px;
-            /* "Chain link" style for timeline */
-            background: repeating-linear-gradient(var(--primary-bg), var(--primary-bg) 5px, var(--accent-color1) 5px, var(--accent-color1) 10px, var(--border-color) 10px, var(--border-color) 15px);
-            transform: translateX(-50%);
-        }
-        .timeline-item {
-            margin-bottom: 50px;
-            position: relative; /* Keep relative positioning */
-        }
-        .timeline-item::after { /* Clearfix */
-            content: "";
-            display: table;
-            clear: both;
-        }
-        .timeline-icon {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            width: 50px;
-            height: 50px;
-            /* Hexagonal node shape */
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Keep hexagonal shape */
-            background: var(--accent-color1);
-            color: var(--primary-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translateX(-50%);
-            z-index: 2; /* Above timeline line */
-            font-size: 1.3rem;
-            border: 2px solid var(--primary-bg); /* Thinner border for clip-path */
-            box-shadow: 0 0 15px var(--accent-color1); /* Glow effect */
-            animation: pulseGlow 2s infinite ease-in-out; /* Subtle pulse */
-        }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px var(--accent-color1); }
-            50% { box-shadow: 0 0 20px var(--accent-color1), 0 0 25px rgba(0, 224, 255, 0.5); } /* Adjusted glow intensity */
-            100% { box-shadow: 0 0 15px var(--accent-color1); } /* Keep glow */
-        }
-        @keyframes pulseGlowAlt { /* For even items */
-            0% { box-shadow: 0 0 15px var(--accent-color2); }
-            50% { box-shadow: 0 0 25px var(--accent-color2), 0 0 30px rgba(44, 255, 152, 0.5); }
-            100% { box-shadow: 0 0 15px var(--accent-color2); }
-        }
-        .timeline-item:nth-child(even) .timeline-icon {
-            background: var(--accent-color2);
-             border-color: var(--primary-bg); /* Keep border color */
-             box-shadow: 0 0 15px var(--accent-color2); /* Keep glow */
-             animation: pulseGlowAlt 2s infinite ease-in-out; /* Keep animation */
-        }
-        .timeline-content { /* This remains for the card border/bg of timeline items */
-            width: 90%; /* Ensure .timeline-content takes more width */
-            padding: 20px; /* Add padding for content inside the card */
-            background: transparent; /* Make transparent, go-code-block has its own bg */
-            border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 1px solid transparent; /* Base for gradient border */
-            position: relative;
-            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
-            background-clip: padding-box; /* Important for border-image */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 0 auto; /* Center the block */
-        }
-        /* Go Code Block Styling (for Technologies snippet) */
-        .go-code-snippet {
-            font-family: var(--font-fira-code), var(--font-code);
-            background-color: #0c1021; /* Darker than secondary-bg */
-            padding: 10px 15px; /* Smaller padding for snippet */
-            border-radius: 4px;
-            font-size: 0.85em; /* Slightly smaller font for snippet */
-            line-height: 1.7;
-            white-space: pre-wrap;
-            color: #d4d4d4;
-            margin-top: 10px;
-            border: 1px solid var(--border-color);
-            text-align: left; /* Ensure code is left-aligned */
-        }
-        .go-code-snippet code {
-            display: block; /* Ensure code tag takes full width for pre formatting */
-        }
-        .go-code-snippet .line { display: block; min-height: 1.7em; } /* For line-by-line structure & empty lines */
-        .go-code-snippet .go-keyword    { color: #c586c0; } /* e.g., package, func, type, struct, map, return, var */
-        .go-code-snippet .go-type       { color: #4ec9b0; } /* e.g., string, RetailCBDC, MkclERA */
-        .go-code-snippet .go-identifier { color: #9cdcfe; } /* e.g., r, TechStack, Duration, from, to */
-        .go-code-snippet .go-string     { color: #ce9178; } /* e.g., "Gin Gonic" */
-        .go-code-snippet .go-punctuation{ color: #ffd700; } /* e.g., (), {}, [], *, ,, : */
-        .go-code-snippet .go-comment    { color: #6a9955; font-style: italic; }
-        .go-code-snippet .go-operator   { color: #d4d4d4; } /* For operators like = */
-
-
-        /* Solidity Code Block Styling */
-        .solidity-code-block {
-            font-family: var(--font-fira-code), var(--font-code);
-            background-color: #1e1e1e; /* VS Code's default dark theme */
-            padding: 10px 15px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            color: #d4d4d4;
-            margin-top: 10px;
-            border: 1px solid #3c3c3c;
-            text-align: left;
-        }
-        .solidity-code-block code {
-            display: block;
-        }
-        .solidity-code-block .line { display: block; min-height: 1.7em; }
-        .solidity-code-block .sol-comment    { color: #6a9955; font-style: italic; }
-        .solidity-code-block .sol-pragma     { color: #569cd6; } /* VS Code's blue for keywords */
-        .solidity-code-block .sol-keyword    { color: #569cd6; } /* VS Code's blue for keywords */
-        .solidity-code-block .sol-visibility { color: #9cdcfe; } /* VS Code's light blue for modifiers */
-        .solidity-code-block .sol-type       { color: #4ec9b0; } /* VS Code's teal for types */
-        .solidity-code-block .sol-identifier { color: #dcdcaa; } /* VS Code's yellow for functions */
-        .solidity-code-block .sol-string     { color: #ce9178; } /* VS Code's orange for strings */
-        .solidity-code-block .sol-punctuation{ color: #d4d4d4; } /* VS Code's white for punctuation */
-        .solidity-code-block .sol-operator   { color: #d4d4d4; } /* VS Code's white for operators */
-
-        /* Ensure project-card-content ul has its own styling if needed,
-           as go-code-snippet might be inside it. */
-        .project-card-content ul {
-            /* Styles from lines 436-444 are already good */
-        }
-
-        .timeline-content::before { /* Inner glow / "active" feel for the outer card */
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 5px;
-            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.15);
-            pointer-events: none;
-        }
-        .timeline-content:hover {
-            transform: translateY(-5px); /* Remove scale on hover for full width items */
-            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
-        }
-        .timeline-item:nth-child(odd) .timeline-content {
-            /* float: left; */
-            /* text-align: right; */ /* Align based on content, or default left */
-            margin: 0 auto; /* Center the block if it's less than full width */
-        }
-        .timeline-item:nth-child(even) .timeline-content {
-            /* float: right; */
-            /* text-align: left; */
-            margin: 0 auto; /* Center the block */
-        }
-        /* Styles for regular project cards (not Go code style) */
-        .project-card-content { /* This class is now primarily for the Projects section */
-            padding: 20px;
-        }
-        .project-card-content h3 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            margin-top: 0;
-            font-size: 1.6rem;
-        }
-        .project-card-content .date {
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
-            margin-bottom: 15px;
-            display: block;
-        }
-        .project-card-content ul {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            margin-bottom: 10px;
-            padding-left: 20px; /* Keep padding */
-        }
-        .project-card-content ul li::marker {
-            color: var(--accent-color1);
-        }
-        .tech-stack-list { /* List of technologies */
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: var(--text-muted-color);
-        }
-        .tech-stack-list strong {
-            color: var(--accent-color2);
-        }
-
-        /* --- Education & Certifications --- */
-        .card-custom {
-            background-color: var(--secondary-bg);
-            border: 1px solid transparent;
-            border-radius: 6px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
-            background-clip: padding-box;
-        }
-        /* Specific style for Certifications card */
-        #certifications .card-custom {
-             border-image: linear-gradient(to bottom right, var(--accent-color2), var(--accent-color1)) 1; /* Reverse gradient */
-        }
-         #certifications .card-custom::before { /* Inner glow */
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 5px;
-            box-shadow: inset 0 0 10px rgba(44, 255, 152, 0.1); /* Greenish glow */
-            background-clip: padding-box;
-        }
-        .card-custom::before { /* Inner glow */
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 5px;
-            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.1);
-            pointer-events: none;
-        }
-        .internal-box-header { /* For Txn IDs inside cards */
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            color: var(--text-muted-color);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed var(--border-color);
-            text-align: right;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 6px 20px rgba(0, 224, 255, 0.1);
-        }
-        .card-custom h5 {
-            color: var(--accent-color1);
-            font-family: var(--font-display); /* Keep font */
-        }
-        .card-custom p {
-            color: var(--text-muted-color);
-            font-size: 0.95rem;
-        }
-
-        /* --- Contact Section (Wallet UI) --- */
-        #contact {
-            background-color: var(--secondary-bg);
-            border-radius: 15px;
-            max-width: 600px;
-            margin: 80px auto;
-            border: 1px solid var(--accent-color2);
-            box-shadow: 0 0 15px rgba(44, 255, 152, 0.1);
-            position: relative;
-            overflow: hidden;
-            padding: 0;
-        }
-
-        .wallet-header {
-            background-color: rgba(44, 255, 152, 0.05);
-            padding: 20px;
-            border-bottom: 1px solid var(--accent-color2);
-            text-align: center;
-            position: relative;
-        }
-
-        .wallet-header h2 {
-            font-family: var(--font-display);
-            color: var(--accent-color2);
-            font-size: 1.8rem;
-            margin-bottom: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .wallet-status-indicator {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-color2);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-        }
-
-        .wallet-body {
-            padding: 25px;
-        }
-        .qr-code-area {
-            text-align: center;
-            margin-bottom: 25px;
-            background-color: rgba(10, 15, 31, 0.4); /* Slightly different background */
-            border-radius: 10px;
-            border: 1px dashed var(--border-color);
-        }
-        .qr-code-area i {
-            font-size: 5rem; /* Large QR icon */
-            color: var(--text-muted-color);
-            padding: 15px 0; /* Add some padding around QR icon */
-        }
-        .qr-code-area p {
-            font-size: 0.8rem;
-            color: var(--text-muted-color);
-            margin-top: 5px; /* Reduced margin */
-            font-family: var(--font-code);
-            padding-bottom: 10px;
-        }
-        .wallet-actions {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 25px;
-        }
-        .wallet-action-btn, a.wallet-action-btn { /* Ensure <a> tags are styled too */
-            background-color: rgba(0, 224, 255, 0.1);
-            color: var(--accent-color1);
-            border: 1px solid var(--accent-color1);
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-family: var(--font-display);
-            font-size: 0.9rem; /* Slightly smaller for better fit */
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-            text-decoration: none; /* Remove underline from <a> */
-            display: inline-flex; /* Align icon and text */
-            align-items: center;
-        }
-        .wallet-intro-text {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .contact-entries-list {
-            /* Wrapper for contact items if needed for future styling */
-        }
-        .contact-entry {
-            display: flex;
-            align-items: center;
-            background-color: rgba(10, 15, 31, 0.6);
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        .contact-entry i.contact-icon {
-            color: var(--accent-color1);
-            font-size: 1.3rem;
-            margin-right: 15px;
-            width: 25px;
-            text-align: center;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-        }
-
-        .contact-entry span, .contact-entry a {
-            color: var(--text-color);
-            font-size: 1rem;
-            text-decoration: none;
-            flex-grow: 1;
-            word-break: break-all;
-            margin-right: 10px; /* Add space between text and icon */
-        }
-
-        .action-icon {
-            color: var(--text-muted-color);
-            margin-left: 0; /* Remove left margin */
-            cursor: pointer;
-            transition: color 0.3s ease;
-            font-size: 1.1rem;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-        }
-        .action-icon:hover {
-            color: var(--accent-color2);
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: var(--secondary-bg);
-            color: var(--text-muted-color);
-            padding: 30px 0;
-            text-align: center;
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-        }
-        footer .social-icons a {
-            font-size: 1.5rem; /* Keep icon size */
-        }
-
-        /* --- Responsive Adjustments for Timeline --- */
-        @media (max-width: 768px) {
-            #hero h1 { font-size: 2.5rem; }
-            #hero h2 { font-size: 1.5rem; }
-            .section-title { font-size: 2rem; }
-            .timeline::before { /* Keep responsive adjustments */
-                left: 25px;
-            } /* Keep responsive adjustments */
-            .timeline-item .timeline-content {
-                width: calc(100% - 70px); /* Adjust width */
-                float: right; /* All content to the right */
-                text-align: left; /* Align text left */
-                margin: 0; /* Remove auto margin on small screens if floating */
-            }
-            .timeline-item:nth-child(odd) .timeline-content {
-                float: right;
-                text-align: left;
-            }
-            .timeline-icon {
-                left: 25px; /* Align icon with the line */ /* Keep responsive icon alignment */
-            }
-            /* Hide side connectors on small screens */
-            .chain-connector-right, .chain-connector-left, .chain-connector-vertical { display: none; } 
-        }
-
-        /* Scrollbar styling (optional, for a more themed look) */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--primary-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-color1);
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color2);
-        }
-
-        /* Specific style for blockchain skills */
-        .skill-category.blockchain-skills h4 {
-            color: var(--accent-color1); /* Use accent color 1 for blockchain category */
-            font-weight: 700; /* Make it bolder */
-            border-color: var(--accent-color1);
-        }
-        .skill-category.blockchain-skills {
-            position: relative;
-            z-index: 1;
-        }
-        .skill-category.blockchain-skills::before { /* Add a subtle block/frame effect */
-            content: '';
-            position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
-            border: 1px solid var(--accent-color1);
-            opacity: 0.2;
-            z-index: -1;
-        } /* Keep blockchain skills frame */
-
-        /* --- Blockchain Block Connectors (REMOVED) --- */
-        /* .chain-connector-right, .chain-connector-left, .chain-connector-vertical { ... } */
-        /* @keyframes flowChain { ... } */
-
-        /* Solidity Syntax Highlighting */
-        .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
-        .sol-pragma     { color: #569cd6 !important; }
-        .sol-keyword    { color: #569cd6 !important; }
-        .sol-visibility { color: #9cdcfe !important; }
-        .sol-type       { color: #4ec9b0 !important; }
-        .sol-identifier { color: #dcdcaa !important; }
-        .sol-string     { color: #ce9178 !important; }
-        .sol-punctuation{ color: #d4d4d4 !important; }
-        .sol-operator   { color: #d4d4d4 !important; }
-
-        /* Ensure these styles are applied to the code in the VS Code window */
-        .vscode-body .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
-        .vscode-body .sol-pragma     { color: #569cd6 !important; }
-        .vscode-body .sol-keyword    { color: #569cd6 !important; }
-        .vscode-body .sol-visibility { color: #9cdcfe !important; }
-        .vscode-body .sol-type       { color: #4ec9b0 !important; }
-        .vscode-body .sol-identifier { color: #dcdcaa !important; }
-        .vscode-body .sol-string     { color: #ce9178 !important; }
-        .vscode-body .sol-punctuation{ color: #d4d4d4 !important; }
-        .vscode-body .sol-operator   { color: #d4d4d4 !important; }
-
-        /* Tagline styling */
-        #hero .lead {
-            font-size: 1.4rem;
-            color: var(--text-color);
-            max-width: 800px;
-            margin: 1.5rem auto;
-            line-height: 1.6;
-            font-family: var(--font-secondary);
-            text-shadow: 0 0 10px rgba(0, 224, 255, 0.1);
-            position: relative;
-            padding: 0 20px;
-        }
-        #hero .lead::before,
-        #hero .lead::after {
-            content: '';
-            position: absolute;
-            height: 1px;
-            width: 100px;
-            background: linear-gradient(to right, transparent, var(--accent-color1), transparent);
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        #hero .lead::before {
-            top: -15px;
-        }
-        #hero .lead::after {
-            bottom: -15px;
-        }
-
-        /* Experience Tiles Styling */
-        .timeline-content {
-            background-color: rgba(10, 15, 31, 0.8);
-            border: none;
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-            box-shadow: none;
-        }
-
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: none;
-        }
-
-        .timeline-content h3 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            margin-top: 0;
-            font-size: 1.6rem;
-            text-shadow: none;
-        }
-
-        .timeline-content p {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            line-height: 1.6;
-            margin-bottom: 0;
-            text-shadow: none;
-        }
-
-        .timeline-content strong {
-            color: var(--text-color);
-            font-weight: 600;
-            text-shadow: none;
-        }
-
-        .timeline-content em {
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
-            display: block;
-            margin-top: 10px;
-            text-shadow: none;
-        }
-
-        /* Remove any remaining glow effects */
-        .timeline::before,
-        .timeline-item::before,
-        .timeline-item::after,
-        .timeline-content::before,
-        .timeline-content::after {
-            box-shadow: none;
-            text-shadow: none;
-        }
-
-        .timeline-content::before {
-            content: none;
-        }
-
-        .timeline-content::after {
-            content: none;
-        }
-
-        .timeline-item::before {
-            content: none;
-        }
-
-        .timeline-item::after {
-            content: none;
-        }
-
-        .timeline::before {
-            content: none;
-        }
-
-        .wallet-balance {
-            background-color: rgba(10, 15, 31, 0.6);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(0, 224, 255, 0.2);
-        }
-
-        .balance-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .network-name {
-            color: var(--accent-color1);
-            font-family: var(--font-code);
-            font-size: 0.9rem;
-            margin-left: 10px;
-        }
-
-        .balance-amount {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .currency-symbol {
-            color: var(--accent-color2);
-            font-family: var(--font-code);
-            font-size: 1.2rem;
-            margin-right: 8px;
-        }
-
-        .amount {
-            color: var(--text-color);
-            font-family: var(--font-code);
-            font-size: 2rem;
-            font-weight: 600;
-        }
-
-        .wallet-address {
-            background-color: rgba(0, 224, 255, 0.1);
-            border-radius: 6px;
-            padding: 12px;
-            font-family: var(--font-code);
-            font-size: 0.85rem;
-            color: var(--text-muted-color);
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .address-label {
-            color: var(--accent-color1);
-        }
-
-        .address {
-            color: var(--text-color);
-            flex-grow: 1;
-        }
-
-        /* Transaction ID Header for Tiles */
-        .txn-header {
-            font-family: var(--font-code);
-            font-size: 0.7rem;
-            color: var(--text-muted-color);
-            padding: 8px 15px;
-            background-color: rgba(16, 24, 48, 0.95);
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin: -20px -20px 12px -20px;
-            opacity: 0.9;
-        }
-
-        .txn-id {
-            color: var(--accent-color1);
-            font-family: var(--font-code);
-            font-size: 0.65rem;
-            opacity: 0.9;
-            background-color: rgba(0, 224, 255, 0.1);
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 8px;
-        }
-
-        .timeline-content {
-            background-color: rgba(10, 15, 31, 0.95);
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-        }
-
-        .project-card-content {
-            background-color: rgba(10, 15, 31, 0.95);
-            border: 1px solid rgba(0, 224, 255, 0.15);
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-custom {
-            background-color: rgba(10, 15, 31, 0.95);
-            border: 1px solid rgba(0, 224, 255, 0.15);
-            border-radius: 6px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease;
-            position: relative;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Add subtle gradient overlay to content areas */
-        .timeline-content::after,
-        .project-card-content::after,
-        .card-custom::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, 
-                rgba(0, 224, 255, 0.05),
-                rgba(44, 255, 152, 0.05)
-            );
-            border-radius: 6px;
-            pointer-events: none;
-        }
-
-        /* Enhance hover effects */
-        .timeline-content:hover,
-        .project-card-content:hover,
-        .card-custom:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
-            border-color: rgba(0, 224, 255, 0.3);
-        }
-
-        .timeline-content h3 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            margin-top: 0;
-            font-size: 1.6rem;
-            text-shadow: none;
-        }
-
-        .timeline-content p {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            line-height: 1.6;
-            margin-bottom: 0;
-            text-shadow: none;
-        }
-
-        .timeline-content strong {
-            color: var(--text-color);
-            font-weight: 600;
-            text-shadow: none;
-        }
-
-        .timeline-content em {
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
-            display: block;
-            margin-top: 10px;
-            text-shadow: none;
-        }
-
-        .timeline-content::before { /* Inner glow / "active" feel for the outer card */
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 5px;
-            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.15);
-            pointer-events: none;
-        }
-
-        .timeline-item:nth-child(odd) .timeline-content {
-            /* float: left; */
-            /* text-align: right; */ /* Align based on content, or default left */
-            margin: 0 auto; /* Center the block if it's less than full width */
-        }
-        .timeline-item:nth-child(even) .timeline-content {
-            /* float: right; */
-            /* text-align: left; */
-            margin: 0 auto; /* Center the block */
-        }
-
-        .timeline-item::before {
-            content: none;
-        }
-
-        .timeline-item::after {
-            content: none;
-        }
-
-        .timeline::before {
-            content: none;
-        }
-
-        .timeline-item {
-            margin-bottom: 50px;
-            position: relative; /* Keep relative positioning */
-        }
-        .timeline-item::after { /* Clearfix */
-            content: "";
-            display: table;
-            clear: both;
-        }
-        .timeline-icon {
-            position: absolute;
-            left: 50%;
-            top: 0;
-            width: 50px;
-            height: 50px;
-            /* Hexagonal node shape */
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); /* Keep hexagonal shape */
-            background: var(--accent-color1);
-            color: var(--primary-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transform: translateX(-50%);
-            z-index: 2; /* Above timeline line */
-            font-size: 1.3rem;
-            border: 2px solid var(--primary-bg); /* Thinner border for clip-path */
-            box-shadow: 0 0 15px var(--accent-color1); /* Glow effect */
-            animation: pulseGlow 2s infinite ease-in-out; /* Subtle pulse */
-        }
-        @keyframes pulseGlow {
-            0% { box-shadow: 0 0 15px var(--accent-color1); }
-            50% { box-shadow: 0 0 20px var(--accent-color1), 0 0 25px rgba(0, 224, 255, 0.5); } /* Adjusted glow intensity */
-            100% { box-shadow: 0 0 15px var(--accent-color1); } /* Keep glow */
-        }
-        @keyframes pulseGlowAlt { /* For even items */
-            0% { box-shadow: 0 0 15px var(--accent-color2); }
-            50% { box-shadow: 0 0 25px var(--accent-color2), 0 0 30px rgba(44, 255, 152, 0.5); }
-            100% { box-shadow: 0 0 15px var(--accent-color2); }
-        }
-        .timeline-item:nth-child(even) .timeline-icon {
-            background: var(--accent-color2);
-             border-color: var(--primary-bg); /* Keep border color */
-             box-shadow: 0 0 15px var(--accent-color2); /* Keep glow */
-             animation: pulseGlowAlt 2s infinite ease-in-out; /* Keep animation */
-        }
-        .timeline-content { /* This remains for the card border/bg of timeline items */
-            width: 90%; /* Ensure .timeline-content takes more width */
-            padding: 20px; /* Add padding for content inside the card */
-            background: transparent; /* Make transparent, go-code-block has its own bg */
-            border-radius: 6px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 1px solid transparent; /* Base for gradient border */
-            position: relative;
-            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
-            background-clip: padding-box; /* Important for border-image */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 0 auto; /* Center the block */
-        }
-        /* Go Code Block Styling (for Technologies snippet) */
-        .go-code-snippet {
-            font-family: var(--font-fira-code), var(--font-code);
-            background-color: #0c1021; /* Darker than secondary-bg */
-            padding: 10px 15px; /* Smaller padding for snippet */
-            border-radius: 4px;
-            font-size: 0.85em; /* Slightly smaller font for snippet */
-            line-height: 1.7;
-            white-space: pre-wrap;
-            color: #d4d4d4;
-            margin-top: 10px;
-            border: 1px solid var(--border-color);
-            text-align: left; /* Ensure code is left-aligned */
-        }
-        .go-code-snippet code {
-            display: block; /* Ensure code tag takes full width for pre formatting */
-        }
-        .go-code-snippet .line { display: block; min-height: 1.7em; } /* For line-by-line structure & empty lines */
-        .go-code-snippet .go-keyword    { color: #c586c0; } /* e.g., package, func, type, struct, map, return, var */
-        .go-code-snippet .go-type       { color: #4ec9b0; } /* e.g., string, RetailCBDC, MkclERA */
-        .go-code-snippet .go-identifier { color: #9cdcfe; } /* e.g., r, TechStack, Duration, from, to */
-        .go-code-snippet .go-string     { color: #ce9178; } /* e.g., "Gin Gonic" */
-        .go-code-snippet .go-punctuation{ color: #ffd700; } /* e.g., (), {}, [], *, ,, : */
-        .go-code-snippet .go-comment    { color: #6a9955; font-style: italic; }
-        .go-code-snippet .go-operator   { color: #d4d4d4; } /* For operators like = */
-
-
-        /* Solidity Code Block Styling */
-        .solidity-code-block {
-            font-family: var(--font-fira-code), var(--font-code);
-            background-color: #1e1e1e; /* VS Code's default dark theme */
-            padding: 10px 15px;
-            border-radius: 4px;
-            font-size: 0.85em;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            color: #d4d4d4;
-            margin-top: 10px;
-            border: 1px solid #3c3c3c;
-            text-align: left;
-        }
-        .solidity-code-block code {
-            display: block;
-        }
-        .solidity-code-block .line { display: block; min-height: 1.7em; }
-        .solidity-code-block .sol-comment    { color: #6a9955; font-style: italic; }
-        .solidity-code-block .sol-pragma     { color: #569cd6; } /* VS Code's blue for keywords */
-        .solidity-code-block .sol-keyword    { color: #569cd6; } /* VS Code's blue for keywords */
-        .solidity-code-block .sol-visibility { color: #9cdcfe; } /* VS Code's light blue for modifiers */
-        .solidity-code-block .sol-type       { color: #4ec9b0; } /* VS Code's teal for types */
-        .solidity-code-block .sol-identifier { color: #dcdcaa; } /* VS Code's yellow for functions */
-        .solidity-code-block .sol-string     { color: #ce9178; } /* VS Code's orange for strings */
-        .solidity-code-block .sol-punctuation{ color: #d4d4d4; } /* VS Code's white for punctuation */
-        .solidity-code-block .sol-operator   { color: #d4d4d4; } /* VS Code's white for operators */
-
-        /* Ensure project-card-content ul has its own styling if needed,
-           as go-code-snippet might be inside it. */
-        .project-card-content ul {
-            /* Styles from lines 436-444 are already good */
-        }
-
-        .timeline-content::before { /* Inner glow / "active" feel for the outer card */
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 5px;
-            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.15);
-            pointer-events: none;
-        }
-        .timeline-content:hover {
-            transform: translateY(-5px); /* Remove scale on hover for full width items */
-            box-shadow: 0 8px 25px rgba(0, 224, 255, 0.15);
-        }
-        .timeline-item:nth-child(odd) .timeline-content {
-            /* float: left; */
-            /* text-align: right; */ /* Align based on content, or default left */
-            margin: 0 auto; /* Center the block if it's less than full width */
-        }
-        .timeline-item:nth-child(even) .timeline-content {
-            /* float: right; */
-            /* text-align: left; */
-            margin: 0 auto; /* Center the block */
-        }
-        /* Styles for regular project cards (not Go code style) */
-        .project-card-content { /* This class is now primarily for the Projects section */
-            padding: 20px;
-        }
-        .project-card-content h3 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            margin-top: 0;
-            font-size: 1.6rem;
-        }
-        .project-card-content .date {
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
-            margin-bottom: 15px;
-            display: block;
-        }
-        .project-card-content ul {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            margin-bottom: 10px;
-            padding-left: 20px; /* Keep padding */
-        }
-        .project-card-content ul li::marker {
-            color: var(--accent-color1);
-        }
-        .tech-stack-list { /* List of technologies */
-            margin-top: 15px;
-            font-size: 0.85rem;
-            color: var(--text-muted-color);
-        }
-        .tech-stack-list strong {
-            color: var(--accent-color2);
-        }
-
-        /* --- Education & Certifications --- */
-        .card-custom {
-            background-color: var(--secondary-bg);
-            border: 1px solid transparent;
-            border-radius: 6px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            border-image: linear-gradient(to bottom right, var(--accent-color1), var(--accent-color2)) 1;
-            background-clip: padding-box;
-        }
-        /* Specific style for Certifications card */
-        #certifications .card-custom {
-             border-image: linear-gradient(to bottom right, var(--accent-color2), var(--accent-color1)) 1; /* Reverse gradient */
-        }
-         #certifications .card-custom::before { /* Inner glow */
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 5px;
-            box-shadow: inset 0 0 10px rgba(44, 255, 152, 0.1); /* Greenish glow */
-            background-clip: padding-box;
-        }
-        .card-custom::before { /* Inner glow */
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 5px;
-            box-shadow: inset 0 0 10px rgba(0, 224, 255, 0.1);
-            pointer-events: none;
-        }
-        .internal-box-header { /* For Txn IDs inside cards */
-            font-family: var(--font-code);
-            font-size: 0.75rem;
-            color: var(--text-muted-color);
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-            border-bottom: 1px dashed var(--border-color);
-            text-align: right;
-        }
-
-        .card-custom:hover {
-            transform: translateY(-5px) scale(1.01);
-            box-shadow: 0 6px 20px rgba(0, 224, 255, 0.1);
-        }
-        .card-custom h5 {
-            color: var(--accent-color1);
-            font-family: var(--font-display); /* Keep font */
-        }
-        .card-custom p {
-            color: var(--text-muted-color);
-            font-size: 0.95rem;
-        }
-
-        /* --- Contact Section (Wallet UI) --- */
-        #contact {
-            background-color: var(--secondary-bg);
-            border-radius: 15px;
-            max-width: 600px;
-            margin: 80px auto;
-            border: 1px solid var(--accent-color2);
-            box-shadow: 0 0 15px rgba(44, 255, 152, 0.1);
-            position: relative;
-            overflow: hidden;
-            padding: 0;
-        }
-
-        .wallet-header {
-            background-color: rgba(44, 255, 152, 0.05);
-            padding: 20px;
-            border-bottom: 1px solid var(--accent-color2);
-            text-align: center;
-            position: relative;
-        }
-
-        .wallet-header h2 {
-            font-family: var(--font-display);
-            color: var(--accent-color2);
-            font-size: 1.8rem;
-            margin-bottom: 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .wallet-status-indicator {
-            width: 8px;
-            height: 8px;
-            background-color: var(--accent-color2);
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-        }
-
-        .wallet-body {
-            padding: 25px;
-        }
-        .qr-code-area {
-            text-align: center;
-            margin-bottom: 25px;
-            background-color: rgba(10, 15, 31, 0.4); /* Slightly different background */
-            border-radius: 10px;
-            border: 1px dashed var(--border-color);
-        }
-        .qr-code-area i {
-            font-size: 5rem; /* Large QR icon */
-            color: var(--text-muted-color);
-            padding: 15px 0; /* Add some padding around QR icon */
-        }
-        .qr-code-area p {
-            font-size: 0.8rem;
-            color: var(--text-muted-color);
-            margin-top: 5px; /* Reduced margin */
-            font-family: var(--font-code);
-            padding-bottom: 10px;
-        }
-        .wallet-actions {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 25px;
-        }
-        .wallet-action-btn, a.wallet-action-btn { /* Ensure <a> tags are styled too */
-            background-color: rgba(0, 224, 255, 0.1);
-            color: var(--accent-color1);
-            border: 1px solid var(--accent-color1);
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-family: var(--font-display);
-            font-size: 0.9rem; /* Slightly smaller for better fit */
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-            text-decoration: none; /* Remove underline from <a> */
-            display: inline-flex; /* Align icon and text */
-            align-items: center;
-        }
-        .wallet-intro-text {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .contact-entries-list {
-            /* Wrapper for contact items if needed for future styling */
-        }
-        .contact-entry {
-            display: flex;
-            align-items: center;
-            background-color: rgba(10, 15, 31, 0.6);
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border-color);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-        }
-
-        .contact-entry i.contact-icon {
-            color: var(--accent-color1);
-            font-size: 1.3rem;
-            margin-right: 15px;
-            width: 25px;
-            text-align: center;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-        }
-
-        .contact-entry span, .contact-entry a {
-            color: var(--text-color);
-            font-size: 1rem;
-            text-decoration: none;
-            flex-grow: 1;
-            word-break: break-all;
-            margin-right: 10px; /* Add space between text and icon */
-        }
-
-        .action-icon {
-            color: var(--text-muted-color);
-            margin-left: 0; /* Remove left margin */
-            cursor: pointer;
-            transition: color 0.3s ease;
-            font-size: 1.1rem;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-        }
-        .action-icon:hover {
-            color: var(--accent-color2);
-        }
-
-        /* --- Footer --- */
-        footer {
-            background-color: var(--secondary-bg);
-            color: var(--text-muted-color);
-            padding: 30px 0;
-            text-align: center;
-            font-size: 0.9rem;
-            border-top: 1px solid var(--border-color);
-        }
-        footer .social-icons a {
-            font-size: 1.5rem; /* Keep icon size */
-        }
-
-        /* --- Responsive Adjustments for Timeline --- */
-        @media (max-width: 768px) {
-            #hero h1 { font-size: 2.5rem; }
-            #hero h2 { font-size: 1.5rem; }
-            .section-title { font-size: 2rem; }
-            .timeline::before { /* Keep responsive adjustments */
-                left: 25px;
-            } /* Keep responsive adjustments */
-            .timeline-item .timeline-content {
-                width: calc(100% - 70px); /* Adjust width */
-                float: right; /* All content to the right */
-                text-align: left; /* Align text left */
-                margin: 0; /* Remove auto margin on small screens if floating */
-            }
-            .timeline-item:nth-child(odd) .timeline-content {
-                float: right;
-                text-align: left;
-            }
-            .timeline-icon {
-                left: 25px; /* Align icon with the line */ /* Keep responsive icon alignment */
-            }
-            /* Hide side connectors on small screens */
-            .chain-connector-right, .chain-connector-left, .chain-connector-vertical { display: none; } 
-        }
-
-        /* Scrollbar styling (optional, for a more themed look) */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--primary-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--accent-color1);
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-color2);
-        }
-
-        /* Specific style for blockchain skills */
-        .skill-category.blockchain-skills h4 {
-            color: var(--accent-color1); /* Use accent color 1 for blockchain category */
-            font-weight: 700; /* Make it bolder */
-            border-color: var(--accent-color1);
-        }
-        .skill-category.blockchain-skills {
-            position: relative;
-            z-index: 1;
-        }
-        .skill-category.blockchain-skills::before { /* Add a subtle block/frame effect */
-            content: '';
-            position: absolute;
-            top: -10px; left: -10px; right: -10px; bottom: -10px;
-            border: 1px solid var(--accent-color1);
-            opacity: 0.2;
-            z-index: -1;
-        } /* Keep blockchain skills frame */
-
-        /* --- Blockchain Block Connectors (REMOVED) --- */
-        /* .chain-connector-right, .chain-connector-left, .chain-connector-vertical { ... } */
-        /* @keyframes flowChain { ... } */
-
-        /* Solidity Syntax Highlighting */
-        .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
-        .sol-pragma     { color: #569cd6 !important; }
-        .sol-keyword    { color: #569cd6 !important; }
-        .sol-visibility { color: #9cdcfe !important; }
-        .sol-type       { color: #4ec9b0 !important; }
-        .sol-identifier { color: #dcdcaa !important; }
-        .sol-string     { color: #ce9178 !important; }
-        .sol-punctuation{ color: #d4d4d4 !important; }
-        .sol-operator   { color: #d4d4d4 !important; }
-
-        /* Ensure these styles are applied to the code in the VS Code window */
-        .vscode-body .sol-comment    { color: #6a9955 !important; font-style: italic !important; }
-        .vscode-body .sol-pragma     { color: #569cd6 !important; }
-        .vscode-body .sol-keyword    { color: #569cd6 !important; }
-        .vscode-body .sol-visibility { color: #9cdcfe !important; }
-        .vscode-body .sol-type       { color: #4ec9b0 !important; }
-        .vscode-body .sol-identifier { color: #dcdcaa !important; }
-        .vscode-body .sol-string     { color: #ce9178 !important; }
-        .vscode-body .sol-punctuation{ color: #d4d4d4 !important; }
-        .vscode-body .sol-operator   { color: #d4d4d4 !important; }
-
-        /* Tagline styling */
-        #hero .lead {
-            font-size: 1.4rem;
-            color: var(--text-color);
-            max-width: 800px;
-            margin: 1.5rem auto;
-            line-height: 1.6;
-            font-family: var(--font-secondary);
-            text-shadow: 0 0 10px rgba(0, 224, 255, 0.1);
-            position: relative;
-            padding: 0 20px;
-        }
-        #hero .lead::before,
-        #hero .lead::after {
-            content: '';
-            position: absolute;
-            height: 1px;
-            width: 100px;
-            background: linear-gradient(to right, transparent, var(--accent-color1), transparent);
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        #hero .lead::before {
-            top: -15px;
-        }
-        #hero .lead::after {
-            bottom: -15px;
-        }
-
-        /* Experience Tiles Styling */
-        .timeline-content {
-            background-color: rgba(10, 15, 31, 0.8);
-            border: none;
-            border-radius: 6px;
-            padding: 20px;
-            position: relative;
-            transition: transform 0.3s ease;
-            margin: 0 auto;
-            box-shadow: none;
-        }
-
-        .timeline-content:hover {
-            transform: translateY(-5px);
-            box-shadow: none;
-        }
-
-        .timeline-content h3 {
-            color: var(--accent-color1);
-            font-family: var(--font-display);
-            margin-top: 0;
-            font-size: 1.6rem;
-            text-shadow: none;
-        }
-
-        .timeline-content p {
-            font-size: 0.95rem;
-            color: var(--text-muted-color);
-            line-height: 1.6;
-            margin-bottom: 0;
-            text-shadow: none;
-        }
-
-        .timeline-content strong {
-            color: var(--text-color);
-            font-weight: 600;
-            text-shadow: none;
-        }
-
-        .timeline-content em {
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
-            display: block;
-            margin-top: 10px;
-            text-shadow: none;
-        }
-
-        /* Remove any remaining glow effects */
-        .timeline::before,
-        .timeline-item::before,
-        .timeline-item::after,
-        .timeline-content::before,
-        .timeline-content::after {
-            box-shadow: none;
-            text-shadow: none;
-        }
-
-        .timeline-content::before {
-            content: none;
-        }
-
-        .timeline-content::after {
-            content: none;
-        }
-
-        .timeline-item::before {
-            content: none;
-        }
-
-        .timeline-item::after {
-            content: none;
-        }
-
-        .timeline::before {
-            content: none;
-        }
-
-        .wallet-balance {
-            background-color: rgba(10, 15, 31, 0.6);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(0, 224, 255, 0.2);
-        }
-
-        .balance-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .network-name {
-            color: var(--accent-color1);
-            font-family: var(--font-code);
-            font-size: 0.9rem;
-            margin-left: 10px;
-        }
-
-        .balance-amount {
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .currency-symbol {
-            color: var(--accent-color2);
-            font-family: var(--font-code);
-            font-size: 1.2rem;
-            margin-right: 8px;
-        }
-
-        .amount {
-            color: var(--text-color);
-            font-family: var(--font-code);
-            font-size: 2rem;
-            font-weight: 600;
-        }
-
-        .wallet-address {
-            background-color: rgba(0, 224, 255, 0.1);
-            border-radius: 6px;
-            padding: 12px;
-            font-family: var(--font-code);
-            font-size: 0.85rem;
-            color: var(--text-muted-color);
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .address-label {
-            color: var(--accent-color1);
-        }
-
-        .address {
-            color: var(--text-color);
-            flex-grow: 1;
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pramod Shenkar - Backend &amp; Platform Engineer</title>
+<meta name="description" content="Backend and platform engineer building high-throughput, low-latency distributed systems in Go - and the Kubernetes platform that runs them." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --bg-void:      #0A0E14;
+  --bg-surface:   #0F141C;
+  --bg-well:      rgba(0,0,0,0.32);
+  --bg-header:    rgba(0,0,0,0.32);
+  --bg-body:      rgba(255,255,255,0.022);
+
+  --tint-1:       rgba(255,255,255,0.024);
+  --tint-2:       rgba(255,255,255,0.05);
+  --tint-3:       rgba(255,255,255,0.08);
+  --accent-tint:  rgba(50,108,229,0.10);
+  --green-tint:   rgba(63,185,80,0.10);
+  --cyan-tint:    rgba(0,173,216,0.10);
+  --purple-tint:  rgba(163,113,247,0.10);
+
+  --line:         #1A2230;
+  --line-hi:      #2A3547;
+  --line-soft:    rgba(255,255,255,0.06);
+  --line-card:    rgba(255,255,255,0.075);
+  --line-header:  rgba(255,255,255,0.07);
+
+  --k8s-blue:     #326CE5;
+  --go-cyan:      #00ADD8;
+  --tf-purple:    #A371F7;
+  --status-green: #3FB950;
+
+  --text-hi:      #E6EDF3;
+  --text-mid:     #99A5B3;
+  --text-dim:     #566172;
+  --text-faint:   #3B4553;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --r-card: 14px;
+  --r-pill: 100px;
+  --r-chip: 6px;
+  --maxw: 1040px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body{
+  margin:0;
+  background:var(--bg-void);
+  color:var(--text-mid);
+  font-family:var(--font-sans);
+  font-size:16.5px;
+  line-height:1.75;
+  font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{ color:var(--text-hi); margin:0; font-weight:600; letter-spacing:-0.022em; line-height:1.22; }
+p{ margin:0; }
+ul{ margin:0; padding:0; list-style:none; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; cursor:pointer; }
+
+body::before{
+  content:'';
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+  background-image: radial-gradient(circle, rgba(230,237,243,.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 55% at 50% 0%, #000 30%, transparent 100%);
+}
+
+:focus-visible{ outline:2px solid var(--k8s-blue); outline-offset:3px; border-radius:4px; }
+
+.skip-link{
+  position:absolute; left:-9999px; top:0; z-index:999;
+  background:var(--k8s-blue); color:#fff; padding:10px 16px;
+  border-radius:0 0 8px 0; font-family:var(--font-mono); font-size:13px;
+}
+.skip-link:focus{ left:0; }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.wrap{
+  width:100%; max-width:var(--maxw);
+  margin:0 auto; padding:0 32px;
+  position:relative; z-index:1;
+}
+section{ position:relative; z-index:1; }
+.section{ padding:104px 0; }
+
+.section-head{ margin-bottom:44px; }
+.section-head .line{
+  display:flex; align-items:center; gap:16px;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:14px;
+}
+.section-head .num{
+  font-family:var(--font-mono); font-size:12px;
+  color:var(--k8s-blue); letter-spacing:.08em; font-weight:500;
+}
+.section-head .label{
+  font-family:var(--font-mono); font-size:12.5px;
+  color:var(--text-dim); letter-spacing:.2em; text-transform:uppercase;
+  font-weight:500;
+}
+.section-head .meta{
+  margin-left:auto;
+  font-family:var(--font-mono); font-size:12px;
+  color:var(--text-faint); letter-spacing:.04em;
+}
+
+/* ============================================================
+   PROMPT
+   ============================================================ */
+.prompt{
+  font-family:var(--font-mono); font-size:12.5px;
+  color:var(--text-dim);
+  display:flex; align-items:center; gap:9px;
+  flex-wrap:wrap; min-width:0; overflow:hidden;
+  letter-spacing:.005em;
+}
+.prompt .psym{
+  color:var(--status-green); font-weight:500;
+  user-select:none; flex-shrink:0;
+}
+.prompt .kw{ color:var(--text-hi); }
+.prompt .sub{ color:var(--text-mid); }
+.prompt .arg{ color:var(--go-cyan); }
+.prompt .flag{ color:var(--text-faint); }
+.prompt .caret{
+  display:inline-block; width:7px; height:13px;
+  background:var(--status-green); vertical-align:-2px;
+  animation:blink 1.15s step-end infinite; border-radius:1px;
+}
+@keyframes blink{ 0%,100%{opacity:1} 50%{opacity:0} }
+
+.tool{
+  flex-shrink:0;
+  font-family:var(--font-mono); font-size:10.5px;
+  letter-spacing:.14em; text-transform:uppercase; font-weight:500;
+  padding:4px 11px; border-radius:var(--r-pill);
+  color:var(--text-dim); background:var(--tint-2);
+  white-space:nowrap;
+}
+.tool.kubectl { color:var(--k8s-blue);   background:var(--accent-tint); }
+.tool.tf      { color:var(--tf-purple);  background:var(--purple-tint); }
+.tool.shell   { color:var(--status-green); background:var(--green-tint); }
+
+/* ============================================================
+   TOP BAR
+   ============================================================ */
+.topbar{
+  position:sticky; top:0; z-index:100;
+  background:rgba(10,14,20,.85);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--line);
+}
+.topbar-inner{
+  max-width:var(--maxw); margin:0 auto; padding:0 32px;
+  height:60px; display:flex; align-items:center; justify-content:space-between; gap:22px;
+}
+.topbar .prompt{
+  flex:1; min-width:0; overflow:hidden; white-space:nowrap; font-size:13px;
+}
+.topnav{ display:flex; align-items:center; gap:2px; flex-shrink:0; }
+.topnav a{
+  font-family:var(--font-mono); font-size:12.5px;
+  color:var(--text-mid); padding:9px 13px; border-radius:var(--r-chip);
+  transition:color .18s var(--ease), background .18s var(--ease);
+  white-space:nowrap;
+}
+.topnav a:hover{ color:var(--text-hi); background:var(--tint-2); }
+.topnav .btn-resume{ margin-left:12px; color:var(--text-hi); background:var(--tint-2); }
+.topnav .btn-resume:hover{ background:var(--accent-tint); }
+
+/* ============================================================
+   CARD (Bootstrap pattern)
+   ============================================================ */
+.card{
+  background:var(--bg-body);
+  border:1px solid var(--line-card);
+  border-radius:var(--r-card);
+  overflow:hidden;
+  transition:background .25s var(--ease), border-color .25s var(--ease);
+}
+.card:hover{
+  background:var(--tint-1);
+  border-color:rgba(255,255,255,0.11);
+}
+
+.card-header{
+  padding:14px 26px;
+  background:var(--bg-header);
+  border-bottom:1px solid var(--line-header);
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; flex-wrap:wrap;
+}
+
+.card-body{
+  padding:30px 30px 32px;
+}
+
+/* ============================================================
+   HERO (now a card)
+   ============================================================ */
+.hero{
+  position:relative;
+  padding:112px 0 96px;
+  overflow:hidden;
+}
+#mesh{
+  position:absolute; inset:0; z-index:0;
+  pointer-events:none; opacity:.5;
+}
+.hero .wrap{ z-index:2; }
+
+.hero-card{
+  /* inherits .card styles */
+}
+.hero-card .card-body{
+  padding:44px 44px 40px;
+}
+
+.hero h1{
+  font-size:clamp(2.5rem, 6.4vw, 4rem);
+  font-weight:700; letter-spacing:-0.042em;
+  margin-bottom:32px;
+}
+
+.fields{
+  display:grid;
+  grid-template-columns: 128px 1fr;
+  gap:12px 26px;
+  font-family:var(--font-mono); font-size:13.5px;
+  line-height:1.6;
+  margin-bottom:40px;
+  max-width:700px;
+}
+.fields .key{ color:var(--text-dim); }
+.fields .val{ color:var(--text-hi); }
+.fields .val.muted{ color:var(--text-mid); }
+.fields .val .sep{ color:var(--text-faint); margin:0 10px; }
+
+.status-inline{ display:inline-flex; align-items:center; gap:9px; }
+.status-inline .dot{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--status-green);
+  box-shadow:0 0 0 0 rgba(63,185,80,.55);
+  animation:pulse 2.2s infinite;
+  flex-shrink:0;
+}
+.status-inline .status-text{ color:var(--status-green); }
+
+@keyframes pulse{
+  0%{ box-shadow:0 0 0 0 rgba(63,185,80,.5); }
+  70%{ box-shadow:0 0 0 9px rgba(63,185,80,0); }
+  100%{ box-shadow:0 0 0 0 rgba(63,185,80,0); }
+}
+
+.lede{
+  font-size:clamp(1.04rem, 2.1vw, 1.16rem);
+  color:var(--text-mid); max-width:680px; line-height:1.8;
+  margin-bottom:40px;
+}
+.lede strong{ color:var(--text-hi); font-weight:600; }
+
+.cta-row{ display:flex; flex-wrap:wrap; gap:12px; }
+.btn{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--font-mono); font-size:13px; font-weight:500;
+  padding:13px 24px; border-radius:var(--r-chip);
+  color:var(--text-hi); background:var(--tint-2);
+  transition:all .18s var(--ease); min-height:48px;
+}
+.btn:hover{ background:var(--tint-3); transform:translateY(-1px); }
+.btn-primary{ background:var(--k8s-blue); color:#fff; }
+.btn-primary:hover{ background:#3d7bf0; }
+
+/* ============================================================
+   STACK
+   ============================================================ */
+.stack{ display:grid; gap:24px; }
+
+/* ============================================================
+   DESCRIBE FIELD BLOCK
+   ============================================================ */
+.describe{
+  display:grid;
+  grid-template-columns: 110px 1fr;
+  gap:11px 26px;
+  font-family:var(--font-mono);
+  font-size:13.5px;
+  line-height:1.6;
+  margin-bottom:32px;
+}
+.describe .k{ color:var(--text-dim); letter-spacing:.01em; }
+.describe .v{ color:var(--text-hi); word-break:break-word; }
+.describe .v.muted{ color:var(--text-mid); }
+
+.describe .v.live{
+  color:var(--status-green);
+  display:inline-flex; align-items:center; gap:9px;
+}
+.describe .v.live .dot{
+  width:7px; height:7px; border-radius:50%;
+  background:var(--status-green);
+  box-shadow:0 0 0 0 rgba(63,185,80,.55);
+  animation:pulse 2.2s infinite;
+  flex-shrink:0;
+}
+
+.describe .v .scales{
+  display:inline-flex; flex-wrap:wrap; gap:7px;
+}
+.describe .v .scales .pill{
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--font-mono);
+  font-size:11.5px; letter-spacing:.02em;
+  color:var(--k8s-blue);
+  background:var(--accent-tint);
+  border:1px solid rgba(50,108,229,.24);
+  padding:4px 12px; border-radius:var(--r-pill);
+}
+.describe .v .scales .pill::before{
+  content:''; width:4px; height:4px; border-radius:50%;
+  background:var(--k8s-blue); opacity:.85;
+}
+
+.output-section + .output-section{ margin-top:30px; }
+
+.output-label{
+  display:flex; align-items:center; gap:12px;
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--text-dim);
+  margin-bottom:16px;
+  font-weight:500;
+}
+.output-label::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--line-soft);
+}
+
+/* ============================================================
+   BULLETS
+   ============================================================ */
+.bullets{ display:grid; gap:14px; }
+.bullets li{
+  position:relative;
+  padding-left:24px;
+  font-size:15px;
+  line-height:1.8;
+  color:var(--text-mid);
+  letter-spacing:-0.005em;
+}
+.bullets li::before{
+  content:'';
+  position:absolute; left:4px; top:13px;
+  width:5px; height:5px; border-radius:50%;
+  background:var(--k8s-blue);
+  opacity:.75;
+}
+
+.kw{
+  display:inline;
+  padding:1px 8px 2px;
+  margin:0 1px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--line-hi);
+  border-radius:4px;
+  color:var(--text-hi);
+  font-family:var(--font-mono);
+  font-size:0.83em;
+  font-weight:500;
+  letter-spacing:0;
+  line-height:1.4;
+  white-space:nowrap;
+}
+
+/* ============================================================
+   TAGS
+   ============================================================ */
+.tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.tag{
+  font-family:var(--font-mono); font-size:11.5px; letter-spacing:.02em;
+  color:var(--text-mid);
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--line-hi);
+  padding:6px 13px; border-radius:var(--r-chip);
+  transition:all .18s var(--ease);
+}
+.tag:hover{
+  color:var(--go-cyan);
+  border-color:rgba(0,173,216,.45);
+  background:var(--cyan-tint);
+}
+
+/* ============================================================
+   TERRAFORM PLAN
+   ============================================================ */
+.tf-plan{
+  font-family:var(--font-mono);
+  font-size:13px;
+  line-height:2;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  color:var(--text-hi);
+}
+.tf-plan::-webkit-scrollbar{ height:8px; }
+.tf-plan::-webkit-scrollbar-track{ background:transparent; }
+.tf-plan::-webkit-scrollbar-thumb{ background:var(--line-hi); border-radius:4px; }
+
+.tf-plan .msg{ display:block; color:var(--text-dim); margin-bottom:22px; }
+.tf-plan .res{ display:block; padding-left:2px; margin-bottom:8px; }
+.tf-plan .plus{ color:var(--status-green); font-weight:600; margin-right:9px; }
+.tf-plan .addr{ color:var(--text-hi); font-weight:500; }
+.tf-plan .attr-line{ display:block; padding-left:28px; white-space:nowrap; }
+.tf-plan .attr{ display:inline-block; min-width:100px; color:#79C0FF; }
+.tf-plan .eq{ color:var(--text-dim); margin-right:9px; }
+.tf-plan .str{ color:#A5D6FF; }
+.tf-plan .br{ color:var(--text-dim); }
+.tf-plan .gap{ display:block; height:16px; }
+.tf-plan .summary{ display:block; color:var(--text-dim); padding-top:10px; }
+.tf-plan .summary .num{ color:var(--text-hi); font-weight:500; }
+
+/* ============================================================
+   KUBECTL TABLE
+   ============================================================ */
+.ktable{
+  font-family:var(--font-mono); font-size:13px;
+  line-height:1.75;
+  overflow-x:auto;
+}
+.ktable .head{
+  color:var(--text-dim);
+  letter-spacing:.14em; text-transform:uppercase;
+  font-size:11px;
+  display:grid; gap:18px 24px;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--line);
+  margin-bottom:12px;
+  font-weight:500;
+}
+.ktable .row{
+  display:grid; gap:18px 24px;
+  padding:9px 0;
+  color:var(--text-mid);
+}
+.ktable .row .name{ color:var(--text-hi); }
+.ktable .row .ok{ color:var(--status-green); }
+
+.ktable.certs .head,
+.ktable.certs .row{ grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) 100px; }
+
+/* ============================================================
+   CREDS GRID
+   ============================================================ */
+.creds{
+  display:grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap:24px;
+  align-items:start;
+}
+.creds-side{ display:grid; gap:24px; }
+
+/* ============================================================
+   MINI FIELD
+   ============================================================ */
+.mini-field{
+  display:grid;
+  grid-template-columns: 90px 1fr;
+  gap:10px 20px;
+  font-family:var(--font-mono);
+  font-size:13.5px;
+  line-height:1.6;
+}
+.mini-field .k{ color:var(--text-dim); }
+.mini-field .v{ color:var(--text-hi); }
+.mini-field .v.muted{ color:var(--text-mid); }
+.mini-field .v.accent{ color:var(--k8s-blue); }
+
+/* ============================================================
+   CONTACT
+   ============================================================ */
+.contact-block{
+  font-family:var(--font-mono); font-size:13.5px;
+  line-height:2.1;
+  color:var(--text-mid);
+}
+.contact-block .brace{ color:var(--text-dim); }
+.contact-block .key{ color:#79C0FF; }
+.contact-block .colon{ color:var(--text-dim); margin:0 5px; }
+.contact-block .val{ color:#A5D6FF; }
+.contact-block .comma{ color:var(--text-dim); }
+.contact-block a{ transition:color .18s var(--ease); }
+.contact-block a:hover{ color:var(--text-hi); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{
+  border-top:1px solid var(--line);
+  background:var(--bg-surface);
+  padding:88px 0 52px;
+  position:relative; z-index:1;
+}
+.footer-bottom{
+  margin-top:52px; padding-top:32px;
+  border-top:1px solid var(--line);
+  display:flex; justify-content:space-between; align-items:center;
+  gap:26px; flex-wrap:wrap;
+}
+.footer-bottom .note{
+  font-family:var(--font-mono); font-size:12.5px; color:var(--text-dim);
+  max-width:540px; line-height:1.8;
+}
+.footer-bottom .copy{
+  font-family:var(--font-mono); font-size:12.5px; color:var(--text-dim);
+  display:flex; align-items:center; gap:11px; white-space:nowrap;
+}
+.footer-bottom .copy .dot{
+  width:6px; height:6px; border-radius:50%; background:var(--status-green);
+  animation:pulse 2.2s infinite;
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{ opacity:0; transform:translateY(16px); }
+.reveal.in{
+  opacity:1; transform:none;
+  transition:opacity .6s var(--ease), transform .6s var(--ease);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:900px){
+  .creds{ grid-template-columns:1fr; }
+  .ktable.certs .head,
+  .ktable.certs .row{ grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) 90px; }
+}
+@media (max-width:820px){
+  .topbar .prompt{ font-size:12px; }
+  .topnav a{ padding:9px 11px; font-size:12px; }
+  .hero-card .card-body{ padding:32px 30px 30px; }
+}
+@media (max-width:640px){
+  .wrap{ padding:0 22px; }
+  .topbar-inner{ padding:0 22px; height:56px; }
+  .topbar .prompt{ display:none; }
+  .topnav{ width:100%; justify-content:space-between; }
+  .topnav .btn-resume{ margin-left:0; }
+
+  .hero{ padding:76px 0 64px; }
+  .hero-card .card-body{ padding:26px 22px 26px; }
+
+  .section{ padding:80px 0; }
+  .section-head{ margin-bottom:32px; }
+
+  .fields{ grid-template-columns:1fr; gap:3px 0; }
+  .fields .key{ padding-top:11px; }
+
+  .card-header{ padding:12px 20px; }
+  .card-body{ padding:22px 22px 24px; }
+
+  .describe{ grid-template-columns:1fr; gap:3px 0; }
+  .describe .k{ padding-top:11px; }
+  .describe .k:first-child{ padding-top:0; }
+
+  .bullets li{ font-size:14.5px; }
+  .kw{ white-space:normal; }
+
+  .tf-plan{ font-size:12px; }
+
+  .ktable .head{ display:none; }
+  .ktable.certs .row{ grid-template-columns:1fr; gap:3px; padding:14px 0; }
+
+  .mini-field{ grid-template-columns:1fr; gap:3px 0; }
+  .mini-field .k{ padding-top:10px; }
+  .mini-field .k:first-child{ padding-top:0; }
+
+  .cta-row .btn{ flex:1 1 auto; justify-content:center; }
+  .footer{ padding:64px 0 42px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    transition-duration:.001ms !important;
+    scroll-behavior:auto !important;
+  }
+  .reveal{ opacity:1; transform:none; }
+  #mesh{ display:none; }
+  .prompt .caret, .dot, .status-inline .dot, .describe .v.live .dot{ animation:none; }
+}
+</style>
 </head>
 <body>
 
-    <div id="app">
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg fixed-top">
-            <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="#hero">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#experience">Experience</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+<a class="skip-link" href="#main">Skip to content</a>
 
-        <!-- Hero Section (Conceptual Genesis Block) -->
-        <section id="hero">
-            <!-- <div class="matrix-bg" id="matrix"></div> -->
-            <!-- <div class="chain-animations-container" id="chain-animations"></div> Container for small chains - REMOVED -->
-            <!-- Floating nodes will be added via JS -->
-            <div class="container hero-content" style="padding-top: 50px;">
-                <div class="name-line">
-                    <h1 data-aos="fade-down" data-aos-delay="200">{{ personalInfo.name }}</h1>
-                    <div id="gopher-gif-container">
-                        <img src="https://media.tenor.com/TCMWkxIkF9IAAAAj/dancing-gopher.gif" alt="Dancing Gopher">
-                    </div>
-                </div>
-                <p class="lead" data-aos="fade-up" data-aos-delay="400" v-html="personalInfo.tagline"></p>
-                <div class="vscode-window" data-aos="fade-up" data-aos-delay="700">
-                    <div class="vscode-header">
-                        <div class="vscode-buttons">
-                            <span class="vscode-btn close"></span>
-                            <span class="vscode-btn minimize"></span>
-                            <span class="vscode-btn maximize"></span>
-                        </div>
-                        <div class="vscode-title">cmd/portfolio</div>
-                    </div>
-                    <div class="vscode-body">
-                        <pre class="go-code-snippet"><code id="typed-go-code"></code></pre>
-                    </div>
-                </div>
-                <div class="social-icons" data-aos="fade-up" data-aos-delay="800">
-                    <a :href="personalInfo.linkedin" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a :href="'mailto:' + personalInfo.email" title="Email"><i class="fas fa-envelope"></i></a>
-                    <!-- Add GitHub if available -->
-                    <!-- <a href="#" target="_blank" title="GitHub"><i class="fab fa-github"></i></a> -->
-                </div>
-            </div>
-        </section>
+<!-- ================= TOP BAR ================= -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="prompt">
+      <span class="psym">$</span>
+      <span class="kw">whoami</span>
+      <span class="flag">--verbose</span>
+      <span class="caret" aria-hidden="true"></span>
+    </div>
+    <nav class="topnav" aria-label="Primary">
+      <a href="#work">experience</a>
+      <a href="#skills">skills</a>
+      <a href="#creds">credentials</a>
+      <a href="#contact">contact</a>
+      <a class="btn-resume" href="#" download>resume.pdf</a>
+    </nav>
+  </div>
+</header>
 
-        <!-- About Section (Block 0) -->
-        <section id="about" class="container">
-            <div class="blockchain-block" data-aos="fade-up">
-                <div class="block-header">
-                    <span>Block #{{ aboutBlock.nonce }}</span>
-                    <span>Hash: {{ aboutBlock.hash }}</span>
-                </div>
-                <div class="block-content">
-                    <h2 class="section-title" data-aos="fade-up">About Me</h2>
-                    <div class="row">
-                        <div class="col-lg-10 mx-auto">
-                            <p data-aos="fade-up" data-aos-delay="200" v-html="aboutMe"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<main id="main">
 
-        <!-- Skills Section (Block 1) -->
-        <section id="skills" class="container">
-            <div class="blockchain-block" data-aos="fade-up">
-                <div class="block-header">
-                    <span>Block #{{ skillsBlock.nonce }}</span>
-                    <span>Hash: {{ skillsBlock.hash }}</span>
-                </div>
-                <div class="block-content">
-                    <h2 class="section-title" data-aos="fade-up">Skills</h2>
-                    <div v-for="(category, index) in skills" :key="index" class="skill-category" data-aos="fade-up" :data-aos-delay="100 * index">
-                        <h4 :class="{'blockchain-skills': category.name.includes('Blockchain')}">{{ category.name }}</h4>
-                        <div>
-                            <span v-for="skill in category.items" :key="skill" class="skill-tag">{{ skill }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+  <!-- ================= HERO (now a real card) ================= -->
+  <section class="hero">
+    <canvas id="mesh" aria-hidden="true"></canvas>
+    <div class="wrap">
 
-        <!-- Experience Section (Block 1) -->
-        <section id="experience" class="container">
-            <div class="blockchain-block" data-aos="fade-up">
-                <div class="block-header">
-                    <span>Block #{{ experienceBlock.nonce }}</span>
-                    <span>Hash: {{ experienceBlock.hash }}</span>
-                </div>
-                <div class="block-content">
-                    <h2 class="section-title" data-aos="fade-up">Experience</h2>
+      <article class="card hero-card reveal">
+        <div class="card-header">
+          <div class="prompt">
+            <span class="psym">$</span>
+            <span class="kw">kubectl</span>
+            <span class="sub">describe</span>
+            <span class="arg">engineer</span>
+            <span class="arg">pramod-shenkar</span>
+          </div>
+        </div>
 
-                    <div class="timeline">
-                         <!-- NPCI Experience -->
-                        <div class="timeline-item" data-aos="fade-up">
-                            <div class="timeline-content">
-                                <div class="txn-header">
-                                    <span>Transaction ID: <span class="txn-id">{{ experience[0].txnId }}</span></span>
-                                </div>
-                                <h3>{{ experience[0].company }}</h3>
-                                <p>
-                                    As a <strong>{{ experience[0].title }}</strong>, I played a pivotal role in the pioneering <strong>{{ experience[0].project }}</strong> project—a national digital currency initiative by the RBI, impacting millions of users and merchants. My contributions included designing and developing core modules using a hexagonal architecture, engineering robust backend services with Golang (Gin-Gonic, Go-Fiber), gRPC, and Kafka, and developing Hyperledger Fabric smart contracts.
-                                    <br><br>
-                                    Key outcomes of my work include a <strong>75% increase in system efficiency</strong> through concurrent processing and a <strong>40% reduction in production bugs</strong> by implementing idempotency and rollback-safe flows, significantly enhancing platform reliability. I also led UAT and production deployment coordination with RBI and numerous partner banks, and mentored junior developers in best practices.
-                                    <br>
-                                    <em>Period: {{ experience[0].period }}</em>
-                                </p>
-                            </div>
-                        </div>
+        <div class="card-body">
+          <h1>Pramod Shenkar</h1>
 
-                        <!-- MKCL Experience -->
-                        <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
-                            <div class="timeline-content">
-                                <div class="txn-header">
-                                    <span>Transaction ID: <span class="txn-id">{{ experience[1].txnId }}</span></span>
-                                </div>
-                                <h3>{{ experience[1].company }}</h3>
-                                <p>
-                                    In my role as an <strong>{{ experience[1].title }}</strong>, I was instrumental in architecting and developing the <strong>{{ experience[1].project }}</strong>, a system serving over a million learners annually. I focused on leveraging Golang to enhance system performance and scalability, notably by designing concurrent reporting modules and developing a full-fledged simulation module from scratch, which included REST APIs, structured logging, and caching logic.
-                                    <br><br>
-                                    My optimization efforts led to a significant <strong>30% performance gain</strong> through targeted server-side cache optimization and reduced I/O overhead, greatly improving the user experience and platform stability.
-                                    <br>
-                                    <em>Period: {{ experience[1].period }}</em>
-                                </p>
-                            </div>
-                        </div>
-                    </div> <!-- End timeline -->
-                </div>
-            </div>
-        </section>
+          <div class="fields">
+            <span class="key">Role</span>
+            <span class="val">Platform &amp; Backend Engineer</span>
 
-        <!-- Projects Section (Block 2) -->
-        <section id="projects" class="container">
-            <div class="blockchain-block" data-aos="fade-up">
-                <div class="block-header">
-                    <span>Block #{{ projectsBlock.nonce }}</span>
-                    <span>Hash: {{ projectsBlock.hash }}</span>
-                </div>
-                <div class="block-content">
-                    <h2 class="section-title" data-aos="fade-up">Personal Projects</h2>
-                    <div class="timeline">
-                         <div v-for="(project, index) in projects" :key="index" class="timeline-item" data-aos="fade-up" :data-aos-delay="100 * index">
-                            <div class="timeline-content">
-                                <!-- <div class="txn-header">
-                                    <span>Transaction ID: <span class="txn-id">{{ project.txnId }}</span></span>
-                                </div> -->
-                                <h3>{{ project.name }}</h3>
-                                <span class="date">{{ project.period }}</span>
-                                <ul>
-                                    <li v-for="detail in project.details" :key="detail">{{ detail }}</li>
-                                </ul>
-                                <div class="mt-3">
-                                    <strong>Technologies:</strong>
-                                    <div v-if="project.technologies && Array.isArray(project.technologies) && project.technologies.length > 0" class="tech-stack-list">
-                                        {{ project.technologies.join(', ') }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <span class="key">Experience</span>
+            <span class="val">6+ years</span>
 
-        <!-- Education Section (Block 3) -->
-        <section id="education" class="container">
-            <div class="blockchain-block" data-aos="fade-up">
-                <div class="block-header">
-                    <span>Block #{{ educationBlock.nonce }}</span>
-                    <span>Hash: {{ educationBlock.hash }}</span>
-                </div>
-                <div class="block-content">
-                    <h2 class="section-title" data-aos="fade-up">Education</h2>
-                    <div class="row justify-content-center">
-                        <div v-for="(edu, index) in education" :key="index" class="col-md-11 mb-5" data-aos="fade-up" :data-aos-delay="100 * index">
-                            <div class="timeline-content" style="padding: 35px;">
-                                <!-- <div class="txn-header">
-                                    <span>Transaction ID: <span class="txn-id">{{ edu.txnId }}</span></span>
-                                </div> -->
-                                <h3>{{ edu.degree }}</h3>
-                                <p class="font-weight-bold mb-3">{{ edu.institution }}</p>
-                                <p class="mb-3">{{ edu.period }}</p>
-                                <p class="mb-3"><strong>Result:</strong> {{ edu.result }}</p>
-                                <ul class="mb-0" style="padding-left: 20px;">
-                                    <li v-for="point in edu.highlights" :key="point" style="margin-bottom: 8px;">{{ point }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <span class="key">Status</span>
+            <span class="val status-inline">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="status-text">Available now</span>
+              <span style="color:var(--text-faint);">·</span>
+              <span style="color:var(--text-mid);">Full-time · contracts</span>
+            </span>
 
-        <!-- Certifications Section (Block 4) -->
-        <section id="certifications" class="container">
-            <div class="blockchain-block" data-aos="fade-up">
-                <div class="block-header">
-                    <span>Block #{{ certificationsBlock.nonce }}</span>
-                    <span>Hash: {{ certificationsBlock.hash }}</span>
-                </div>
-                <div class="block-content">
-                    <h2 class="section-title" data-aos="fade-up">Certifications</h2>
-                    <div class="row">
-                        <div v-for="(cert, index) in certifications" :key="index" class="col-md-6" data-aos="fade-up" :data-aos-delay="100 * index">
-                            <div class="timeline-content">
-                                <div class="txn-header">
-                                    <span>Transaction ID: <span class="txn-id">{{ cert.txnId }}</span></span>
-                                </div>
-                                <h3>{{ cert.name }}</h3>
-                                <p><em>{{ cert.issuer }}</em></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <span class="key">Domains</span>
+            <span class="val muted">
+              Platform Engineering<span class="sep">·</span>Payments<span class="sep">·</span>Real-time streaming<span class="sep">·</span>Blockchain<span class="sep">·</span>EdTech
+            </span>
+          </div>
 
-        <!-- Contact Section (Wallet UI) -->
-        <section id="contact">
-            <div class="wallet-header">
-                <span class="wallet-status-indicator" title="Network: Online"></span>
-                <h2 data-aos="fade-up">Connect with Dev</h2>
-            </div>
-            <div class="wallet-body">
-                <div class="wallet-actions" data-aos="fade-up" data-aos-delay="100">
-                    <a :href="'mailto:' + personalInfo.email" class="wallet-action-btn">
-                        <i class="fas fa-paper-plane" style="margin-right: 8px;"></i> Mail Me
-                    </a>
-                    <a href="./Pramod_Blockchain_Golang_Dev_4YOE.pdf" download class="wallet-action-btn" style="background-color: rgba(44, 255, 152, 0.1); color: var(--accent-color2); border-color: var(--accent-color2);">
-                        <i class="fas fa-file-import" style="margin-right: 8px;"></i> Download CV
-                    </a>
-                </div>
+          <p class="lede">
+            I <strong>moulds k8s, manage platforms, build reliable distributed systems & architect low latency backend</strong> - and the
+            infrastructure that keeps them running at scale.
+          </p>
 
-                <p class="wallet-intro-text" data-aos="fade-up" data-aos-delay="100">
-                    Or, connect via the channels below.
-                </p>
-
-                <div class="contact-entries-list">
-                    <div class="contact-entry" data-aos="fade-up" data-aos-delay="200">
-                        <i class="fas fa-map-marker-alt contact-icon"></i>
-                        <span>{{ personalInfo.address }}</span>
-                        <i class="fas fa-copy action-icon" title="Copy Address" @click="copyToClipboard(personalInfo.address)"></i>
-                    </div>
-                    <div class="contact-entry" data-aos="fade-up" data-aos-delay="300">
-                        <i class="fas fa-phone contact-icon"></i>
-                        <a :href="'tel:' + personalInfo.phone">{{ personalInfo.phone }}</a>
-                        <i class="fas fa-copy action-icon" title="Copy Phone" @click="copyToClipboard(personalInfo.phone)"></i>
-                    </div>
-                    <div class="contact-entry" data-aos="fade-up" data-aos-delay="400">
-                        <i class="fas fa-envelope contact-icon"></i>
-                        <a :href="'mailto:' + personalInfo.email">{{ personalInfo.email }}</a>
-                        <i class="fas fa-copy action-icon" title="Copy Email" @click="copyToClipboard(personalInfo.email)"></i>
-                    </div>
-                    <div class="contact-entry" data-aos="fade-up" data-aos-delay="500">
-                        <i class="fab fa-linkedin contact-icon"></i>
-                        <a :href="personalInfo.linkedin" target="_blank" class="d-flex align-items-center justify-content-between w-100">
-                            <span>{{ personalInfo.linkedin.replace('https://www.','') }}</span>
-                            <i class="fas fa-external-link-alt action-icon" title="Open LinkedIn Profile"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            <div class="container">
-                <div class="social-icons mb-2">
-                    <a :href="personalInfo.linkedin" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-                    <a :href="'mailto:' + personalInfo.email" title="Email"><i class="fas fa-envelope"></i></a>
-                </div>
-                <p>&copy; {{ new Date().getFullYear() }} {{ personalInfo.name }}. All Rights Reserved.</p>
-                <p><em>"{{ personalInfo.hobbyQuote }}"</em></p>
-            </div>
-        </footer>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#work">View Experience</a>
+            <a class="btn" href="#" download>Download Resume</a>
+            <a class="btn" href="#contact">Get in touch</a>
+          </div>
+        </div>
+      </article>
 
     </div>
+  </section>
 
-    <!-- Vue.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
-    <!-- jQuery and Popper.js, then Bootstrap JS (for Navbar toggle) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- AOS JS CDN -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <!-- ================= WORK ================= -->
+  <section class="section" id="work">
+    <div class="wrap">
 
-    <script> /* Vue.js and custom script */
-        // Helper function to generate a fake hash
-        function generateFakeHash(length = 64) {
-            const chars = 'abcdef0123456789';
-            let hash = '';
-            for (let i = 0; i < length; i++) {
-                hash += chars[Math.floor(Math.random() * chars.length)];
-            }
-            return hash;
+      <div class="section-head reveal">
+        <div class="line">
+          <span class="num">01</span>
+          <span class="label">Experience</span>
+          <span class="meta"> 6+ years</span>
+        </div>
+      </div>
+
+      <div class="stack">
+
+        <!-- 63 Moons -->
+        <article class="card reveal">
+          <div class="card-header">
+            <div class="prompt">
+              <span class="psym">$</span>
+              <span class="kw">kubectl</span>
+              <span class="sub">describe</span>
+              <span class="sub">experience</span>
+              <span class="arg">63 Moons Technologies</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="describe">
+              <span class="k">Name</span>
+              <span class="v">63MT</span>
+
+              <span class="k">Status</span>
+              <span class="v live"><span class="dot" aria-hidden="true"></span> Running</span>
+
+              <span class="k">Role</span>
+              <span class="v">Senior Software Engineer</span>
+
+              <span class="k">Since</span>
+              <span class="v muted">Dec 2025 - Present</span>
+
+              <span class="k">Platform</span>
+              <span class="v muted">ONEX · Multi-Asset Crypto</span>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Contributions</span>
+              <ul class="bullets">
+                <li>Laid the groundwork for a new suite of <span class="kw">Go microservices</span>, with tracing, logging, and metrics built in from day one.</li>
+                <li>Building a <span class="kw">test automation platform</span> for a <span class="kw">high-frequency trading engine</span> that pumps realistic order flows through the system to catch edge cases before they reach production.</li>
+                <li>Working on a <span class="kw">high-speed data streaming engine</span> that pushes market data to clients with minimal delay, while tuning the system to cut response times further.</li>
+                <li>Set up the <span class="kw">Kubernetes cluster from scratch</span> for the trading platform's supporting services, giving the team a reliable place to deploy to.</li>
+                <li>Built the <span class="kw">continuous deployment pipelines</span> that automate testing and rollout of every change.</li>
+              </ul>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Labels</span>
+              <div class="tags">
+                <span class="tag">Go</span>
+                <span class="tag">Kubernetes</span>
+                <span class="tag">Kafka</span>
+                <span class="tag">Real-time streaming</span>
+                <span class="tag">Observability</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- NPCI -->
+        <article class="card reveal">
+          <div class="card-header">
+            <div class="prompt">
+              <span class="psym">$</span>
+              <span class="kw">kubectl</span>
+              <span class="sub">describe</span>
+              <span class="sub">experience</span>
+              <span class="arg">NPCI</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="describe">
+              <span class="k">Name</span>
+              <span class="v">National Payments Corporation of India</span>
+
+              <span class="k">Status</span>
+              <span class="v muted">✓ Succeeded</span>
+
+              <span class="k">Role</span>
+              <span class="v">Senior Associate - Distributed Systems</span>
+
+              <span class="k">Since</span>
+              <span class="v muted">Mar 2023 - Dec 2025</span>
+
+              <span class="k">Platform</span>
+              <span class="v muted">eRupee · RBI Retail CBDC</span>
+
+              <span class="k">Scale</span>
+              <span class="v">
+                <span class="scales">
+                  <span class="pill">5M users</span>
+                  <span class="pill">420K merchants</span>
+                  <span class="pill">20+ partner banks</span>
+                </span>
+              </span>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Contributions</span>
+              <ul class="bullets">
+                <li>Built backend services for <span class="kw">eRupee</span> - India's national digital currency - a system spanning 20+ banks and serving millions of users and merchants across the country.</li>
+                <li>Created a <span class="kw">Kubernetes operator</span> that automatically scales servers per payment topic based on real-time load, keeping the system fast under spikes.</li>
+                <li>Built tooling that lets new banks <span class="kw">onboard in hours instead of days</span> by automating the setup of their dedicated infrastructure.</li>
+                <li>Wrote <span class="kw">blockchain smart contracts</span> and client libraries that let multiple banks participate in a shared ledger securely.</li>
+                <li>Set up the <span class="kw">automated test suites and CI pipelines</span> that check every change before it ships.</li>
+                <li>Coordinated launch and rollout with the RBI and <span class="kw">10+ partner banks</span> including SBI, HDFC, and ICICI.</li>
+              </ul>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Labels</span>
+              <div class="tags">
+                <span class="tag">Go</span>
+                <span class="tag">Kubernetes Operators</span>
+                <span class="tag">Kafka</span>
+                <span class="tag">gRPC</span>
+                <span class="tag">Hyperledger Fabric</span>
+                <span class="tag">CI/CD</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- MKCL -->
+        <article class="card reveal">
+          <div class="card-header">
+            <div class="prompt">
+              <span class="psym">$</span>
+              <span class="kw">kubectl</span>
+              <span class="sub">describe</span>
+              <span class="sub">experience</span>
+              <span class="arg">MKCL</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="describe">
+              <span class="k">Name</span>
+              <span class="v">mkcl-era</span>
+
+              <span class="k">Status</span>
+              <span class="v muted">✓ Succeeded</span>
+
+              <span class="k">Role</span>
+              <span class="v">Associate Golang Developer</span>
+
+              <span class="k">Platform</span>
+              <span class="v muted">ERA · E-Learning Platform</span>
+
+              <span class="k">Scale</span>
+              <span class="v">
+                <span class="scales">
+                  <span class="pill">1M+ learners / year</span>
+                </span>
+              </span>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Contributions</span>
+              <ul class="bullets">
+                <li>Helped design and build <span class="kw">ERA</span>, an e-learning platform used by over a million learners every year.</li>
+                <li>Built the <span class="kw">reporting system</span> that lets educators pull detailed performance data across the platform.</li>
+                <li>Created a <span class="kw">simulation engine from scratch</span> and tuned it for parallel execution, improving performance by <span class="kw">30%</span>.</li>
+                <li>Continuously profiled and optimized existing backend services to keep response times low as the platform grew.</li>
+              </ul>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Labels</span>
+              <div class="tags">
+                <span class="tag">Go</span>
+                <span class="tag">gRPC</span>
+                <span class="tag">MariaDB</span>
+                <span class="tag">Vue.js</span>
+                <span class="tag">Performance tuning</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Intelligence Services -->
+        <article class="card reveal">
+          <div class="card-header">
+            <div class="prompt">
+              <span class="psym">$</span>
+              <span class="kw">kubectl</span>
+              <span class="sub">describe</span>
+              <span class="sub">deployment</span>
+              <span class="arg">Intelliquity</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="describe">
+              <span class="k">Name</span>
+              <span class="v">Intelliquity Services</span>
+
+              <span class="k">Status</span>
+              <span class="v muted">✓ Succeeded</span>
+
+              <span class="k">Role</span>
+              <span class="v">Backend Development Intern</span>
+
+              <span class="k">Since</span>
+              <span class="v muted">Aug 2020 - Mar 2021</span>
+
+              <span class="k">Platform</span>
+              <span class="v muted">Devere Wallet</span>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Contributions</span>
+              <ul class="bullets">
+                <li>Built serverless APIs for the <span class="kw">Devere digital wallet</span> on AWS, including payment flows and notifications.</li>
+                <li>Worked with the team on backend feature development, database design, and production issue fixes.</li>
+              </ul>
+            </div>
+
+            <div class="output-section">
+              <span class="output-label">Labels</span>
+              <div class="tags">
+                <span class="tag">AWS Lambda</span>
+                <span class="tag">DynamoDB</span>
+                <span class="tag">Serverless</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section class="section" id="skills">
+    <div class="wrap">
+
+      <div class="section-head reveal">
+        <div class="line">
+          <span class="num">02</span>
+          <span class="label">Skills</span>
+          <span class="meta">grouped by what I use them for</span>
+        </div>
+      </div>
+
+      <article class="card reveal">
+        <div class="card-header">
+          <div class="prompt">
+            <span class="psym">$</span>
+            <span class="kw">terraform</span>
+            <span class="sub">plan</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="tf-plan">
+            <span class="msg">Terraform will perform the following actions:</span>
+
+            <span class="res"><span class="plus">+</span><span class="addr">skill.backend</span></span>
+            <span class="attr-line"><span class="attr">primary</span><span class="eq">=</span><span class="str">"Go"</span></span>
+            <span class="attr-line"><span class="attr">apis</span><span class="eq">=</span><span class="br">[</span><span class="str">"gRPC"</span><span class="br">, </span><span class="str">"REST"</span><span class="br">, </span><span class="str">"WebSockets"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">patterns</span><span class="eq">=</span><span class="br">[</span><span class="str">"microservices"</span><span class="br">, </span><span class="str">"distributed-systems"</span><span class="br">]</span></span>
+
+            <span class="gap"></span>
+
+            <span class="res"><span class="plus">+</span><span class="addr">skill.platform</span></span>
+            <span class="attr-line"><span class="attr">runtime</span><span class="eq">=</span><span class="br">[</span><span class="str">"Docker"</span><span class="br">, </span><span class="str">"Kubernetes"</span><span class="br">, </span><span class="str">"Helm"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">iac</span><span class="eq">=</span><span class="br">[</span><span class="str">"Terraform"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">cloud</span><span class="eq">=</span><span class="br">[</span><span class="str">"AWS"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">cicd</span><span class="eq">=</span><span class="br">[</span><span class="str">"GitHub Actions"</span><span class="br">, </span><span class="str">"ArgoCD"</span><span class="br">]</span></span>
+
+            <span class="gap"></span>
+
+            <span class="res"><span class="plus">+</span><span class="addr">skill.data</span></span>
+            <span class="attr-line"><span class="attr">streaming</span><span class="eq">=</span><span class="br">[</span><span class="str">"Kafka"</span><span class="br">, </span><span class="str">"Aeron"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">cache</span><span class="eq">=</span><span class="br">[</span><span class="str">"Redis"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">sql</span><span class="eq">=</span><span class="br">[</span><span class="str">"PostgreSQL"</span><span class="br">, </span><span class="str">"MariaDB"</span><span class="br">, </span><span class="str">"TimescaleDB"</span><span class="br">]</span></span>
+
+            <span class="gap"></span>
+
+            <span class="res"><span class="plus">+</span><span class="addr">skill.blockchain</span></span>
+            <span class="attr-line"><span class="attr">chain</span><span class="eq">=</span><span class="br">[</span><span class="str">"Hyperledger Fabric"</span><span class="br">, </span><span class="str">"Smart contracts"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">tooling</span><span class="eq">=</span><span class="br">[</span><span class="str">"KubeBuilder"</span><span class="br">, </span><span class="str">"Google ADK"</span><span class="br">]</span></span>
+
+            <span class="gap"></span>
+
+            <span class="summary">Plan: <span class="num">4</span> to add, <span class="num">0</span> to change, <span class="num">0</span> to destroy.</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ================= CREDS ================= -->
+  <section class="section" id="creds">
+    <div class="wrap">
+
+      <div class="section-head reveal">
+        <div class="line">
+          <span class="num">03</span>
+          <span class="label">Credentials</span>
+          <span class="meta">3 certifications · 1 achievement · 1 degree</span>
+        </div>
+      </div>
+
+      <div class="creds">
+
+        <article class="card reveal">
+          <div class="card-header">
+            <div class="prompt">
+              <span class="psym">$</span>
+              <span class="kw">kubectl</span>
+              <span class="sub">get</span>
+              <span class="arg">certificates</span>
+              <span class="flag">-A</span>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="ktable certs">
+              <div class="head">
+                <span>Name</span>
+                <span>Issuer</span>
+                <span>Status</span>
+              </div>
+              <div class="row">
+                <span class="name">advanced-k8s-operator</span>
+                <span>IBM</span>
+                <span class="ok">✓ Valid</span>
+              </div>
+              <div class="row">
+                <span class="name">hyperledger-fabric-dev</span>
+                <span>Kerala Blockchain Academy</span>
+                <span class="ok">✓ Valid</span>
+              </div>
+              <div class="row">
+                <span class="name">ckad</span>
+                <span>Udemy</span>
+                <span class="ok">✓ Valid</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <div class="creds-side">
+
+          <article class="card reveal">
+            <div class="card-header">
+              <div class="prompt">
+                <span class="psym">$</span>
+                <span class="kw">kubectl</span>
+                <span class="sub">get</span>
+                <span class="arg">achievements</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="mini-field">
+                <span class="k">Title</span>
+                <span class="v">Blockchain Wizard</span>
+
+                <span class="k">Event</span>
+                <span class="v muted">NPCI org-wide hackathon</span>
+
+                <span class="k">Result</span>
+                <span class="v accent">Top among 700+ engineers</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-header">
+              <div class="prompt">
+                <span class="psym">$</span>
+                <span class="kw">kubectl</span>
+                <span class="sub">get</span>
+                <span class="arg">education</span>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="mini-field">
+                <span class="k">Degree</span>
+                <span class="v">B.E. Computer Engineering</span>
+
+                <span class="k">Institute</span>
+                <span class="v muted">Amrutvahini College of Engineering, Sangamner</span>
+
+                <span class="k">Score</span>
+                <span class="v accent">7.99 SGPA</span>
+
+                <span class="k">Years</span>
+                <span class="v muted">2016 - 2020</span>
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer" id="contact">
+  <div class="wrap">
+
+    <div class="section-head reveal">
+      <div class="line">
+        <span class="num">04</span>
+        <span class="label">Get in touch</span>
+        <span class="meta">usually reply within a day</span>
+      </div>
+    </div>
+
+    <article class="card reveal">
+      <div class="card-header">
+        <div class="prompt">
+          <span class="psym">$</span>
+          <span class="kw">curl</span>
+          <span class="sub">-s</span>
+          <span class="arg">https://pramod.dev/api/contact</span>
+          <span class="sub">|</span>
+          <span class="kw">jq</span>
+        </div>
+        <span class="tool shell">curl · jq</span>
+      </div>
+
+      <div class="card-body">
+        <div class="contact-block">
+          <span class="brace">{</span>
+          <div>
+            &nbsp;&nbsp;<span class="key">"email"</span><span class="colon">:</span><a href="mailto:pramodshenkar2210@gmail.com"><span class="val">"pramodshenkar2210@gmail.com"</span></a><span class="comma">,</span>
+          </div>
+          <div>
+            &nbsp;&nbsp;<span class="key">"phone"</span><span class="colon">:</span><a href="tel:+919139555224"><span class="val">"+91 91395 55224"</span></a><span class="comma">,</span>
+          </div>
+          <div>
+            &nbsp;&nbsp;<span class="key">"linkedin"</span><span class="colon">:</span><a href="https://linkedin.com/in/pramod-shenkar-golang-dev" target="_blank" rel="noopener noreferrer"><span class="val">"pramod-shenkar-golang-dev"</span></a><span class="comma">,</span>
+          </div>
+          <div>
+            &nbsp;&nbsp;<span class="key">"status"</span><span class="colon">:</span><span class="val">"available · full-time / remote"</span>
+          </div>
+          <span class="brace">}</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="footer-bottom">
+      <p class="note">
+        Artistic introvert who spends time in nature, novels, and code.
+        Loves reading, exploring technical blogs, and plant grooming.
+      </p>
+      <p class="copy">
+        © <span id="year">2026</span> Pramod Shenkar
+        <span class="dot" aria-hidden="true"></span>
+        all systems up
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  var revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function (el) { obs.observe(el); });
+  }
+
+  var canvas = document.getElementById('mesh');
+  if (!canvas || reduceMotion) return;
+
+  var ctx = canvas.getContext('2d');
+  var nodes = [], W = 0, H = 0, rafId = null, running = false;
+  var LINK = 140;
+
+  function resize() {
+    var rect = canvas.parentElement.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = rect.width; H = rect.height;
+    canvas.width = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    var count = Math.max(16, Math.min(48, Math.floor((W * H) / 28000)));
+    nodes = [];
+    for (var i = 0; i < count; i++) {
+      nodes.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.17,
+        vy: (Math.random() - 0.5) * 0.17,
+        r: Math.random() * 1.4 + 0.6
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < nodes.length; i++) {
+      for (var j = i + 1; j < nodes.length; j++) {
+        var a = nodes[i], b = nodes[j];
+        var dx = a.x - b.x, dy = a.y - b.y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < LINK) {
+          var alpha = (1 - d / LINK) * 0.13;
+          ctx.strokeStyle = 'rgba(50,108,229,' + alpha.toFixed(3) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
         }
-        // Helper function to generate a fake transaction ID (shorter)
-        function generateFakeTxnId(length = 24) {
-            const chars = 'abcdef0123456789';
-            let txnId = '';
-            for (let i = 0; i < length; i++) {
-                txnId += chars[Math.floor(Math.random() * chars.length)];
-            }
-            return txnId.toUpperCase(); // Often Txn IDs are uppercase
-        }
+      }
+    }
+    for (var k = 0; k < nodes.length; k++) {
+      var n = nodes[k];
+      ctx.fillStyle = 'rgba(0,173,216,0.4)';
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill();
+    }
+  }
 
-        // Function for live typing effect
-        function liveTypeEffect(elementSelector, htmlString, options = {}) {
-            const defaults = {
-                speed: 70,
-                initialDelay: 500,
-                erase: false,
-                eraseSpeed: 30,
-                onComplete: null
-            };
-            const config = { ...defaults, ...options };
+  function tick() {
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < -20) n.x = W + 20; if (n.x > W + 20) n.x = -20;
+      if (n.y < -20) n.y = H + 20; if (n.y > H + 20) n.y = -20;
+    }
+    draw();
+    rafId = requestAnimationFrame(tick);
+  }
 
-            const targetElement = document.querySelector(elementSelector);
-            if (!targetElement) {
-                console.error("Target element for typing effect not found:", elementSelector);
-                return;
-            }
+  function start() { if (running) return; running = true; rafId = requestAnimationFrame(tick); }
+  function stop() { running = false; if (rafId) cancelAnimationFrame(rafId); rafId = null; }
 
-            const cursorHtml = '<span class="typing-cursor">&#9612;</span>';
-            let i = 0;
-            let isTag = false;
-            let currentDisplayHtml = '';
+  resize(); draw(); start();
 
-            function animate() {
-                if (config.erase) {
-                    // Select all and delete effect
-                    targetElement.innerHTML = '<span style="background-color: #264f78;">' + htmlString + '</span>' + cursorHtml;
-                    setTimeout(() => {
-                        targetElement.innerHTML = cursorHtml;
-                        if (config.onComplete) config.onComplete();
-                    }, 300); // Short delay to show selection before deletion
-                } else {
-                    if (i < htmlString.length) {
-                        const char = htmlString[i];
-                        currentDisplayHtml += char;
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () { resize(); draw(); }, 150);
+  });
 
-                        if (char === '<') isTag = true;
-                        if (char === '>') isTag = false;
+  if ('IntersectionObserver' in window) {
+    var heroObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.isIntersecting ? start() : stop(); });
+    }, { threshold: 0 });
+    heroObs.observe(canvas.parentElement);
+  }
 
-                        targetElement.innerHTML = currentDisplayHtml + cursorHtml;
-                        i++;
-                        setTimeout(animate, (isTag && char !== '>') ? 0 : config.speed);
-                    } else {
-                        targetElement.innerHTML = currentDisplayHtml;
-                        if (config.onComplete) config.onComplete();
-                    }
-                }
-            }
-            if (!config.erase) targetElement.innerHTML = cursorHtml;
-            else i = htmlString.length;
-            setTimeout(animate, config.initialDelay);
-        }
-
-        new Vue({
-            el: '#app',
-            data: {
-                personalInfo: {
-                    name: "Pramod Shenkar",
-                    title: "Gopher by Heart! Chaincrafter by passion!",
-                    tagline: `Experienced software developer specializing in distributed systems, Golang, and Blockchain technologies, passionate about scalability, performance, and innovation.`, // Kept for potential other uses, but not for hero display
-                    address: "At Post Akole, Ahmadnagar, Maharashtra, 422601",
-                    phone: "+91 9139555224",
-                    email: "pramodshenkar2210@gmail.com",
-                    linkedin: "https://www.linkedin.com/in/pramod-shenkar-golang-dev",
-                    hobbyQuote: "An artistic introvert who likes to spend time with nature & novels." // From Hobbies
-                },
-                // Data structured for Blockchain Blocks
-                aboutBlock: {
-                    nonce: 0,
-                    createdAt: "2020-05-20T10:00:00Z",
-                    hash: generateFakeHash(),
-                },
-                skillsBlock: {
-                    nonce: 1,
-                    createdAt: "2020-05-20T10:05:00Z",
-                    hash: generateFakeHash(),
-                },
-                experienceBlock: {
-                    nonce: 3,
-                    createdAt: "2021-04-01T09:00:00Z", // Placeholder date
-                    hash: generateFakeHash(),
-                },
-                projectsBlock: {
-                    nonce: 4,
-                    createdAt: "2025-03-01T14:00:00Z", // Placeholder date (using your project start date)
-                    hash: generateFakeHash(),
-                },
-                aboutMe: `I am an experienced software developer with over <strong>4+ years of experience</strong> designing and developing distributed systems while
-                          keeping scalability and performance in mind. I love to contribute to all phases of the development lifecycle.
-                          I am eager to maximize my knowledge while learning new technologies and contributing to an organization's success.
-                          My core expertise lies in <strong>Golang development</strong>, with a strong focus on <strong>Blockchain technologies</strong> including Ethereum and Hyperledger Fabric,
-                          as well as building robust <strong>microservices</strong> and <strong>REST/gRPC APIs</strong>.`,
-                skills: [
-                    {
-                        name: "Core & Language", /* Singular */
-                        items: ["Golang"]
-                    },
-                    {
-                        name: "Blockchain & Tokenization",
-                        items: ["Ethereum", "Hyperledger Fabric", "Solidity", "Tokenization", "Go-ethereum", "HD-Wallet", "Fabric-gateway", "Truffle", "Ganache"]
-                    },
-                    {
-                        name: "Backend & Microservices",
-                        items: ["Microservices", "Distributed Systems", "REST-API", "gRPC", "GinGonic", "GoFiber", "GORM"]
-                    },
-                    {
-                        name: "Databases & Caching",
-                        items: ["MariaDB", "KeyDB", "CouchDB"]
-                    },
-                    {
-                        name: "Messaging & Streaming",
-                        items: ["Kafka", "IBM-Sarama"]
-                    },
-                    {
-                        name: "DevOps & Tools",
-                        items: ["Docker", "Kubernetes", "Helm", "MiniFabric", "TaskFiles", "Skaffold", "Cloud Code", "Kompose", "DevContainer"]
-                    },
-                    {
-                        name: "Protocols & Formats",
-                        items: ["Protocol Buffers", "JSON"]
-                    }
-                ],
-                experience: [
-                    {
-                        title: "Senior Associate Golang Developer",
-                        company: "National Payments Corporation of India (NPCI)",
-                        period: "March 2023 - Present",
-                        project: "eRupee (Retail-CBDC)", // This will be used to identify which code to embed
-                        responsibilities: [
-                            "Contributed to the design and development of eRupee, a national-scale digital currency initiative by the Reserve Bank of India (RBI), impacting 5M users and 420K merchants.",
-                            "Implemented core modules such as indent, token issuance, and token redemption using a hexagonal architecture with modular, layered components and distributed tracing/logging capabilities.",
-                            "Engineered and optimized robust backend services using Golang, working extensively with frameworks like Gin-Gonic and Go-Fiber, integrated with gRPC and Kafka for inter-service communication.",
-                            "Leveraged Protocol Buffers, JSON, GORM for DB access, go-redis for KeyDB interactions, and IBM Sarama for Kafka producer/consumer group management.",
-                            "Developed smart contracts using Hyperledger Fabric's ContractAPI in Golang, configuring peer nodes, CouchDB, and Private Data Collections (PDC) via Minifabric.",
-                            "Extended GatewayClient with multi-peer support and exponential retry mechanisms to reduce transaction failure rates and improve network resilience.",
-                            "Led UAT and production deployment coordination with RBI and 10+ partner banks.",
-                            "Contributed to sanity testing, containerized local development using Docker, Kubernetes, DevContainer, Skaffold, Cloud Code, and Kompose.",
-                            "Mentored a pod of junior developers across the full SDLC on best practices in coding, testing, and system design."
-                        ],
-                        achievements: [
-                            "Increased system efficiency by 75% through concurrent processing and non-blocking request handling.",
-                            "Stabilized platform reliability by reducing L1-L2 support overhead and cutting production bugs by 40% through idempotency and rollback-safe flows."
-                        ],
-                        txnId: generateFakeTxnId(),
-                        // No 'technologies' field needed here as e1.go is embedded directly
-                    },
-                    {
-                        title: "Associate Backend Developer",
-                        company: "Maharashtra Knowledge Corporation Ltd (MKCL)", // This will be used to identify which code to embed
-                        period: "April 2021 - February 2023",
-                        project: "ERA E-learning Platform",
-                        responsibilities: [
-                            "Contributed to the architecture and development of a scalable E-learning platform ERA serving over 1 million learners annually, using Golang, custom file system operations, and MariaDB.",
-                            "Focused on system performance, maintainability, and high-availability in real-world usage.",
-                            "Enhanced the framework by designing and integrating concurrent reporting modules, improving data processing and enabling faster, more reliable analytics.",
-                            "Introduced new capabilities across the platform to support feature-rich learning workflows.",
-                            "Developed a full-fledged simulation module from scratch, implementing REST APIs, structured logging, file storage handling, and caching logic."
-                        ],
-                        achievements: [
-                            "Achieved a 30% performance gain through targeted server-side cache optimization and reduced I/O overhead."
-                        ],
-                        txnId: generateFakeTxnId(),
-                        technologies: ["Golang", "MariaDB", "REST APIs", "Custom File System Operations"] // Fallback if e2.go is not provided or for other display
-                    }
-                ],
-                educationBlock: {
-                    nonce: 5,
-                    createdAt: "2020-05-20T17:00:00Z", // Placeholder date
-                    hash: generateFakeHash(),
-                },
-                certificationsBlock: {
-                    nonce: 6,
-                    createdAt: "2023-06-15T11:00:00Z", // Placeholder date
-                    hash: generateFakeHash(),
-                },
-                projects: [
-                    {
-                        name: "Decentralized NFT Platform (Personal Project)", // This will be used to identify which code to embed
-                        period: "Self-Initiated",
-                        details: [
-                            "Developed a Decentralized NFT platform with ERC-721 standards utilizing go-ethereum for Ethereum client interactions and IPFS for secure, immutable storage of NFT metadata and digital assets.",
-                            "Designed the system to enable efficient minting, transfer, and management of NFTs on the Ethereum blockchain.",
-                            "Built and deployed Solidity smart contracts for NFT minting and transaction logic using the Truffle framework.",
-                            "Deployed contracts to a local test network powered by Ganache, and utilized abigen to automatically generate Go client code for seamless interaction with the smart contracts.",
-                            "Implemented RestAPI as well as gRPC for communication between the backend and planned frontend, ensuring scalable and high-performance data transfer."
-                        ],
-                        txnId: generateFakeTxnId(),
-                        technologies: ["ERC-721", "Go-ethereum", "IPFS", "Solidity", "Truffle", "Ganache", "Abigen", "RestAPI", "gRPC"]
-                    }
-                ],
-                education: [
-                    {
-                        degree: "Bachelor of Computer Engineering",
-                        institution: "Amrutvahini College of Engineering, Sangamner (Pune University)",
-                        period: "JULY 2016 - MAY 2020",
-                        result: "First Class with Distinction (SGPA: 7.99)",
-                        highlights: [
-                            "Along with academic, done exploration & seminars in the Blockchain domain.",
-                            "Completed major project in private blockchain on Government fund allocation and distribution system."
-                        ]
-                        , txnId: generateFakeTxnId()
-                    }
-                ],
-                certifications: [
-                    {
-                        name: "Certified Hyperledger Fabric Developer",
-                        issuer: "Kerala Blockchain Academy",
-                        txnId: generateFakeTxnId()
-                    },
-                    {
-                        name: "Certified Kubernetes Application Developer",
-                        issuer: "Udemy",
-                        txnId: generateFakeTxnId()
-                    }
-                ]
-            },
-            mounted() {
-                AOS.init({
-                    duration: 800, // values from 0 to 3000, with step 50ms
-                    easing: 'ease-in-out-quad',
-                    once: true, // whether animation should happen only once - while scrolling down
-                });
-
-                // Initialize tagline typing animation
-                const goCodeToType =
-`<span class="go-keyword">package</span> <span class="go-identifier">main</span>
-
-<span class="go-keyword">import</span> <span class="go-string">"fmt"</span>
-
-<span class="go-keyword">func</span> <span class="go-identifier">main</span><span class="go-punctuation">() {</span>
-    <span class="go-identifier">fmt</span><span class="go-punctuation">.</span><span class="go-identifier">Println</span><span class="go-punctuation">(</span><span class="go-string">"Gopher by Heart! Chaincrafter by passion!"</span><span class="go-punctuation">)</span>
-<span class="go-punctuation">}</span>`;
-
-                const solidityCodeToType =
-`<span class="sol-pragma">pragma</span> <span class="sol-keyword">solidity</span> <span class="sol-operator">^</span><span class="sol-string">0.8.0</span><span class="sol-punctuation">;</span>
-
-<span class="sol-keyword">contract</span> <span class="sol-identifier">PortfolioContract</span> <span class="sol-punctuation">{</span>
-    <span class="sol-keyword">function</span> <span class="sol-identifier">Title</span><span class="sol-punctuation">()</span> <span class="sol-visibility">public</span> <span class="sol-visibility">pure</span> <span class="sol-keyword">returns</span> <span class="sol-punctuation">(</span><span class="sol-type">string</span> <span class="sol-keyword">memory</span><span class="sol-punctuation">) {</span>
-        <span class="sol-keyword">return</span> <span class="sol-string">"Gopher by Heart! Chaincrafter by passion!"</span><span class="sol-punctuation">;</span>
-    <span class="sol-punctuation">}</span>
-<span class="sol-punctuation">}</span>`;
-
-                const typeSolidity = () => {
-                    liveTypeEffect('#typed-go-code', solidityCodeToType, { speed: 30, initialDelay: 500, onComplete: eraseSolidity });
-                };
-
-                const eraseSolidity = () => {
-                    liveTypeEffect('#typed-go-code', solidityCodeToType, { erase: true, eraseSpeed: 15, initialDelay: 1000, onComplete: typeGo });
-                };
-
-                const typeGo = () => {
-                    liveTypeEffect('#typed-go-code', goCodeToType, { speed: 25, initialDelay: 500, onComplete: eraseGoCode });
-                };
-
-                const eraseGoCode = () => {
-                    liveTypeEffect('#typed-go-code', goCodeToType, { erase: true, eraseSpeed: 15, initialDelay: 1000, onComplete: typeSolidity });
-                };
-
-                // Start the sequence with Go code
-                typeGo();
-
-                // Smooth scrolling for navbar links
-                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                    anchor.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        const targetId = this.getAttribute('href');
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            window.scrollTo({
-                                top: targetElement.offsetTop - 70, // Adjust for fixed navbar height
-                                behavior: 'smooth'
-                            });
-                        }
-                    });
-                });
-
-                // Floating nodes in hero (Keep existing)
-                const heroSection = document.getElementById('hero');
-                if (heroSection) {
-                    const numNodes = 10;
-                    for (let i = 0; i < numNodes; i++) {
-                        let node = document.createElement('div');
-                        node.classList.add('floating-node');
-                        node.style.width = (5 + Math.random() * 10) + 'px';
-                        node.style.height = node.style.width;
-                        node.style.left = Math.random() * 90 + 'vw'; // Avoid edges
-                        node.style.top = Math.random() * 90 + 'vh';
-                        node.style.animationDelay = Math.random() * 15 + 's';
-                        node.style.animationDuration = (10 + Math.random() * 10) + 's';
-                        if (Math.random() > 0.6) node.style.backgroundColor = 'var(--accent-color2)'; // Some green nodes
-                        heroSection.appendChild(node);
-                    }
-                }
-
-                // Small Chain Animations - REMOVED
-
-                // Chain connector JavaScript REMOVED
-
-                // Optional: Add a class to body when scrolled for potential future styling
-                // window.addEventListener('scroll', () => {
-                //     document.body.classList.toggle('scrolled', window.scrollY > 50);
-                // });
-            },
-            methods: {
-                copyToClipboard(text) {
-                    navigator.clipboard.writeText(text).then(() => {
-                        // You can replace this with a more subtle notification/toast later
-                        alert('Copied: ' + text);
-                    }).catch(err => {
-                        console.error('Failed to copy text: ', err);
-                        alert('Failed to copy text. Please try manually.');
-                    });
-                }
-            }
-        });
-    </script>
+  document.addEventListener('visibilitychange', function () {
+    document.hidden ? stop() : start();
+  });
+})();
+</script>
 
 </body>
 </html>
