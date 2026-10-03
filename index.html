@@ -6,6 +6,12 @@
 <title>Pramod Shenkar - Backend &amp; Platform Engineer</title>
 <meta name="description" content="Backend and platform engineer building high-throughput, low-latency distributed systems in Go - and the Kubernetes platform that runs them." />
 
+<!-- Favicon: terminal prompt >_ -->
+<link rel="icon" type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0E14'/%3E%3Cpolyline points='9,10 15,16 9,22' fill='none' stroke='%2300ADD8' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='18' y1='22' x2='24' y2='22' stroke='%233FB950' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E" />
+<link rel="apple-touch-icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230A0E14'/%3E%3Cpolyline points='9,10 15,16 9,22' fill='none' stroke='%2300ADD8' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='18' y1='22' x2='24' y2='22' stroke='%233FB950' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -17,9 +23,11 @@
 :root{
   --bg-void:      #0A0E14;
   --bg-surface:   #0F141C;
-  --bg-well:      rgba(0,0,0,0.32);
-  --bg-header:    rgba(0,0,0,0.32);
-  --bg-body:      rgba(255,255,255,0.022);
+
+  --card-body:    #05070B;
+  --card-header:  #141B26;
+  --card-border:  rgba(255,255,255,0.08);
+  --card-divide:  rgba(255,255,255,0.06);
 
   --tint-1:       rgba(255,255,255,0.024);
   --tint-2:       rgba(255,255,255,0.05);
@@ -32,8 +40,6 @@
   --line:         #1A2230;
   --line-hi:      #2A3547;
   --line-soft:    rgba(255,255,255,0.06);
-  --line-card:    rgba(255,255,255,0.075);
-  --line-header:  rgba(255,255,255,0.07);
 
   --k8s-blue:     #326CE5;
   --go-cyan:      #00ADD8;
@@ -48,7 +54,7 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  --r-card: 14px;
+  --r-card: 12px;
   --r-pill: 100px;
   --r-chip: 6px;
   --maxw: 1040px;
@@ -99,18 +105,18 @@ body::before{
    ============================================================ */
 .wrap{
   width:100%; max-width:var(--maxw);
-  margin:0 auto; padding:0 32px;
+  margin:0 auto; padding:0 20px;
   position:relative; z-index:1;
 }
 section{ position:relative; z-index:1; }
-.section{ padding:104px 0; }
+.section{ padding:64px 0; }
 
-.section-head{ margin-bottom:44px; }
+.section-head{ margin-bottom:28px; }
 .section-head .line{
-  display:flex; align-items:center; gap:16px;
-  padding-bottom:18px;
+  display:flex; align-items:center; gap:14px;
+  padding-bottom:14px;
   border-bottom:1px solid var(--line);
-  margin-bottom:14px;
+  margin-bottom:0;
 }
 .section-head .num{
   font-family:var(--font-mono); font-size:12px;
@@ -175,8 +181,8 @@ section{ position:relative; z-index:1; }
   border-bottom:1px solid var(--line);
 }
 .topbar-inner{
-  max-width:var(--maxw); margin:0 auto; padding:0 32px;
-  height:60px; display:flex; align-items:center; justify-content:space-between; gap:22px;
+  max-width:var(--maxw); margin:0 auto; padding:0 20px;
+  height:56px; display:flex; align-items:center; justify-content:space-between; gap:22px;
 }
 .topbar .prompt{
   flex:1; min-width:0; overflow:hidden; white-space:nowrap; font-size:13px;
@@ -184,47 +190,43 @@ section{ position:relative; z-index:1; }
 .topnav{ display:flex; align-items:center; gap:2px; flex-shrink:0; }
 .topnav a{
   font-family:var(--font-mono); font-size:12.5px;
-  color:var(--text-mid); padding:9px 13px; border-radius:var(--r-chip);
-  transition:color .18s var(--ease), background .18s var(--ease);
+  color:var(--text-mid); padding:8px 12px; border-radius:var(--r-chip);
   white-space:nowrap;
 }
-.topnav a:hover{ color:var(--text-hi); background:var(--tint-2); }
 .topnav .btn-resume{ margin-left:12px; color:var(--text-hi); background:var(--tint-2); }
-.topnav .btn-resume:hover{ background:var(--accent-tint); }
 
 /* ============================================================
-   CARD (Bootstrap pattern)
+   CARD
    ============================================================ */
 .card{
-  background:var(--bg-body);
-  border:1px solid var(--line-card);
+  background:var(--card-body);
+  border:1px solid var(--card-border);
   border-radius:var(--r-card);
   overflow:hidden;
-  transition:background .25s var(--ease), border-color .25s var(--ease);
-}
-.card:hover{
-  background:var(--tint-1);
-  border-color:rgba(255,255,255,0.11);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.04) inset,
+    0 8px 24px rgba(0,0,0,0.35);
 }
 
 .card-header{
-  padding:14px 26px;
-  background:var(--bg-header);
-  border-bottom:1px solid var(--line-header);
+  padding:11px 20px;
+  background:var(--card-header);
+  border-bottom:1px solid var(--card-divide);
   display:flex; align-items:center; justify-content:space-between;
   gap:16px; flex-wrap:wrap;
+  box-shadow:0 1px 0 rgba(255,255,255,0.03) inset;
 }
 
 .card-body{
-  padding:30px 30px 32px;
+  padding:22px 24px 24px;
 }
 
 /* ============================================================
-   HERO (now a card)
+   HERO
    ============================================================ */
 .hero{
   position:relative;
-  padding:112px 0 96px;
+  padding:56px 0 40px;
   overflow:hidden;
 }
 #mesh{
@@ -233,34 +235,31 @@ section{ position:relative; z-index:1; }
 }
 .hero .wrap{ z-index:2; }
 
-.hero-card{
-  /* inherits .card styles */
-}
 .hero-card .card-body{
-  padding:44px 44px 40px;
+  padding:30px 30px 28px;
 }
 
 .hero h1{
-  font-size:clamp(2.5rem, 6.4vw, 4rem);
-  font-weight:700; letter-spacing:-0.042em;
-  margin-bottom:32px;
+  font-size:clamp(2.2rem, 5.6vw, 3.4rem);
+  font-weight:700; letter-spacing:-0.038em;
+  margin-bottom:24px;
 }
 
 .fields{
   display:grid;
-  grid-template-columns: 128px 1fr;
-  gap:12px 26px;
+  grid-template-columns: 118px 1fr;
+  gap:10px 24px;
   font-family:var(--font-mono); font-size:13.5px;
   line-height:1.6;
-  margin-bottom:40px;
-  max-width:700px;
+  margin-bottom:28px;
+  max-width:720px;
 }
 .fields .key{ color:var(--text-dim); }
 .fields .val{ color:var(--text-hi); }
 .fields .val.muted{ color:var(--text-mid); }
 .fields .val .sep{ color:var(--text-faint); margin:0 10px; }
 
-.status-inline{ display:inline-flex; align-items:center; gap:9px; }
+.status-inline{ display:inline-flex; align-items:center; gap:9px; flex-wrap:wrap; }
 .status-inline .dot{
   width:7px; height:7px; border-radius:50%;
   background:var(--status-green);
@@ -277,40 +276,40 @@ section{ position:relative; z-index:1; }
 }
 
 .lede{
-  font-size:clamp(1.04rem, 2.1vw, 1.16rem);
-  color:var(--text-mid); max-width:680px; line-height:1.8;
-  margin-bottom:40px;
+  font-size:clamp(1rem, 2vw, 1.12rem);
+  color:var(--text-mid); max-width:700px; line-height:1.75;
+  margin-bottom:30px;
 }
 .lede strong{ color:var(--text-hi); font-weight:600; }
 
-.cta-row{ display:flex; flex-wrap:wrap; gap:12px; }
+.cta-row{ display:flex; flex-wrap:wrap; gap:10px; }
 .btn{
   display:inline-flex; align-items:center; gap:9px;
   font-family:var(--font-mono); font-size:13px; font-weight:500;
-  padding:13px 24px; border-radius:var(--r-chip);
+  padding:11px 20px; border-radius:var(--r-chip);
   color:var(--text-hi); background:var(--tint-2);
-  transition:all .18s var(--ease); min-height:48px;
+  min-height:44px;
+  transition:transform .18s var(--ease);
 }
-.btn:hover{ background:var(--tint-3); transform:translateY(-1px); }
+.btn:hover{ transform:translateY(-1px); }
 .btn-primary{ background:var(--k8s-blue); color:#fff; }
-.btn-primary:hover{ background:#3d7bf0; }
 
 /* ============================================================
    STACK
    ============================================================ */
-.stack{ display:grid; gap:24px; }
+.stack{ display:grid; gap:16px; }
 
 /* ============================================================
    DESCRIBE FIELD BLOCK
    ============================================================ */
 .describe{
   display:grid;
-  grid-template-columns: 110px 1fr;
-  gap:11px 26px;
+  grid-template-columns: 100px 1fr;
+  gap:9px 22px;
   font-family:var(--font-mono);
   font-size:13.5px;
   line-height:1.6;
-  margin-bottom:32px;
+  margin-bottom:24px;
 }
 .describe .k{ color:var(--text-dim); letter-spacing:.01em; }
 .describe .v{ color:var(--text-hi); word-break:break-word; }
@@ -345,7 +344,7 @@ section{ position:relative; z-index:1; }
   background:var(--k8s-blue); opacity:.85;
 }
 
-.output-section + .output-section{ margin-top:30px; }
+.output-section + .output-section{ margin-top:22px; }
 
 .output-label{
   display:flex; align-items:center; gap:12px;
@@ -354,7 +353,7 @@ section{ position:relative; z-index:1; }
   letter-spacing:.2em;
   text-transform:uppercase;
   color:var(--text-dim);
-  margin-bottom:16px;
+  margin-bottom:14px;
   font-weight:500;
 }
 .output-label::after{
@@ -367,18 +366,18 @@ section{ position:relative; z-index:1; }
 /* ============================================================
    BULLETS
    ============================================================ */
-.bullets{ display:grid; gap:14px; }
+.bullets{ display:grid; gap:12px; }
 .bullets li{
   position:relative;
-  padding-left:24px;
-  font-size:15px;
-  line-height:1.8;
+  padding-left:22px;
+  font-size:14.5px;
+  line-height:1.75;
   color:var(--text-mid);
   letter-spacing:-0.005em;
 }
 .bullets li::before{
   content:'';
-  position:absolute; left:4px; top:13px;
+  position:absolute; left:4px; top:12px;
   width:5px; height:5px; border-radius:50%;
   background:var(--k8s-blue);
   opacity:.75;
@@ -388,7 +387,7 @@ section{ position:relative; z-index:1; }
   display:inline;
   padding:1px 8px 2px;
   margin:0 1px;
-  background:rgba(255,255,255,0.04);
+  background:rgba(255,255,255,0.045);
   border:1px solid var(--line-hi);
   border-radius:4px;
   color:var(--text-hi);
@@ -403,19 +402,13 @@ section{ position:relative; z-index:1; }
 /* ============================================================
    TAGS
    ============================================================ */
-.tags{ display:flex; flex-wrap:wrap; gap:8px; }
+.tags{ display:flex; flex-wrap:wrap; gap:7px; }
 .tag{
   font-family:var(--font-mono); font-size:11.5px; letter-spacing:.02em;
   color:var(--text-mid);
-  background:rgba(255,255,255,0.02);
+  background:rgba(255,255,255,0.025);
   border:1px solid var(--line-hi);
-  padding:6px 13px; border-radius:var(--r-chip);
-  transition:all .18s var(--ease);
-}
-.tag:hover{
-  color:var(--go-cyan);
-  border-color:rgba(0,173,216,.45);
-  background:var(--cyan-tint);
+  padding:5px 12px; border-radius:var(--r-chip);
 }
 
 /* ============================================================
@@ -466,25 +459,35 @@ section{ position:relative; z-index:1; }
 }
 .ktable .row{
   display:grid; gap:18px 24px;
-  padding:9px 0;
+  padding:11px 0;
   color:var(--text-mid);
+  border-bottom:1px solid rgba(255,255,255,0.03);
 }
+.ktable .row:last-child{ border-bottom:none; padding-bottom:0; }
 .ktable .row .name{ color:var(--text-hi); }
 .ktable .row .ok{ color:var(--status-green); }
 
 .ktable.certs .head,
-.ktable.certs .row{ grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) 100px; }
+.ktable.certs .row{
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) 100px;
+}
 
 /* ============================================================
-   CREDS GRID
+   CREDS LAYOUT — certs full width, then 2-up row
    ============================================================ */
-.creds{
+.creds-stack{
   display:grid;
-  grid-template-columns: 1.15fr 1fr;
-  gap:24px;
+  gap:16px;
+}
+.creds-row{
+  display:grid;
+  grid-template-columns: minmax(400px, 1fr) 1.3fr;
+  gap:16px;
   align-items:start;
 }
-.creds-side{ display:grid; gap:24px; }
+.creds-row .card-header .prompt{
+  flex-wrap: nowrap;
+}
 
 /* ============================================================
    MINI FIELD
@@ -492,7 +495,7 @@ section{ position:relative; z-index:1; }
 .mini-field{
   display:grid;
   grid-template-columns: 90px 1fr;
-  gap:10px 20px;
+  gap:9px 20px;
   font-family:var(--font-mono);
   font-size:13.5px;
   line-height:1.6;
@@ -515,8 +518,6 @@ section{ position:relative; z-index:1; }
 .contact-block .colon{ color:var(--text-dim); margin:0 5px; }
 .contact-block .val{ color:#A5D6FF; }
 .contact-block .comma{ color:var(--text-dim); }
-.contact-block a{ transition:color .18s var(--ease); }
-.contact-block a:hover{ color:var(--text-hi); }
 
 /* ============================================================
    FOOTER
@@ -524,14 +525,14 @@ section{ position:relative; z-index:1; }
 .footer{
   border-top:1px solid var(--line);
   background:var(--bg-surface);
-  padding:88px 0 52px;
+  padding:56px 0 36px;
   position:relative; z-index:1;
 }
 .footer-bottom{
-  margin-top:52px; padding-top:32px;
+  margin-top:36px; padding-top:24px;
   border-top:1px solid var(--line);
   display:flex; justify-content:space-between; align-items:center;
-  gap:26px; flex-wrap:wrap;
+  gap:24px; flex-wrap:wrap;
 }
 .footer-bottom .note{
   font-family:var(--font-mono); font-size:12.5px; color:var(--text-dim);
@@ -549,49 +550,59 @@ section{ position:relative; z-index:1; }
 /* ============================================================
    REVEAL
    ============================================================ */
-.reveal{ opacity:0; transform:translateY(16px); }
+.reveal{ opacity:0; transform:translateY(14px); }
 .reveal.in{
   opacity:1; transform:none;
-  transition:opacity .6s var(--ease), transform .6s var(--ease);
+  transition:opacity .55s var(--ease), transform .55s var(--ease);
 }
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width:900px){
-  .creds{ grid-template-columns:1fr; }
+  .creds-row{ grid-template-columns:1fr; }
   .ktable.certs .head,
-  .ktable.certs .row{ grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) 90px; }
+  .ktable.certs .row{ grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) 90px; }
 }
 @media (max-width:820px){
   .topbar .prompt{ font-size:12px; }
-  .topnav a{ padding:9px 11px; font-size:12px; }
-  .hero-card .card-body{ padding:32px 30px 30px; }
+  .topnav a{ padding:8px 10px; font-size:12px; }
+  .hero-card .card-body{ padding:24px 22px 24px; }
 }
 @media (max-width:640px){
-  .wrap{ padding:0 22px; }
-  .topbar-inner{ padding:0 22px; height:56px; }
+  .wrap{ padding:0 16px; }
+  .topbar-inner{ padding:0 16px; height:54px; }
   .topbar .prompt{ display:none; }
   .topnav{ width:100%; justify-content:space-between; }
   .topnav .btn-resume{ margin-left:0; }
 
-  .hero{ padding:76px 0 64px; }
-  .hero-card .card-body{ padding:26px 22px 26px; }
+  .hero{ padding:40px 0 32px; }
+  .hero-card .card-body{ padding:22px 20px 22px; }
 
-  .section{ padding:80px 0; }
-  .section-head{ margin-bottom:32px; }
+  .section{ padding:48px 0; }
+  .section-head{ margin-bottom:22px; }
+
+  .section-head .line{
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .section-head .meta{
+    margin-left: 0;
+    width: 100%;
+    padding-top: 2px;
+  }
 
   .fields{ grid-template-columns:1fr; gap:3px 0; }
-  .fields .key{ padding-top:11px; }
+  .fields .key{ padding-top:10px; }
 
-  .card-header{ padding:12px 20px; }
-  .card-body{ padding:22px 22px 24px; }
+  .card-header{ padding:10px 16px; }
+  .card-body{ padding:18px 18px 20px; }
 
   .describe{ grid-template-columns:1fr; gap:3px 0; }
-  .describe .k{ padding-top:11px; }
+  .describe .k{ padding-top:10px; }
   .describe .k:first-child{ padding-top:0; }
 
-  .bullets li{ font-size:14.5px; }
+  .bullets li{ font-size:14px; }
   .kw{ white-space:normal; }
 
   .tf-plan{ font-size:12px; }
@@ -604,7 +615,7 @@ section{ position:relative; z-index:1; }
   .mini-field .k:first-child{ padding-top:0; }
 
   .cta-row .btn{ flex:1 1 auto; justify-content:center; }
-  .footer{ padding:64px 0 42px; }
+  .footer{ padding:48px 0 32px; }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -615,6 +626,7 @@ section{ position:relative; z-index:1; }
   }
   .reveal{ opacity:1; transform:none; }
   #mesh{ display:none; }
+  .btn{ transition:none; }
   .prompt .caret, .dot, .status-inline .dot, .describe .v.live .dot{ animation:none; }
 }
 </style>
@@ -644,7 +656,7 @@ section{ position:relative; z-index:1; }
 
 <main id="main">
 
-  <!-- ================= HERO (now a real card) ================= -->
+  <!-- ================= HERO ================= -->
   <section class="hero">
     <canvas id="mesh" aria-hidden="true"></canvas>
     <div class="wrap">
@@ -658,6 +670,7 @@ section{ position:relative; z-index:1; }
             <span class="arg">engineer</span>
             <span class="arg">pramod-shenkar</span>
           </div>
+          <span class="tool kubectl">Profile</span>
         </div>
 
         <div class="card-body">
@@ -680,12 +693,12 @@ section{ position:relative; z-index:1; }
 
             <span class="key">Domains</span>
             <span class="val muted">
-              Platform Engineering<span class="sep">·</span>Payments<span class="sep">·</span>Real-time streaming<span class="sep">·</span>Blockchain<span class="sep">·</span>EdTech
+              Platform Engineering<span class="sep">·</span>Payments<span class="sep">·</span>Real-time streaming<span class="sep">·</span>Blockchain
             </span>
           </div>
 
           <p class="lede">
-            I <strong>moulds k8s, manage platforms, build reliable distributed systems & architect low latency backend</strong> - and the
+            I <strong>mould k8s, manage platforms, build reliable distributed systems &amp; architect low latency backend</strong> - and the
             infrastructure that keeps them running at scale.
           </p>
 
@@ -708,7 +721,7 @@ section{ position:relative; z-index:1; }
         <div class="line">
           <span class="num">01</span>
           <span class="label">Experience</span>
-          <span class="meta"> 6+ years</span>
+          <span class="meta">6+ years</span>
         </div>
       </div>
 
@@ -724,6 +737,7 @@ section{ position:relative; z-index:1; }
               <span class="sub">experience</span>
               <span class="arg">63 Moons Technologies</span>
             </div>
+            <span class="tool kubectl">Experience</span>
           </div>
 
           <div class="card-body">
@@ -750,8 +764,9 @@ section{ position:relative; z-index:1; }
                 <li>Laid the groundwork for a new suite of <span class="kw">Go microservices</span>, with tracing, logging, and metrics built in from day one.</li>
                 <li>Building a <span class="kw">test automation platform</span> for a <span class="kw">high-frequency trading engine</span> that pumps realistic order flows through the system to catch edge cases before they reach production.</li>
                 <li>Working on a <span class="kw">high-speed data streaming engine</span> that pushes market data to clients with minimal delay, while tuning the system to cut response times further.</li>
-                <li>Set up the <span class="kw">Kubernetes cluster from scratch</span> for the trading platform's supporting services, giving the team a reliable place to deploy to.</li>
+                <li>Stood up the <span class="kw">Kubernetes cluster from scratch</span> to run the trading platform's supporting services, giving the team a dependable deployment environment.</li>
                 <li>Built the <span class="kw">continuous deployment pipelines</span> that automate testing and rollout of every change.</li>
+                <li>Built an <span class="kw">MM bot</span> with <span class="kw">Jev</span> and <span class="kw">Laya.ai</span> integrations for automated market-making strategies.</li>
               </ul>
             </div>
 
@@ -763,6 +778,7 @@ section{ position:relative; z-index:1; }
                 <span class="tag">Kafka</span>
                 <span class="tag">Real-time streaming</span>
                 <span class="tag">Observability</span>
+                <span class="tag">Agentic AI</span>
               </div>
             </div>
           </div>
@@ -778,6 +794,7 @@ section{ position:relative; z-index:1; }
               <span class="sub">experience</span>
               <span class="arg">NPCI</span>
             </div>
+            <span class="tool kubectl">Experience</span>
           </div>
 
           <div class="card-body">
@@ -843,6 +860,7 @@ section{ position:relative; z-index:1; }
               <span class="sub">experience</span>
               <span class="arg">MKCL</span>
             </div>
+            <span class="tool kubectl">Experience</span>
           </div>
 
           <div class="card-body">
@@ -890,7 +908,7 @@ section{ position:relative; z-index:1; }
           </div>
         </article>
 
-        <!-- Intelligence Services -->
+        <!-- Intelliquity -->
         <article class="card reveal">
           <div class="card-header">
             <div class="prompt">
@@ -900,6 +918,7 @@ section{ position:relative; z-index:1; }
               <span class="sub">deployment</span>
               <span class="arg">Intelliquity</span>
             </div>
+            <span class="tool kubectl">Experience</span>
           </div>
 
           <div class="card-body">
@@ -962,6 +981,7 @@ section{ position:relative; z-index:1; }
             <span class="kw">terraform</span>
             <span class="sub">plan</span>
           </div>
+          <span class="tool tf">Skills</span>
         </div>
 
         <div class="card-body">
@@ -983,6 +1003,13 @@ section{ position:relative; z-index:1; }
 
             <span class="gap"></span>
 
+            <span class="res"><span class="plus">+</span><span class="addr">skill.k8s</span></span>
+            <span class="attr-line"><span class="attr">frameworks</span><span class="eq">=</span><span class="br">[</span><span class="str">"controller-runtime"</span><span class="br">, </span><span class="str">"kubebuilder"</span><span class="br">, </span><span class="str">"operator-framework"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">templating</span><span class="eq">=</span><span class="br">[</span><span class="str">"Helm"</span><span class="br">, </span><span class="str">"Kustomize"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">managed</span><span class="eq">=</span><span class="br">[</span><span class="str">"EKS"</span><span class="br">, </span><span class="str">"bare-metal"</span><span class="br">]</span></span>
+
+            <span class="gap"></span>
+
             <span class="res"><span class="plus">+</span><span class="addr">skill.data</span></span>
             <span class="attr-line"><span class="attr">streaming</span><span class="eq">=</span><span class="br">[</span><span class="str">"Kafka"</span><span class="br">, </span><span class="str">"Aeron"</span><span class="br">]</span></span>
             <span class="attr-line"><span class="attr">cache</span><span class="eq">=</span><span class="br">[</span><span class="str">"Redis"</span><span class="br">]</span></span>
@@ -991,12 +1018,18 @@ section{ position:relative; z-index:1; }
             <span class="gap"></span>
 
             <span class="res"><span class="plus">+</span><span class="addr">skill.blockchain</span></span>
-            <span class="attr-line"><span class="attr">chain</span><span class="eq">=</span><span class="br">[</span><span class="str">"Hyperledger Fabric"</span><span class="br">, </span><span class="str">"Smart contracts"</span><span class="br">]</span></span>
-            <span class="attr-line"><span class="attr">tooling</span><span class="eq">=</span><span class="br">[</span><span class="str">"KubeBuilder"</span><span class="br">, </span><span class="str">"Google ADK"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">chain</span><span class="eq">=</span><span class="str">"Hyperledger Fabric"</span></span>
+            <span class="attr-line"><span class="attr">access</span><span class="eq">=</span><span class="br">[</span><span class="str">"gateway-client"</span><span class="br">, </span><span class="str">"private-channels"</span><span class="br">]</span></span>
 
             <span class="gap"></span>
 
-            <span class="summary">Plan: <span class="num">4</span> to add, <span class="num">0</span> to change, <span class="num">0</span> to destroy.</span>
+            <span class="res"><span class="plus">+</span><span class="addr">skill.agentic_ai</span></span>
+            <span class="attr-line"><span class="attr">platforms</span><span class="eq">=</span><span class="br">[</span><span class="str">"Claude"</span><span class="br">, </span><span class="str">"DeepSeek"</span><span class="br">, </span><span class="str">"Jev"</span><span class="br">, </span><span class="str">"Laya.ai"</span><span class="br">]</span></span>
+            <span class="attr-line"><span class="attr">dev</span><span class="eq">=</span><span class="br">[</span><span class="str">"Google ADK"</span><span class="br">, </span><span class="str">"Claude SDK"</span><span class="br">]</span></span>
+
+            <span class="gap"></span>
+
+            <span class="summary">Plan: <span class="num">6</span> to add, <span class="num">0</span> to change, <span class="num">0</span> to destroy.</span>
           </div>
         </div>
       </article>
@@ -1016,8 +1049,9 @@ section{ position:relative; z-index:1; }
         </div>
       </div>
 
-      <div class="creds">
+      <div class="creds-stack">
 
+        <!-- Certifications — full width -->
         <article class="card reveal">
           <div class="card-header">
             <div class="prompt">
@@ -1027,6 +1061,7 @@ section{ position:relative; z-index:1; }
               <span class="arg">certificates</span>
               <span class="flag">-A</span>
             </div>
+            <span class="tool kubectl">Certifications</span>
           </div>
 
           <div class="card-body">
@@ -1037,25 +1072,26 @@ section{ position:relative; z-index:1; }
                 <span>Status</span>
               </div>
               <div class="row">
-                <span class="name">advanced-k8s-operator</span>
+                <span class="name">Advanced Kubernetes Operator Development</span>
                 <span>IBM</span>
                 <span class="ok">✓ Valid</span>
               </div>
               <div class="row">
-                <span class="name">hyperledger-fabric-dev</span>
+                <span class="name">Certified Hyperledger Fabric Developer</span>
                 <span>Kerala Blockchain Academy</span>
                 <span class="ok">✓ Valid</span>
               </div>
               <div class="row">
-                <span class="name">ckad</span>
-                <span>Udemy</span>
+                <span class="name">Certified Kubernetes Administrator (CKA)</span>
+                <span>KodeKloud</span>
                 <span class="ok">✓ Valid</span>
               </div>
             </div>
           </div>
         </article>
 
-        <div class="creds-side">
+        <!-- Achievements + Education — side by side, education wider -->
+        <div class="creds-row">
 
           <article class="card reveal">
             <div class="card-header">
@@ -1065,6 +1101,7 @@ section{ position:relative; z-index:1; }
                 <span class="sub">get</span>
                 <span class="arg">achievements</span>
               </div>
+              <span class="tool kubectl">Achievements</span>
             </div>
 
             <div class="card-body">
@@ -1089,6 +1126,7 @@ section{ position:relative; z-index:1; }
                 <span class="sub">get</span>
                 <span class="arg">education</span>
               </div>
+              <span class="tool kubectl">Education</span>
             </div>
 
             <div class="card-body">
@@ -1109,6 +1147,7 @@ section{ position:relative; z-index:1; }
           </article>
 
         </div>
+
       </div>
     </div>
   </section>
@@ -1137,7 +1176,7 @@ section{ position:relative; z-index:1; }
           <span class="sub">|</span>
           <span class="kw">jq</span>
         </div>
-        <span class="tool shell">curl · jq</span>
+        <span class="tool shell">Contact</span>
       </div>
 
       <div class="card-body">
@@ -1153,7 +1192,7 @@ section{ position:relative; z-index:1; }
             &nbsp;&nbsp;<span class="key">"linkedin"</span><span class="colon">:</span><a href="https://linkedin.com/in/pramod-shenkar-golang-dev" target="_blank" rel="noopener noreferrer"><span class="val">"pramod-shenkar-golang-dev"</span></a><span class="comma">,</span>
           </div>
           <div>
-            &nbsp;&nbsp;<span class="key">"status"</span><span class="colon">:</span><span class="val">"available · full-time / remote"</span>
+            &nbsp;&nbsp;<span class="key">"status"</span><span class="colon">:</span><span class="val">"available · full-time / contract"</span>
           </div>
           <span class="brace">}</span>
         </div>
